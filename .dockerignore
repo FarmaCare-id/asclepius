@@ -1,7 +1,6 @@
 # flyctl launch added from .gitignore
-**\logger.log
-**\.idea
-**\server
-**\.gitconfig
+logger.log
+.idea
+.gitconfig
 fly.toml
-**\.env
+.env
