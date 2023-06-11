@@ -19,6 +19,8 @@ import (
 type (
 	ViewService interface {
 		RegisterUser(req dto.CreateUserRequest) (dto.CreateUserResponse, error)
+		RegisterDoctor(req dto.CreateDoctorRequest) (dto.CreateDoctorResponse, error)
+		RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.CreatePharmacistResponse, error)
 		Login(req dto.LoginRequest) (dto.LoginResponse, error)
 		EditUser(req dto.EditUserRequest, user dto.User) (dto.EditUserResponse, error)
 		ForgotPassword(req dto.ForgotPasswordRequest) error
@@ -56,6 +58,67 @@ func (v *viewService) RegisterUser(req dto.CreateUserRequest) (dto.CreateUserRes
 	res = dto.CreateUserResponse{
 		Email:    req.Email,
 		Fullname: req.Fullname,
+		Role:     "user",
+	}
+
+	return res, nil
+}
+
+func (v *viewService) RegisterDoctor(req dto.CreateDoctorRequest) (dto.CreateDoctorResponse, error) {
+	var (
+		res dto.CreateDoctorResponse
+	)
+
+	isUserExist, _ := v.application.AuthService.CheckUserExist(req.Email)
+	if isUserExist {
+		return res, errors.New("doctor already exist")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 14)
+	if err != nil {
+		return res, err
+	}
+
+	err = v.application.AuthService.CreateDoctor(req.TransformToUserModel(string(hashedPassword)))
+	if err != nil {
+		return res, err
+	}
+
+	res = dto.CreateDoctorResponse{
+		Email:    req.Email,
+		Fullname: req.Fullname,
+		Role:     "doctor",
+		NoSip:    req.NoSip,
+	}
+
+	return res, nil
+}
+
+func (v *viewService) RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.CreatePharmacistResponse, error) {
+	var (
+		res dto.CreatePharmacistResponse
+	)
+
+	isUserExist, _ := v.application.AuthService.CheckUserExist(req.Email)
+	if isUserExist {
+		return res, errors.New("pharmacist already exist")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 14)
+	if err != nil {
+		return res, err
+	}
+
+	err = v.application.AuthService.CreatePharmacist(req.TransformToUserModel(string(hashedPassword)))
+	if err != nil {
+		return res, err
+	}
+
+	res = dto.CreatePharmacistResponse{
+		Email:    req.Email,
+		Fullname: req.Fullname,
+		Role:     "pharmacist",
+		NoSipa:    req.NoSipa,
 	}
 
 	return res, nil

@@ -9,6 +9,8 @@ type (
 	Service interface {
 		CheckUserExist(email string) (bool, dto.User)
 		CreateUser(user dto.User) error
+		CreateDoctor(user dto.User) error
+		CreatePharmacist(user dto.User) error
 		EditUser(user dto.User) error
 		CreatePasswordReset(pw dto.PasswordReset) error
 		GetResetToken(token string, pw *dto.PasswordReset) error
@@ -31,6 +33,19 @@ func (s *service) CheckUserExist(email string) (bool, dto.User) {
 }
 
 func (s *service) CreateUser(user dto.User) error {
+	user.Role = "user"
+	err := s.shared.DB.Create(&user).Error
+	return err
+}
+
+func (s *service) CreateDoctor(user dto.User) error {
+	user.Role = "doctor"
+	err := s.shared.DB.Create(&user).Error
+	return err
+}
+
+func (s *service) CreatePharmacist(user dto.User) error {
+	user.Role = "pharmacist"
 	err := s.shared.DB.Create(&user).Error
 	return err
 }

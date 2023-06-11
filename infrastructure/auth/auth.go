@@ -19,6 +19,8 @@ type Controller struct {
 func (c *Controller) Routes(app *fiber.App) {
 	auth := app.Group("/auth")
 	auth.Post("/register", c.register)
+	auth.Post("/register/doctor", c.registerDoctor)
+	auth.Post("/register/pharmacist", c.registerPharmacist)
 	auth.Post("/login", c.login)
 	auth.Post("/loginGoogle", c.loginGoogle)
 	auth.Put("/edit", c.Shared.Middleware.AuthMiddleware, c.edit)
@@ -51,6 +53,68 @@ func (c *Controller) register(ctx *fiber.Ctx) error {
 	c.Shared.Logger.Infof("register user with payload: %s", req)
 
 	res, err = c.Interfaces.AuthViewService.RegisterUser(req)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
+}
+
+// All godoc
+// @Tags Auth
+// @Summary Register new doctor
+// @Description Put all mandatory parameter
+// @Param CreateDoctorRequest body dto.CreateDoctorRequest true "CreateDoctorRequest"
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} dto.CreateDoctorResponse
+// @Failure 200 {object} dto.CreateDoctorResponse
+// @Router /auth/registerDoctor [post]
+func (c *Controller) registerDoctor(ctx *fiber.Ctx) error {
+	var (
+		req dto.CreateDoctorRequest
+		res dto.CreateDoctorResponse
+	)
+
+	err := common.DoCommonRequest(ctx, &req)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	c.Shared.Logger.Infof("register doctor with payload: %s", req)
+
+	res, err = c.Interfaces.AuthViewService.RegisterDoctor(req)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
+}
+
+// All godoc
+// @Tags Auth
+// @Summary Register new pharmacist
+// @Description Put all mandatory parameter
+// @Param CreatePharmacistRequest body dto.CreatePharmacistRequest true "CreatePharmacistRequest"
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} dto.CreatePharmacistResponse
+// @Failure 200 {object} dto.CreatePharmacistResponse
+// @Router /auth/registerPharmacist [post]
+func (c *Controller) registerPharmacist(ctx *fiber.Ctx) error {
+	var (
+		req dto.CreatePharmacistRequest
+		res dto.CreatePharmacistResponse
+	)
+
+	err := common.DoCommonRequest(ctx, &req)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	c.Shared.Logger.Infof("register pharmacist with payload: %s", req)
+
+	res, err = c.Interfaces.AuthViewService.RegisterPharmacist(req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

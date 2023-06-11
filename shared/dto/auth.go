@@ -49,7 +49,7 @@ type (
 		Token     string `gorm:"column:token"`
 		CreatedAt time.Time
 		Valid     time.Time
-	}
+	}	
 
 	// CreateUserRequest CreateUserRequest
 	CreateUserRequest struct {
@@ -62,7 +62,41 @@ type (
 	CreateUserResponse struct {
 		Email    string `json:"email"`
 		Fullname string `json:"fullname"`
+		Role     string `json:"role"`
 	}
+
+	// CreateDoctorRequest CreateDoctorRequest
+	CreateDoctorRequest struct {
+		Email    string `json:"email" validate:"required,email"`
+		Password string `json:"password" validate:"required"`
+		Fullname string `json:"fullname" validate:"required"`
+		NoSip    string `json:"no_sip" validate:"required"`
+	}
+
+	// CreateDoctorResponse CreateDoctorResponse
+	CreateDoctorResponse struct {
+		Email    string `json:"email"`
+		Fullname string `json:"fullname"`
+		Role     string `json:"role"`
+		NoSip    string `json:"no_sip"`
+	}
+
+	// CreatePharmacistRequest CreatePharmacistRequest
+	CreatePharmacistRequest struct {
+		Email    string `json:"email" validate:"required,email"`
+		Password string `json:"password" validate:"required"`
+		Fullname string `json:"fullname" validate:"required"`
+		NoSipa   string `json:"no_sipa" validate:"required"`
+	}
+
+	// CreatePharmacistResponse CreatePharmacistResponse
+	CreatePharmacistResponse struct {
+		Email    string `json:"email"`
+		Fullname string `json:"fullname"`
+		Role     string `json:"role"`
+		NoSipa   string `json:"no_sipa"`
+	}
+		
 
 	// LoginRequest LoginRequest
 	LoginRequest struct {
@@ -129,5 +163,25 @@ func (r *CreateUserRequest) TransformToUserModel(hp string) User {
 		Email:             r.Email,
 		Fullname:          r.Fullname,
 		HashedPassword:    hp,
+	}
+}
+
+func (r *CreateDoctorRequest) TransformToUserModel(hp string) User {
+	return User{
+		Email:             r.Email,
+		Fullname:          r.Fullname,
+		HashedPassword:    hp,
+		Role:              RoleDoctor,
+		NoSip:             r.NoSip,
+	}
+}
+
+func (r *CreatePharmacistRequest) TransformToUserModel(hp string) User {
+	return User{
+		Email:             r.Email,
+		Fullname:          r.Fullname,
+		HashedPassword:    hp,
+		Role:              RolePharmacist,
+		NoSipa:            r.NoSipa,
 	}
 }
