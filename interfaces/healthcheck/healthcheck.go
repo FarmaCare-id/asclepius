@@ -1,9 +1,9 @@
 package healthcheck
 
 import (
-	"go-web-boilerplate/application"
-	"go-web-boilerplate/shared"
-	"go-web-boilerplate/shared/dto"
+	"farmacare/application"
+	"farmacare/shared"
+	"farmacare/shared/dto"
 )
 
 type (

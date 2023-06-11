@@ -1,8 +1,8 @@
 package healthcheck
 
 import (
-	"go-web-boilerplate/shared"
-	"go-web-boilerplate/shared/dto"
+	"farmacare/shared"
+	"farmacare/shared/dto"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"

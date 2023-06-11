@@ -1,6 +1,6 @@
-# fly.toml file generated for web-go-boilerplate on 2023-04-01T00:12:21+07:00
+# fly.toml file generated for farmacare on 2023-04-01T00:12:21+07:00
 
-app = "web-go-boilerplate"
+app = "farmacare"
 kill_signal = "SIGINT"
 kill_timeout = 5
 primary_region = "sin"

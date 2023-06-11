@@ -1,9 +1,9 @@
 package shared
 
 import (
-	"go-web-boilerplate/shared/config"
-	depedencies "go-web-boilerplate/shared/dependencies"
-	"go-web-boilerplate/shared/middleware"
+	"farmacare/shared/config"
+	depedencies "farmacare/shared/dependencies"
+	"farmacare/shared/middleware"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/pkg/errors"

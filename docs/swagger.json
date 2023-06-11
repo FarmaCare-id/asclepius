@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "API definition for Go Web Boilerplate Server",
-    "title": "Go Web Boilerplate Server",
+    "description": "API definition for FarmaCare Server",
+    "title": "FarmaCare Server",
     "contact": {},
     "version": "1.0"
   },

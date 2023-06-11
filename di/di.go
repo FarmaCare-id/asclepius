@@ -1,10 +1,10 @@
 package di
 
 import (
-	"go-web-boilerplate/application"
-	"go-web-boilerplate/infrastructure"
-	"go-web-boilerplate/interfaces"
-	"go-web-boilerplate/shared"
+	"farmacare/application"
+	"farmacare/infrastructure"
+	"farmacare/interfaces"
+	"farmacare/shared"
 	"log"
 
 	"go.uber.org/dig"

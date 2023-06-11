@@ -3,7 +3,7 @@ package depedencies
 import (
 	"github.com/goccy/go-json"
 
-	_ "go-web-boilerplate/docs"
+	_ "farmacare/docs"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"

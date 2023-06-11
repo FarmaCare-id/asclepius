@@ -1,8 +1,8 @@
 package interfaces
 
 import (
-	"go-web-boilerplate/interfaces/auth"
-	"go-web-boilerplate/interfaces/healthcheck"
+	"farmacare/interfaces/auth"
+	"farmacare/interfaces/healthcheck"
 
 	"github.com/pkg/errors"
 	"go.uber.org/dig"

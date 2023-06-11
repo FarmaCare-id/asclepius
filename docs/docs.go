@@ -417,8 +417,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8000",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "Go Web Boilerplate Server",
-	Description:      "API definition for Go Web Boilerplate Server",
+	Title:            "FarmaCare Server",
+	Description:      "API definition for FarmaCare Server",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

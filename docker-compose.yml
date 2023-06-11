@@ -14,7 +14,7 @@ services:
     depends_on:
       - db
     networks:
-      - go_web_boilerplate
+      - farmacare
   db:
     image: postgres:13.3-alpine
     volumes:
@@ -27,7 +27,7 @@ services:
     ports:
       - "5433:5432"
     networks:
-      - go_web_boilerplate
+      - farmacare
 volumes:
   db-data:
     driver: local

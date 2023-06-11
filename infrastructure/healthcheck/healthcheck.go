@@ -1,8 +1,8 @@
 package healthcheck
 
 import (
-	"go-web-boilerplate/interfaces"
-	"go-web-boilerplate/shared"
+	"farmacare/interfaces"
+	"farmacare/shared"
 
 	"github.com/gofiber/fiber/v2"
 )

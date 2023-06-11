@@ -22,7 +22,7 @@ type EnvConfig struct {
 
 func NewEnvConfig(log *logrus.Logger) (*EnvConfig, error) {
 	var config EnvConfig
-	err := envconfig.Process("web-go-boilerplate", &config)
+	err := envconfig.Process("farmacare", &config)
 	if err != nil {
 		log.Errorf("error while reading config: %s", err.Error())
 		return nil, err

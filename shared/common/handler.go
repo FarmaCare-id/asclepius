@@ -1,8 +1,8 @@
 package common
 
 import (
-	"go-web-boilerplate/application/auth"
-	"go-web-boilerplate/shared/dto"
+	"farmacare/application/auth"
+	"farmacare/shared/dto"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"

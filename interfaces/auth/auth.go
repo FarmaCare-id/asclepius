@@ -2,10 +2,10 @@ package auth
 
 import (
 	"errors"
-	"go-web-boilerplate/application"
-	"go-web-boilerplate/shared"
-	"go-web-boilerplate/shared/common"
-	"go-web-boilerplate/shared/dto"
+	"farmacare/application"
+	"farmacare/shared"
+	"farmacare/shared/common"
+	"farmacare/shared/dto"
 	"io/ioutil"
 	"net/http"
 

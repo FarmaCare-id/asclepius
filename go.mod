@@ -1,4 +1,4 @@
-module go-web-boilerplate
+module farmacare
 
 go 1.19
 

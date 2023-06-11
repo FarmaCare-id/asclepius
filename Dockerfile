@@ -3,6 +3,6 @@ WORKDIR /app
 COPY go.mod ./
 RUN go mod tidy
 COPY . .
-RUN go build -o go_web_boilerplate
+RUN go build -o farmacare
 EXPOSE 8080
-CMD /app/go_web_boilerplate
+CMD /app/farmacare

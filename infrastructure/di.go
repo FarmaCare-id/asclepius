@@ -1,8 +1,8 @@
 package infrastructure
 
 import (
-	"go-web-boilerplate/infrastructure/auth"
-	"go-web-boilerplate/infrastructure/healthcheck"
+	"farmacare/infrastructure/auth"
+	"farmacare/infrastructure/healthcheck"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/pkg/errors"

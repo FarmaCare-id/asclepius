@@ -2,8 +2,8 @@ package common
 
 import (
 	"context"
+	"farmacare/shared/config"
 	"fmt"
-	"go-web-boilerplate/shared/config"
 
 	sendinblue "github.com/sendinblue/APIv3-go-library/v2/lib"
 	"github.com/sirupsen/logrus"
@@ -24,8 +24,8 @@ func (m *MailerRequest) Mailer(env *config.EnvConfig, log *logrus.Logger, token 
 
 	body := sendinblue.SendSmtpEmail{
 		Sender: &sendinblue.SendSmtpEmailSender{
-			Name:  "YourAppName",
-			Email: "no-reply@yourappname.com",
+			Name:  "FarmaCare",
+			Email: "no-reply@farmacare.com",
 		},
 		To: []sendinblue.SendSmtpEmailTo{
 			{
@@ -34,7 +34,7 @@ func (m *MailerRequest) Mailer(env *config.EnvConfig, log *logrus.Logger, token 
 			},
 		},
 		TextContent: fmt.Sprintf("reset your password here %s", env.ClientPasswordResetUrl+token),
-		Subject:     "YourAppName Password Reset",
+		Subject:     "FarmaCare Password Reset",
 	}
 
 	log.Infof("sending email with context: %s", body)

@@ -1,8 +1,8 @@
 package middleware
 
 import (
+	"farmacare/shared/config"
 	"fmt"
-	"go-web-boilerplate/shared/config"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"

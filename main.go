@@ -1,12 +1,12 @@
 package main
 
 import (
-	"go-web-boilerplate/di"
-	"go-web-boilerplate/docs"
-	"go-web-boilerplate/infrastructure"
+	"farmacare/di"
+	"farmacare/docs"
+	"farmacare/infrastructure"
 	"log"
 
-	"go-web-boilerplate/shared/config"
+	"farmacare/shared/config"
 
 	"github.com/gofiber/fiber/v2"
 )

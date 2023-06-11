@@ -84,8 +84,8 @@ definitions:
 host: localhost:8000
 info:
   contact: {}
-  description: API definition for Go Web Boilerplate Server
-  title: Go Web Boilerplate Server
+  description: API definition for FarmaCare Server
+  title: FarmaCare Server
   version: "1.0"
 paths:
   /auth/credential:

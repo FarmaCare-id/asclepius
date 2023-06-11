@@ -1,8 +1,8 @@
 package application
 
 import (
-	"go-web-boilerplate/application/auth"
-	"go-web-boilerplate/application/healthcheck"
+	"farmacare/application/auth"
+	"farmacare/application/healthcheck"
 
 	"github.com/pkg/errors"
 	"go.uber.org/dig"

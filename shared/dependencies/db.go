@@ -1,9 +1,9 @@
 package depedencies
 
 import (
+	"farmacare/shared/config"
+	"farmacare/shared/dto"
 	"fmt"
-	"go-web-boilerplate/shared/config"
-	"go-web-boilerplate/shared/dto"
 	"time"
 
 	"github.com/sirupsen/logrus"
