@@ -27,6 +27,47 @@ func (m *Middleware) AuthMiddleware(c *fiber.Ctx) error {
 	return c.Next()
 }
 
+func (m *Middleware) UserMiddleware(c *fiber.Ctx) error {
+	claims, err := m.getToken(m.Env.SecretKey, c)
+
+	if err != nil {
+		return err
+	}
+
+	if claims["role"] != "user" {
+		return fiber.ErrForbidden
+	}
+
+	return c.Next()
+}
+
+func (m *Middleware) DoctorMiddleware(c *fiber.Ctx) error {
+	claims, err := m.getToken(m.Env.SecretKey, c)
+
+	if err != nil {
+		return err
+	}
+
+	if claims["role"] != "doctor" {
+		return fiber.ErrForbidden
+	}
+
+	return c.Next()
+}
+
+func (m *Middleware) PharmacistMiddleware(c *fiber.Ctx) error {
+	claims, err := m.getToken(m.Env.SecretKey, c)
+	if err != nil {
+		return err
+	}
+
+	if claims["role"] != "pharmacist" {
+		return fiber.ErrForbidden
+	}
+
+	return c.Next()
+}
+
 func (m *Middleware) AdminMiddleware(c *fiber.Ctx) error {
 	claims, err := m.getToken(m.Env.SecretKey, c)
 
