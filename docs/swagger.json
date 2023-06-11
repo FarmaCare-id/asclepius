@@ -79,7 +79,7 @@
                 }
             }
         },
-        "/auth/forgotPassword": {
+        "/auth/forgot-password": {
             "post": {
                 "description": "Put all mandatory parameter",
                 "consumes": [
@@ -147,7 +147,7 @@
                 }
             }
         },
-        "/auth/loginGoogle": {
+        "/auth/login-google": {
             "post": {
                 "description": "Put all mandatory parameter",
                 "consumes": [
@@ -283,7 +283,7 @@
                 }
             }
         },
-        "/auth/resetPassword": {
+        "/auth/reset-password": {
             "post": {
                 "description": "Put all mandatory parameter",
                 "consumes": [

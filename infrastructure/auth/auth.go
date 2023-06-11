@@ -22,10 +22,10 @@ func (c *Controller) Routes(app *fiber.App) {
 	auth.Post("/register/doctor", c.registerDoctor)
 	auth.Post("/register/pharmacist", c.registerPharmacist)
 	auth.Post("/login", c.login)
-	auth.Post("/loginGoogle", c.loginGoogle)
+	auth.Post("/login-google", c.loginGoogle)
 	auth.Put("/edit", c.Shared.Middleware.AuthMiddleware, c.edit)
-	auth.Post("/forgotPassword", c.forgotPassword)
-	auth.Post("/resetPassword", c.resetPassword)
+	auth.Post("/forgot-password", c.forgotPassword)
+	auth.Post("/reset-password", c.resetPassword)
 	auth.Get("/credential", c.Shared.Middleware.AuthMiddleware, c.userCredential)
 }
 
@@ -131,7 +131,7 @@ func (c *Controller) registerPharmacist(ctx *fiber.Ctx) error {
 // @Produce  json
 // @Success 200 {object} dto.LoginResponse
 // @Failure 200 {object} dto.LoginResponse
-// @Router /auth/loginGoogle [post]
+// @Router /auth/login-google [post]
 func (c *Controller) loginGoogle(ctx *fiber.Ctx) error {
 	var (
 		req dto.GoogleLoginRequest
@@ -226,7 +226,7 @@ func (c *Controller) edit(ctx *fiber.Ctx) error {
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} dto.ForgotPasswordRequest
-// @Router /auth/forgotPassword [post]
+// @Router /auth/forgot-password [post]
 func (c *Controller) forgotPassword(ctx *fiber.Ctx) error {
 	var (
 		req dto.ForgotPasswordRequest
@@ -255,7 +255,7 @@ func (c *Controller) forgotPassword(ctx *fiber.Ctx) error {
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} dto.ResetPasswordRequest
-// @Router /auth/resetPassword [post]
+// @Router /auth/reset-password [post]
 func (c *Controller) resetPassword(ctx *fiber.Ctx) error {
 	var (
 		req dto.ResetPasswordRequest

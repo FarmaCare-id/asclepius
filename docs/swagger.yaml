@@ -190,7 +190,7 @@ paths:
       summary: Edit user
       tags:
       - Auth
-  /auth/forgotPassword:
+  /auth/forgot-password:
     post:
       consumes:
       - application/json
@@ -234,7 +234,7 @@ paths:
       summary: Login user google
       tags:
       - Auth
-  /auth/loginGoogle:
+  /auth/login-google:
     post:
       consumes:
       - application/json
@@ -322,7 +322,7 @@ paths:
       summary: Register new pharmacist
       tags:
       - Auth
-  /auth/resetPassword:
+  /auth/reset-password:
     post:
       consumes:
       - application/json

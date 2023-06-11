@@ -1,6 +1,7 @@
 package healthcheck
 
 import (
+	"farmacare/application"
 	"farmacare/interfaces"
 	"farmacare/shared"
 
@@ -10,10 +11,12 @@ import (
 type Controller struct {
 	Interfaces interfaces.Holder
 	Shared     shared.Holder
+	Application application.Holder
 }
 
 func (c *Controller) Routes(app *fiber.App) {
-	app.Get("/healthcheck",  c.Shared.Middleware.AdminMiddleware, c.healthcheck)
+	healthcheck := app.Group("/healthcheck")
+	healthcheck.Get("/",  c.Shared.Middleware.AdminMiddleware, c.healthcheck)
 }
 
 // All godoc
@@ -31,9 +34,10 @@ func (c *Controller) healthcheck(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusOK).JSON(data)
 }
 
-func NewController(interfaces interfaces.Holder, shared shared.Holder) Controller {
+func NewController(interfaces interfaces.Holder, shared shared.Holder, application application.Holder) Controller {
 	return Controller{
-		Interfaces: interfaces,
-		Shared:     shared,
+		Interfaces:  interfaces,
+		Shared:      shared,
+		Application: application,
 	}
 }

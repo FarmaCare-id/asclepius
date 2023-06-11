@@ -86,7 +86,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/forgotPassword": {
+        "/auth/forgot-password": {
             "post": {
                 "description": "Put all mandatory parameter",
                 "consumes": [
@@ -154,7 +154,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/loginGoogle": {
+        "/auth/login-google": {
             "post": {
                 "description": "Put all mandatory parameter",
                 "consumes": [
@@ -290,7 +290,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/resetPassword": {
+        "/auth/reset-password": {
             "post": {
                 "description": "Put all mandatory parameter",
                 "consumes": [
