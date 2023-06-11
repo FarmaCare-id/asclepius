@@ -215,7 +215,7 @@
                 }
             }
         },
-        "/auth/registerDoctor": {
+        "/auth/register/doctor": {
             "post": {
                 "description": "Put all mandatory parameter",
                 "consumes": [
@@ -249,7 +249,7 @@
                 }
             }
         },
-        "/auth/registerPharmacist": {
+        "/auth/register/pharmacist": {
             "post": {
                 "description": "Put all mandatory parameter",
                 "consumes": [

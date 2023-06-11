@@ -278,7 +278,7 @@ paths:
       summary: Register new user
       tags:
       - Auth
-  /auth/registerDoctor:
+  /auth/register/doctor:
     post:
       consumes:
       - application/json
@@ -300,7 +300,7 @@ paths:
       summary: Register new doctor
       tags:
       - Auth
-  /auth/registerPharmacist:
+  /auth/register/pharmacist:
     post:
       consumes:
       - application/json

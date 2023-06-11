@@ -69,7 +69,7 @@ func (c *Controller) register(ctx *fiber.Ctx) error {
 // @Produce  json
 // @Success 200 {object} dto.CreateDoctorResponse
 // @Failure 200 {object} dto.CreateDoctorResponse
-// @Router /auth/registerDoctor [post]
+// @Router /auth/register/doctor [post]
 func (c *Controller) registerDoctor(ctx *fiber.Ctx) error {
 	var (
 		req dto.CreateDoctorRequest
@@ -100,7 +100,7 @@ func (c *Controller) registerDoctor(ctx *fiber.Ctx) error {
 // @Produce  json
 // @Success 200 {object} dto.CreatePharmacistResponse
 // @Failure 200 {object} dto.CreatePharmacistResponse
-// @Router /auth/registerPharmacist [post]
+// @Router /auth/register/pharmacist [post]
 func (c *Controller) registerPharmacist(ctx *fiber.Ctx) error {
 	var (
 		req dto.CreatePharmacistRequest

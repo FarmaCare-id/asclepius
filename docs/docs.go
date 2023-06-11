@@ -222,7 +222,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/registerDoctor": {
+        "/auth/register/doctor": {
             "post": {
                 "description": "Put all mandatory parameter",
                 "consumes": [
@@ -256,7 +256,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/registerPharmacist": {
+        "/auth/register/pharmacist": {
             "post": {
                 "description": "Put all mandatory parameter",
                 "consumes": [
