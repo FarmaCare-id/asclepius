@@ -144,6 +144,7 @@ func (v *viewService) Login(req dto.LoginRequest) (dto.LoginResponse, error) {
 
 	token, err := common.GenerateToken(v.shared.Env.SecretKey, jwt.MapClaims{
 		"id":  user.ID,
+		"role": user.Role,
 		"exp": carbon.Now().AddDay().Timestamp(),
 	})
 	if err != nil {
@@ -188,6 +189,7 @@ func (v *viewService) GoogleLogin(req dto.GoogleLoginRequest) (dto.LoginResponse
 
 	token, err := common.GenerateToken(v.shared.Env.SecretKey, jwt.MapClaims{
 		"id":  user.ID,
+		"role": user.Role,
 		"exp": carbon.Now().AddDay().Timestamp(),
 	})
 	if err != nil {
