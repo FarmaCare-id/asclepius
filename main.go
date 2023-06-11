@@ -11,9 +11,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// @title Go Web Boilerplate Server
+// @title FarmaCare Server
 // @version 1.0
-// @description API definition for Go Web Boilerplate Server
+// @description API definition for FarmaCare Server
 // @host localhost:8000
 // @BasePath /
 func main() {
