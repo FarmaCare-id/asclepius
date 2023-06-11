@@ -361,4 +361,23 @@ paths:
       summary: Check system status
       tags:
       - Healthcheck
+  /profile:
+    get:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Get user profile
+      tags:
+      - Profile
 swagger: "2.0"
