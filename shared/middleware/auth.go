@@ -27,6 +27,20 @@ func (m *Middleware) AuthMiddleware(c *fiber.Ctx) error {
 	return c.Next()
 }
 
+func (m *Middleware) AdminMiddleware(c *fiber.Ctx) error {
+	claims, err := m.getToken(m.Env.SecretKey, c)
+
+	if err != nil {
+		return err
+	}
+
+	if claims["role"] != "admin" {
+		return fiber.ErrForbidden
+	}
+
+	return c.Next()
+}
+
 func (m *Middleware) getToken(secret string, c *fiber.Ctx) (jwt.MapClaims, error) {
 	header := c.Get("Authorization", "")
 

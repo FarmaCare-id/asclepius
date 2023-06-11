@@ -13,7 +13,7 @@ type Controller struct {
 }
 
 func (c *Controller) Routes(app *fiber.App) {
-	app.Get("/healthcheck", c.healthcheck)
+	app.Get("/healthcheck",  c.Shared.Middleware.AdminMiddleware, c.healthcheck)
 }
 
 // All godoc
