@@ -1,5 +1,59 @@
 basePath: /
 definitions:
+  dto.CreateDoctorRequest:
+    properties:
+      email:
+        type: string
+      fullname:
+        type: string
+      no_sip:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - fullname
+    - no_sip
+    - password
+    type: object
+  dto.CreateDoctorResponse:
+    properties:
+      email:
+        type: string
+      fullname:
+        type: string
+      no_sip:
+        type: string
+      role:
+        type: string
+    type: object
+  dto.CreatePharmacistRequest:
+    properties:
+      email:
+        type: string
+      fullname:
+        type: string
+      no_sipa:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - fullname
+    - no_sipa
+    - password
+    type: object
+  dto.CreatePharmacistResponse:
+    properties:
+      email:
+        type: string
+      fullname:
+        type: string
+      no_sipa:
+        type: string
+      role:
+        type: string
+    type: object
   dto.CreateUserRequest:
     properties:
       email:
@@ -18,6 +72,8 @@ definitions:
       email:
         type: string
       fullname:
+        type: string
+      role:
         type: string
     type: object
   dto.EditUserRequest:
@@ -220,6 +276,50 @@ paths:
           schema:
             $ref: '#/definitions/dto.CreateUserResponse'
       summary: Register new user
+      tags:
+      - Auth
+  /auth/registerDoctor:
+    post:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      parameters:
+      - description: CreateDoctorRequest
+        in: body
+        name: CreateDoctorRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateDoctorRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateDoctorResponse'
+      summary: Register new doctor
+      tags:
+      - Auth
+  /auth/registerPharmacist:
+    post:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      parameters:
+      - description: CreatePharmacistRequest
+        in: body
+        name: CreatePharmacistRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreatePharmacistRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreatePharmacistResponse'
+      summary: Register new pharmacist
       tags:
       - Auth
   /auth/resetPassword:

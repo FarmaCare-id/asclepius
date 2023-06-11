@@ -222,6 +222,74 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/registerDoctor": {
+            "post": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register new doctor",
+                "parameters": [
+                    {
+                        "description": "CreateDoctorRequest",
+                        "name": "CreateDoctorRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateDoctorRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateDoctorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/registerPharmacist": {
+            "post": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register new pharmacist",
+                "parameters": [
+                    {
+                        "description": "CreatePharmacistRequest",
+                        "name": "CreatePharmacistRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreatePharmacistRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreatePharmacistResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/resetPassword": {
             "post": {
                 "description": "Put all mandatory parameter",
@@ -284,6 +352,86 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.CreateDoctorRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "fullname",
+                "no_sip",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "no_sip": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateDoctorResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "no_sip": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreatePharmacistRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "fullname",
+                "no_sipa",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "no_sipa": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreatePharmacistResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "no_sipa": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.CreateUserRequest": {
             "type": "object",
             "required": [
@@ -310,6 +458,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "fullname": {
+                    "type": "string"
+                },
+                "role": {
                     "type": "string"
                 }
             }
