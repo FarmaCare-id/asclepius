@@ -529,11 +529,29 @@ const docTemplate = `{
         "dto.EditUserProfileResponse": {
             "type": "object",
             "properties": {
-                "email": {
-                    "type": "string"
+                "age": {
+                    "type": "integer"
                 },
                 "fullname": {
                     "type": "string"
+                },
+                "height": {
+                    "type": "number"
+                },
+                "no_sip": {
+                    "type": "string"
+                },
+                "no_sipa": {
+                    "type": "string"
+                },
+                "specialist": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "weight": {
+                    "type": "number"
                 }
             }
         },
