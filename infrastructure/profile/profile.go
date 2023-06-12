@@ -5,6 +5,7 @@ import (
 	"farmacare/interfaces"
 	"farmacare/shared"
 	"farmacare/shared/common"
+	"farmacare/shared/dto"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -18,6 +19,7 @@ type Controller struct {
 func (c *Controller) Routes(app *fiber.App) {
 	profile := app.Group("/profile")
 	profile.Get("/", c.Shared.Middleware.AuthMiddleware, c.userProfile)
+	profile.Put("/edit", c.Shared.Middleware.AuthMiddleware, c.editProfile)
 }
 
 // All godoc
@@ -35,6 +37,40 @@ func (c *Controller) userProfile(ctx *fiber.Ctx) error {
 	user = c.Interfaces.ProfileViewService.GetUserProfile(user)
 
 	return common.DoCommonSuccessResponse(ctx, user)
+}
+
+// All godoc
+// @Tags Profile
+// @Summary Edit user profile
+// @Description Put all mandatory parameter
+// @Param Authorization header string true "Authorization"
+// @Param EditUserRequest body dto.EditUserRequest true "EditUserRequest"
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} dto.EditUserResponse
+// @Failure 200 {object} dto.EditUserResponse
+// @Router /profile/edit [put]
+func (c *Controller) editProfile(ctx *fiber.Ctx) error {
+	var (
+		req dto.EditUserRequest
+		res dto.EditUserResponse
+	)
+
+	err := common.DoCommonRequest(ctx, &req)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	c.Shared.Logger.Infof("edit user with payload: %s", req)
+
+	user := common.CreateUserContext(ctx, c.Application.AuthService)
+
+	res, err = c.Interfaces.ProfileViewService.EditUserProfile(req, user)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
 }
 
 func NewController(interfaces interfaces.Holder, shared shared.Holder, application application.Holder) Controller {

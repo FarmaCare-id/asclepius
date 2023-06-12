@@ -8,6 +8,7 @@ import (
 type (
 	Service interface {
 		GetUserProfile(id uint) dto.User
+		EditUserProfile(user dto.User) error
 	}
 
 	service struct {
@@ -19,6 +20,11 @@ func (s *service) GetUserProfile(id uint) dto.User {
 	var user dto.User
 	s.shared.DB.Where("id = ?", id).First(&user)
 	return user
+}
+
+func (s *service) EditUserProfile(user dto.User) error {
+	err := s.shared.DB.Save(&user).Error
+	return err
 }
 
 func NewProfileService(holder shared.Holder) (Service, error) {

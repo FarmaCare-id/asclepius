@@ -163,33 +163,6 @@ paths:
       summary: Get user credential
       tags:
       - Auth
-  /auth/edit:
-    put:
-      consumes:
-      - application/json
-      description: Put all mandatory parameter
-      parameters:
-      - description: Authorization
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      - description: EditUserRequest
-        in: body
-        name: EditUserRequest
-        required: true
-        schema:
-          $ref: '#/definitions/dto.EditUserRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.EditUserResponse'
-      summary: Edit user
-      tags:
-      - Auth
   /auth/forgot-password:
     post:
       consumes:
@@ -378,6 +351,33 @@ paths:
         "200":
           description: OK
       summary: Get user profile
+      tags:
+      - Profile
+  /profile/edit:
+    put:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: EditUserRequest
+        in: body
+        name: EditUserRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.EditUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.EditUserResponse'
+      summary: Edit user profile
       tags:
       - Profile
 swagger: "2.0"

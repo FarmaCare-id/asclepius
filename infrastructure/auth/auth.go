@@ -23,7 +23,6 @@ func (c *Controller) Routes(app *fiber.App) {
 	auth.Post("/register/pharmacist", c.registerPharmacist)
 	auth.Post("/login", c.login)
 	auth.Post("/login-google", c.loginGoogle)
-	auth.Put("/edit", c.Shared.Middleware.AuthMiddleware, c.edit)
 	auth.Post("/forgot-password", c.forgotPassword)
 	auth.Post("/reset-password", c.resetPassword)
 	auth.Get("/credential", c.Shared.Middleware.AuthMiddleware, c.userCredential)
@@ -177,40 +176,6 @@ func (c *Controller) login(ctx *fiber.Ctx) error {
 	c.Shared.Logger.Infof("login user with payload: %s", req)
 
 	res, err = c.Interfaces.AuthViewService.Login(req)
-	if err != nil {
-		return common.DoCommonErrorResponse(ctx, err)
-	}
-
-	return common.DoCommonSuccessResponse(ctx, res)
-}
-
-// All godoc
-// @Tags Auth
-// @Summary Edit user
-// @Description Put all mandatory parameter
-// @Param Authorization header string true "Authorization"
-// @Param EditUserRequest body dto.EditUserRequest true "EditUserRequest"
-// @Accept  json
-// @Produce  json
-// @Success 200 {object} dto.EditUserResponse
-// @Failure 200 {object} dto.EditUserResponse
-// @Router /auth/edit [put]
-func (c *Controller) edit(ctx *fiber.Ctx) error {
-	var (
-		req dto.EditUserRequest
-		res dto.EditUserResponse
-	)
-
-	err := common.DoCommonRequest(ctx, &req)
-	if err != nil {
-		return common.DoCommonErrorResponse(ctx, err)
-	}
-
-	c.Shared.Logger.Infof("edit user with payload: %s", req)
-
-	user := common.CreateUserContext(ctx, c.Application.AuthService)
-
-	res, err = c.Interfaces.AuthViewService.EditUser(req, user)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

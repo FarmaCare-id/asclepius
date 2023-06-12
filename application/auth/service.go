@@ -11,7 +11,6 @@ type (
 		CreateUser(user dto.User) error
 		CreateDoctor(user dto.User) error
 		CreatePharmacist(user dto.User) error
-		EditUser(user dto.User) error
 		CreatePasswordReset(pw dto.PasswordReset) error
 		GetResetToken(token string, pw *dto.PasswordReset) error
 		RemovePreviousPasswordResetToken(id uint)
@@ -47,11 +46,6 @@ func (s *service) CreateDoctor(user dto.User) error {
 func (s *service) CreatePharmacist(user dto.User) error {
 	user.Role = "pharmacist"
 	err := s.shared.DB.Create(&user).Error
-	return err
-}
-
-func (s *service) EditUser(user dto.User) error {
-	err := s.shared.DB.Save(&user).Error
 	return err
 }
 

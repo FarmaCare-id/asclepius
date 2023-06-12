@@ -22,7 +22,6 @@ type (
 		RegisterDoctor(req dto.CreateDoctorRequest) (dto.CreateDoctorResponse, error)
 		RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.CreatePharmacistResponse, error)
 		Login(req dto.LoginRequest) (dto.LoginResponse, error)
-		EditUser(req dto.EditUserRequest, user dto.User) (dto.EditUserResponse, error)
 		ForgotPassword(req dto.ForgotPasswordRequest) error
 		ResetPassword(req dto.ResetPasswordRequest) error
 		GetUserCredential(user dto.User) dto.User
@@ -203,41 +202,6 @@ func (v *viewService) GoogleLogin(req dto.GoogleLoginRequest) (dto.LoginResponse
 	return res, nil
 }
 
-func (v *viewService) EditUser(req dto.EditUserRequest, user dto.User) (dto.EditUserResponse, error) {
-	var (
-		res dto.EditUserResponse
-	)
-
-	isUserExist, user := v.application.AuthService.CheckUserExist(user.Email)
-	if !isUserExist {
-		return res, errors.New("no user found for given email")
-	}
-
-	if req.Fullname != "" {
-		user.Fullname = req.Fullname
-	}
-
-	if req.Password != "" {
-		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 14)
-		if err != nil {
-			return res, err
-		}
-		user.HashedPassword = string(hashedPassword)
-	}
-
-	err := v.application.AuthService.EditUser(user)
-	if err != nil {
-		return res, err
-	}
-
-	res = dto.EditUserResponse{
-		Email:    user.Email,
-		Fullname: req.Fullname,
-	}
-
-	return res, nil
-}
-
 func (v *viewService) ForgotPassword(req dto.ForgotPasswordRequest) error {
 	isUserExist, user := v.application.AuthService.CheckUserExist(req.Email)
 	if !isUserExist {
@@ -290,7 +254,7 @@ func (v *viewService) ResetPassword(req dto.ResetPasswordRequest) error {
 
 	pw.User.HashedPassword = string(hashedPassword)
 
-	err = v.application.AuthService.EditUser(pw.User)
+	err = v.application.ProfileService.EditUserProfile(pw.User)
 	if err != nil {
 		return err
 	}
