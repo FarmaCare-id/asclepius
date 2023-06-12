@@ -360,12 +360,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "EditUserRequest",
-                        "name": "EditUserRequest",
+                        "description": "EditUserProfileRequest",
+                        "name": "EditUserProfileRequest",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.EditUserRequest"
+                            "$ref": "#/definitions/dto.EditUserProfileRequest"
                         }
                     }
                 ],
@@ -373,7 +373,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.EditUserResponse"
+                            "$ref": "#/definitions/dto.EditUserProfileResponse"
                         }
                     }
                 }
@@ -494,18 +494,39 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.EditUserRequest": {
+        "dto.EditUserProfileRequest": {
             "type": "object",
             "properties": {
+                "age": {
+                    "type": "integer"
+                },
                 "fullname": {
+                    "type": "string"
+                },
+                "height": {
+                    "type": "number"
+                },
+                "no_sip": {
+                    "type": "string"
+                },
+                "no_sipa": {
                     "type": "string"
                 },
                 "password": {
                     "type": "string"
+                },
+                "specialist": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "weight": {
+                    "type": "number"
                 }
             }
         },
-        "dto.EditUserResponse": {
+        "dto.EditUserProfileResponse": {
             "type": "object",
             "properties": {
                 "email": {

@@ -44,16 +44,16 @@ func (c *Controller) userProfile(ctx *fiber.Ctx) error {
 // @Summary Edit user profile
 // @Description Put all mandatory parameter
 // @Param Authorization header string true "Authorization"
-// @Param EditUserRequest body dto.EditUserRequest true "EditUserRequest"
+// @Param EditUserProfileRequest body dto.EditUserProfileRequest true "EditUserProfileRequest"
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} dto.EditUserResponse
-// @Failure 200 {object} dto.EditUserResponse
+// @Success 200 {object} dto.EditUserProfileResponse
+// @Failure 200 {object} dto.EditUserProfileResponse
 // @Router /profile/edit [put]
 func (c *Controller) editProfile(ctx *fiber.Ctx) error {
 	var (
-		req dto.EditUserRequest
-		res dto.EditUserResponse
+		req dto.EditUserProfileRequest
+		res dto.EditUserProfileResponse
 	)
 
 	err := common.DoCommonRequest(ctx, &req)

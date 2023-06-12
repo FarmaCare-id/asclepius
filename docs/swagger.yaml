@@ -76,14 +76,28 @@ definitions:
       role:
         type: string
     type: object
-  dto.EditUserRequest:
+  dto.EditUserProfileRequest:
     properties:
+      age:
+        type: integer
       fullname:
+        type: string
+      height:
+        type: number
+      no_sip:
+        type: string
+      no_sipa:
         type: string
       password:
         type: string
+      specialist:
+        type: string
+      title:
+        type: string
+      weight:
+        type: number
     type: object
-  dto.EditUserResponse:
+  dto.EditUserProfileResponse:
     properties:
       email:
         type: string
@@ -364,19 +378,19 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: EditUserRequest
+      - description: EditUserProfileRequest
         in: body
-        name: EditUserRequest
+        name: EditUserProfileRequest
         required: true
         schema:
-          $ref: '#/definitions/dto.EditUserRequest'
+          $ref: '#/definitions/dto.EditUserProfileRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.EditUserResponse'
+            $ref: '#/definitions/dto.EditUserProfileResponse'
       summary: Edit user profile
       tags:
       - Profile

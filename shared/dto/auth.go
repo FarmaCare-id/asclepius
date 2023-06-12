@@ -125,26 +125,6 @@ type (
 		Locale        string `json:"locale"`
 	}
 
-	// EditUserRequest EditUserRequest
-
-	EditUserRequest struct {
-		Fullname string `json:"fullname" validate:"omitempty"`
-		Password string `json:"password" validate:"omitempty"`
-		Weight string `json:"weight" validate:"omitempty"`
-		Height string `json:"height" validate:"omitempty"`
-		Age string `json:"age" validate:"omitempty"`
-		NoSip string `json:"no_sip" validate:"omitempty"`
-		NoSipa string `json:"no_sipa" validate:"omitempty"`
-		Specialist string `json:"specialist" validate:"omitempty"`
-		Title string `json:"title" validate:"omitempty"`
-	}
-
-	// EditUserResponse EditUserResponse
-	EditUserResponse struct {
-		Email    string `json:"email"`
-		Fullname string `json:"fullname"`
-	}
-
 	// ForgotPasswordRequest ForgotPasswordRequest
 	ForgotPasswordRequest struct {
 		Email string `json:"email" validate:"required,email"`
