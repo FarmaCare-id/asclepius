@@ -84,12 +84,12 @@ func (c *Controller) createFeedback(ctx *fiber.Ctx) error {
 // @Description Put all mandatory parameter
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} dto.FeedbackCategorySlice
-// @Failure 200 {object} dto.FeedbackCategorySlice
+// @Success 200 {object} []models.FeedbackCategory
+// @Failure 200 {object} []models.FeedbackCategory
 // @Router /feedback/category [get]
 func (c *Controller) getAllFeedbackCategory(ctx *fiber.Ctx) error {
 	var (
-		res dto.FeedbackCategorySlice
+		res []models.FeedbackCategory
 	)
 
 	res, err := c.Service.FeedbackViewService.GetAllFeedbackCategory()

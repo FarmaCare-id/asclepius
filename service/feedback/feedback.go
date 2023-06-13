@@ -13,7 +13,7 @@ type (
 	ViewService interface {
 		CreateFeedbackCategory(req dto.CreateFeedbackCategoryRequest) (dto.CreateFeedbackCategoryResponse, error)
 		GetFeedbackCategoryById(feedbackId string) (models.FeedbackCategory, error)
-		GetAllFeedbackCategory() (dto.FeedbackCategorySlice, error)
+		GetAllFeedbackCategory() ([]models.FeedbackCategory, error)
 		CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedbackRequest) (dto.CreateFeedbackResponse, error)
 		GetAllFeedback() ([]dto.GetAllFeedbackResponse, error)
 	}
@@ -65,9 +65,9 @@ func (v *viewService) GetFeedbackCategoryById(feedbackId string) (models.Feedbac
 	return feedbackCategory, nil
 }
 
-func (v *viewService) GetAllFeedbackCategory() (dto.FeedbackCategorySlice, error) {
+func (v *viewService) GetAllFeedbackCategory() ([]models.FeedbackCategory, error) {
 	var (
-		res dto.FeedbackCategorySlice
+		res []models.FeedbackCategory
 	)
 
 	feedbackCategories := v.repository.FeedbackRepository.GetAllFeedbackCategory("")
@@ -106,7 +106,7 @@ func (v *viewService) CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedb
 
 func (v *viewService) GetAllFeedback() ([]dto.GetAllFeedbackResponse, error) {
 	var (
-		res dto.FeedbackSlice
+		res []models.Feedback
 	)
 
 	feedbacks := v.repository.FeedbackRepository.GetAllFeedback("")

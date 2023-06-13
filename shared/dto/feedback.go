@@ -6,8 +6,6 @@ import (
 )
 
 type (
-	FeedbackCategorySlice []models.FeedbackCategory
-
 	// CreateFeedbackCategoryRequest CreateFeedbackCategoryRequest
 	CreateFeedbackCategoryRequest struct {
 		Name string `json:"name" validate:"required"`
@@ -19,8 +17,6 @@ type (
 		Name string `json:"name"`
 		Description string `json:"description"`
 	}
-
-	FeedbackSlice []models.Feedback
 
 	// CreateFeedbackRequest CreateFeedbackRequest
 	CreateFeedbackRequest struct {

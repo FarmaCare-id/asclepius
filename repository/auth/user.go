@@ -2,7 +2,6 @@ package auth
 
 import (
 	"farmacare/shared"
-	"farmacare/shared/dto"
 	"farmacare/shared/models"
 )
 
@@ -14,7 +13,7 @@ type (
 		CreatePharmacist(user models.User) error
 		EditUser(user models.User) error
 		GetUserContext(id uint) models.User
-		ListUser(preload string) dto.UserSlice
+		ListUser(preload string) []models.User
 	}
 
 	userRepository struct {
@@ -57,7 +56,7 @@ func (s *userRepository) GetUserContext(id uint) models.User {
 	return user
 }
 
-func (s *userRepository) ListUser(preload string) dto.UserSlice {
+func (s *userRepository) ListUser(preload string) []models.User {
 	var users []models.User
 	s.shared.DB.Preload(preload).Find(&users)
 	return users

@@ -2,7 +2,6 @@ package feedback
 
 import (
 	"farmacare/shared"
-	"farmacare/shared/dto"
 	"farmacare/shared/models"
 )
 
@@ -11,9 +10,9 @@ type (
 		CheckFeedbackCategoryExist(name string) (bool, models.FeedbackCategory)
 		CreateFeedbackCategory(feedbackCategory models.FeedbackCategory) error
 		GetFeedbackCategoryById(feedbackId uint) (models.FeedbackCategory, error)
-		GetAllFeedbackCategory(preload string) dto.FeedbackCategorySlice
+		GetAllFeedbackCategory(preload string) []models.FeedbackCategory
 		CreateFeedback(feedback models.Feedback) error
-		GetAllFeedback(preload string) dto.FeedbackSlice
+		GetAllFeedback(preload string) []models.Feedback
 	}
 
 	repository struct {
@@ -38,7 +37,7 @@ func (s *repository) GetFeedbackCategoryById(feedbackId uint) (models.FeedbackCa
 	return feedbackCategory, err
 }
 
-func (s *repository) GetAllFeedbackCategory(preload string) dto.FeedbackCategorySlice {
+func (s *repository) GetAllFeedbackCategory(preload string) []models.FeedbackCategory {
 	var feedbackCategories []models.FeedbackCategory
 	s.shared.DB.Preload(preload).Find(&feedbackCategories)
 	return feedbackCategories
@@ -49,7 +48,7 @@ func (s *repository) CreateFeedback(feedback models.Feedback) error {
 	return err
 }
 
-func (s *repository) GetAllFeedback(preload string) dto.FeedbackSlice {
+func (s *repository) GetAllFeedback(preload string) []models.Feedback {
 	var feedbacks []models.Feedback
 	s.shared.DB.Preload(preload).Find(&feedbacks)
 	return feedbacks
