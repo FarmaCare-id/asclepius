@@ -25,9 +25,7 @@ type (
 
 func (s *service) CheckUserExist(email string) (bool, dto.User) {
 	var user dto.User
-
 	err := s.shared.DB.First(&user, "email = ?", email).Error
-
 	return err == nil, user
 }
 
@@ -72,9 +70,7 @@ func (s *service) GetUserContext(id uint) dto.User {
 
 func (s *service) ListUser(preload string) dto.UserSlice {
 	var users []dto.User
-
 	s.shared.DB.Preload(preload).Find(&users)
-
 	return users
 }
 

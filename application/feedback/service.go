@@ -22,9 +22,7 @@ type (
 
 func (s *service) CheckFeedbackCategoryExist(name string) (bool, dto.FeedbackCategory) {
 	var feedbackCategory dto.FeedbackCategory
-
 	err := s.shared.DB.First(&feedbackCategory, "name = ?", name).Error
-
 	return err == nil, feedbackCategory
 }
 
@@ -41,9 +39,7 @@ func (s *service) GetFeedbackCategoryById(feedbackId uint) (dto.FeedbackCategory
 
 func (s *service) GetAllFeedbackCategory(preload string) dto.FeedbackCategorySlice {
 	var feedbackCategories []dto.FeedbackCategory
-
 	s.shared.DB.Preload(preload).Find(&feedbackCategories)
-	
 	return feedbackCategories
 }
 
@@ -54,9 +50,7 @@ func (s *service) CreateFeedback(feedback dto.Feedback) error {
 
 func (s *service) GetAllFeedback(preload string) dto.FeedbackSlice {
 	var feedbacks []dto.Feedback
-
 	s.shared.DB.Preload(preload).Find(&feedbacks)
-
 	return feedbacks
 }
 
