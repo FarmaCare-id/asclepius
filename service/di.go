@@ -20,19 +20,19 @@ type Holder struct {
 
 func Register(container *dig.Container) error {
 	if err := container.Provide(healthcheck.NewViewService); err != nil {
-		return errors.Wrap(err, "failed to provide healthcheck view service")
+		return errors.Wrap(err, "Failed to provide healthcheck view service")
 	}
 
 	if err := container.Provide(auth.NewViewService); err != nil {
-		return errors.Wrap(err, "failed to provide auth view service")
+		return errors.Wrap(err, "Failed to provide auth view service")
 	}
 
 	if err := container.Provide(profile.NewViewService); err != nil {
-		return errors.Wrap(err, "failed to provide profile view service")
+		return errors.Wrap(err, "Failed to provide profile view service")
 	}
 
 	if err := container.Provide(feedback.NewViewService); err != nil {
-		return errors.Wrap(err, "failed to provide profile view service")
+		return errors.Wrap(err, "Failed to provide profile view repository")
 	}
 
 	return nil

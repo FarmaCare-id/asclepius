@@ -20,10 +20,10 @@ type (
 func (v *viewService) SystemHealthcheck() (dto.HCStatus, error) {
 	status := make([]dto.Status, 0)
 
-	httpStatus := v.repository.HealthcheckService.HttpHealthcheck(v.shared.Http)
+	httpStatus := v.repository.HealthcheckRepository.HttpHealthcheck(v.shared.Http)
 	status = append(status, httpStatus)
 
-	dbStatus := v.repository.HealthcheckService.DatabaseHealthcheck(v.shared.DB)
+	dbStatus := v.repository.HealthcheckRepository.DatabaseHealthcheck(v.shared.DB)
 	status = append(status, dbStatus)
 
 	return dto.HCStatus{

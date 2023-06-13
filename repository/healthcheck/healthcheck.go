@@ -9,17 +9,17 @@ import (
 )
 
 type (
-	Service interface {
+	Repository interface {
 		HttpHealthcheck(app *fiber.App) dto.Status
 		DatabaseHealthcheck(db *gorm.DB) dto.Status
 	}
 
-	service struct {
+	repository struct {
 		shared shared.Holder
 	}
 )
 
-func (h *service) HttpHealthcheck(app *fiber.App) dto.Status {
+func (h *repository) HttpHealthcheck(app *fiber.App) dto.Status {
 	data := dto.HCData{
 		HandlerCount: app.HandlersCount(),
 	}
@@ -30,7 +30,7 @@ func (h *service) HttpHealthcheck(app *fiber.App) dto.Status {
 	}
 }
 
-func (h *service) DatabaseHealthcheck(db *gorm.DB) dto.Status {
+func (h *repository) DatabaseHealthcheck(db *gorm.DB) dto.Status {
 	var (
 		status = dto.Status{Name: dto.DB, Status: dto.OK}
 	)
@@ -50,8 +50,8 @@ func (h *service) DatabaseHealthcheck(db *gorm.DB) dto.Status {
 	return status
 }
 
-func NewHealthcheckService(shared shared.Holder) Service {
-	return &service{
+func HealthcheckRepository(shared shared.Holder) Repository {
+	return &repository{
 		shared: shared,
 	}
 }

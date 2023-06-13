@@ -6,22 +6,22 @@ import (
 )
 
 type (
-	Service interface {
+	Repository interface {
 		EditUserProfile(user models.User) error
 	}
 
-	service struct {
+	repository struct {
 		shared shared.Holder
 	}
 )
 
-func (s *service) EditUserProfile(user models.User) error {
+func (s *repository) EditUserProfile(user models.User) error {
 	err := s.shared.DB.Save(&user).Error
 	return err
 }
 
-func NewProfileService(holder shared.Holder) (Service, error) {
-	return &service{
+func ProfileRepository(holder shared.Holder) (Repository, error) {
+	return &repository{
 		shared: holder,
 	}, nil
 }

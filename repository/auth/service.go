@@ -7,7 +7,7 @@ import (
 )
 
 type (
-	Service interface {
+	Repository interface {
 		CheckUserExist(email string) (bool, models.User)
 		CreateUser(user models.User) error
 		CreateDoctor(user models.User) error
@@ -19,64 +19,64 @@ type (
 		ListUser(preload string) dto.UserSlice
 	}
 
-	service struct {
+	repository struct {
 		shared shared.Holder
 	}
 )
 
-func (s *service) CheckUserExist(email string) (bool, models.User) {
+func (s *repository) CheckUserExist(email string) (bool, models.User) {
 	var user models.User
 	err := s.shared.DB.First(&user, "email = ?", email).Error
 	return err == nil, user
 }
 
-func (s *service) CreateUser(user models.User) error {
+func (s *repository) CreateUser(user models.User) error {
 	user.Role = "user"
 	err := s.shared.DB.Create(&user).Error
 	return err
 }
 
-func (s *service) CreateDoctor(user models.User) error {
+func (s *repository) CreateDoctor(user models.User) error {
 	user.Role = "doctor"
 	err := s.shared.DB.Create(&user).Error
 	return err
 }
 
-func (s *service) CreatePharmacist(user models.User) error {
+func (s *repository) CreatePharmacist(user models.User) error {
 	user.Role = "pharmacist"
 	err := s.shared.DB.Create(&user).Error
 	return err
 }
 
-func (s *service) CreatePasswordReset(pw dto.PasswordReset) error {
+func (s *repository) CreatePasswordReset(pw dto.PasswordReset) error {
 	err := s.shared.DB.Create(&pw).Error
 	return err
 }
 
-func (s *service) GetResetToken(token string, pw *dto.PasswordReset) error {
+func (s *repository) GetResetToken(token string, pw *dto.PasswordReset) error {
 	err := s.shared.DB.Preload("User").First(pw, "token = ?", token).Error
 	return err
 }
 
-func (s *service) RemovePreviousPasswordResetToken(id uint) {
+func (s *repository) RemovePreviousPasswordResetToken(id uint) {
 	var pw dto.PasswordReset
 	s.shared.DB.Where("user_id = ?", id).Delete(&pw)
 }
 
-func (s *service) GetUserContext(id uint) models.User {
+func (s *repository) GetUserContext(id uint) models.User {
 	var user models.User
 	s.shared.DB.Where("id = ?", id).First(&user)
 	return user
 }
 
-func (s *service) ListUser(preload string) dto.UserSlice {
+func (s *repository) ListUser(preload string) dto.UserSlice {
 	var users []models.User
 	s.shared.DB.Preload(preload).Find(&users)
 	return users
 }
 
-func NewAuthService(holder shared.Holder) (Service, error) {
-	return &service{
+func AuthRepository(holder shared.Holder) (Repository, error) {
+	return &repository{
 		shared: holder,
 	}, nil
 }

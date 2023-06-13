@@ -40,7 +40,7 @@ func (v *viewService) RegisterUser(req dto.CreateUserRequest) (dto.CreateUserRes
 		res dto.CreateUserResponse
 	)
 
-	isUserExist, _ := v.repository.AuthService.CheckUserExist(req.Email)
+	isUserExist, _ := v.repository.AuthRepository.CheckUserExist(req.Email)
 	if isUserExist {
 		return res, errors.New("user already exist")
 	}
@@ -50,7 +50,7 @@ func (v *viewService) RegisterUser(req dto.CreateUserRequest) (dto.CreateUserRes
 		return res, err
 	}
 
-	err = v.repository.AuthService.CreateUser(req.TransformToUserModel(string(hashedPassword)))
+	err = v.repository.AuthRepository.CreateUser(req.TransformToUserModel(string(hashedPassword)))
 	if err != nil {
 		return res, err
 	}
@@ -69,7 +69,7 @@ func (v *viewService) RegisterDoctor(req dto.CreateDoctorRequest) (dto.CreateDoc
 		res dto.CreateDoctorResponse
 	)
 
-	isUserExist, _ := v.repository.AuthService.CheckUserExist(req.Email)
+	isUserExist, _ := v.repository.AuthRepository.CheckUserExist(req.Email)
 	if isUserExist {
 		return res, errors.New("doctor already exist")
 	}
@@ -79,7 +79,7 @@ func (v *viewService) RegisterDoctor(req dto.CreateDoctorRequest) (dto.CreateDoc
 		return res, err
 	}
 
-	err = v.repository.AuthService.CreateDoctor(req.TransformToUserModel(string(hashedPassword)))
+	err = v.repository.AuthRepository.CreateDoctor(req.TransformToUserModel(string(hashedPassword)))
 	if err != nil {
 		return res, err
 	}
@@ -99,7 +99,7 @@ func (v *viewService) RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.C
 		res dto.CreatePharmacistResponse
 	)
 
-	isUserExist, _ := v.repository.AuthService.CheckUserExist(req.Email)
+	isUserExist, _ := v.repository.AuthRepository.CheckUserExist(req.Email)
 	if isUserExist {
 		return res, errors.New("pharmacist already exist")
 	}
@@ -109,7 +109,7 @@ func (v *viewService) RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.C
 		return res, err
 	}
 
-	err = v.repository.AuthService.CreatePharmacist(req.TransformToUserModel(string(hashedPassword)))
+	err = v.repository.AuthRepository.CreatePharmacist(req.TransformToUserModel(string(hashedPassword)))
 	if err != nil {
 		return res, err
 	}
@@ -129,7 +129,7 @@ func (v *viewService) Login(req dto.LoginRequest) (dto.LoginResponse, error) {
 		res dto.LoginResponse
 	)
 
-	isUserExist, user := v.repository.AuthService.CheckUserExist(req.Email)
+	isUserExist, user := v.repository.AuthRepository.CheckUserExist(req.Email)
 	if !isUserExist {
 		return res, errors.New("no user found for given email")
 	}
@@ -178,10 +178,10 @@ func (v *viewService) GoogleLogin(req dto.GoogleLoginRequest) (dto.LoginResponse
 
 	json.Unmarshal(response, &googleData)
 
-	isUserExist, user := v.repository.AuthService.CheckUserExist(googleData.Email)
+	isUserExist, user := v.repository.AuthRepository.CheckUserExist(googleData.Email)
 	if !isUserExist {
 		user = googleData.ToUser()
-		err = v.repository.AuthService.CreateUser(user)
+		err = v.repository.AuthRepository.CreateUser(user)
 		if err != nil {
 			return res, err
 		}
@@ -204,12 +204,12 @@ func (v *viewService) GoogleLogin(req dto.GoogleLoginRequest) (dto.LoginResponse
 }
 
 func (v *viewService) ForgotPassword(req dto.ForgotPasswordRequest) error {
-	isUserExist, user := v.repository.AuthService.CheckUserExist(req.Email)
+	isUserExist, user := v.repository.AuthRepository.CheckUserExist(req.Email)
 	if !isUserExist {
 		return errors.New("no user found for given email")
 	}
 
-	v.repository.AuthService.RemovePreviousPasswordResetToken(user.ID)
+	v.repository.AuthRepository.RemovePreviousPasswordResetToken(user.ID)
 
 	token := gouid.String(6, gouid.LowerCaseAlphaNum)
 
@@ -219,7 +219,7 @@ func (v *viewService) ForgotPassword(req dto.ForgotPasswordRequest) error {
 		Valid:  carbon.Now().AddMinutes(5).ToStdTime(),
 	}
 
-	err := v.repository.AuthService.CreatePasswordReset(fpwEntry)
+	err := v.repository.AuthRepository.CreatePasswordReset(fpwEntry)
 	if err != nil {
 		return err
 	}
@@ -239,7 +239,7 @@ func (v *viewService) ResetPassword(req dto.ResetPasswordRequest) error {
 		pw dto.PasswordReset
 	)
 
-	err := v.repository.AuthService.GetResetToken(req.Token, &pw)
+	err := v.repository.AuthRepository.GetResetToken(req.Token, &pw)
 	if err != nil {
 		return errors.New("token is invalid")
 	}
@@ -255,12 +255,12 @@ func (v *viewService) ResetPassword(req dto.ResetPasswordRequest) error {
 
 	pw.User.HashedPassword = string(hashedPassword)
 
-	err = v.repository.ProfileService.EditUserProfile(pw.User)
+	err = v.repository.ProfileRepository.EditUserProfile(pw.User)
 	if err != nil {
 		return err
 	}
 
-	go v.repository.AuthService.RemovePreviousPasswordResetToken(pw.UserID)
+	go v.repository.AuthRepository.RemovePreviousPasswordResetToken(pw.UserID)
 
 	return nil
 }

@@ -12,27 +12,27 @@ import (
 
 type Holder struct {
 	dig.In
-	HealthcheckService  healthcheck.Service
-	AuthService         auth.Service
-	ProfileService		profile.Service
-	FeedbackRepository  feedback.Feedback
+	HealthcheckRepository  healthcheck.Repository
+	AuthRepository         auth.Repository
+	ProfileRepository	   profile.Repository
+	FeedbackRepository     feedback.Feedback
 }
 
 func Register(container *dig.Container) error {
-	if err := container.Provide(healthcheck.NewHealthcheckService); err != nil {
-		return errors.Wrap(err, "failed to provide healthcheck service")
+	if err := container.Provide(healthcheck.HealthcheckRepository); err != nil {
+		return errors.Wrap(err, "Failed to provide healthcheck repository")
 	}
 
-	if err := container.Provide(auth.NewAuthService); err != nil {
-		return errors.Wrap(err, "failed to provide auth service")
+	if err := container.Provide(auth.AuthRepository); err != nil {
+		return errors.Wrap(err, "Failed to provide auth repository")
 	}
 
-	if err := container.Provide(profile.NewProfileService); err != nil {
-		return errors.Wrap(err, "failed to provide profile service")
+	if err := container.Provide(profile.ProfileRepository); err != nil {
+		return errors.Wrap(err, "Failed to provide profile repository")
 	}
 
 	if err := container.Provide(feedback.FeedbackRepository); err != nil {
-		return errors.Wrap(err, "failed to provide feedback service")
+		return errors.Wrap(err, "Failed to provide feedback repository")
 	}
 	
 	return nil

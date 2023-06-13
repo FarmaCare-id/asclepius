@@ -25,7 +25,7 @@ func (v *viewService) EditUserProfile(req dto.EditUserProfileRequest, ctx dto.Se
 		res dto.EditUserProfileResponse
 	)
 
-	isUserExist, user := v.repository.AuthService.CheckUserExist(ctx.User.Email)
+	isUserExist, user := v.repository.AuthRepository.CheckUserExist(ctx.User.Email)
 	if !isUserExist {
 		return res, errors.New("no user found for given email")
 	}
@@ -70,7 +70,7 @@ func (v *viewService) EditUserProfile(req dto.EditUserProfileRequest, ctx dto.Se
 		user.Title = req.Title
 	}
 
-	err := v.repository.ProfileService.EditUserProfile(user)
+	err := v.repository.ProfileRepository.EditUserProfile(user)
 	if err != nil {
 		return res, err
 	}
