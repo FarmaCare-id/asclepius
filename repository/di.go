@@ -15,7 +15,7 @@ type Holder struct {
 	HealthcheckService  healthcheck.Service
 	AuthService         auth.Service
 	ProfileService		profile.Service
-	FeedbackService     feedback.Service
+	FeedbackRepository  feedback.Feedback
 }
 
 func Register(container *dig.Container) error {
@@ -31,7 +31,7 @@ func Register(container *dig.Container) error {
 		return errors.Wrap(err, "failed to provide profile service")
 	}
 
-	if err := container.Provide(feedback.NewFeedbackService); err != nil {
+	if err := container.Provide(feedback.FeedbackRepository); err != nil {
 		return errors.Wrap(err, "failed to provide feedback service")
 	}
 	

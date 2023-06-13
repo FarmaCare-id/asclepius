@@ -28,12 +28,12 @@ func (v *viewService) CreateFeedbackCategory(req dto.CreateFeedbackCategoryReque
 		res dto.CreateFeedbackCategoryResponse
 	)
 
-	isFeedbackCategoryExist, _ := v.repository.FeedbackService.CheckFeedbackCategoryExist(req.Name)
+	isFeedbackCategoryExist, _ := v.repository.FeedbackRepository.CheckFeedbackCategoryExist(req.Name)
 	if isFeedbackCategoryExist {
 		return res, errors.New("Feedback category already exist")
 	}
 
-	err := v.repository.FeedbackService.CreateFeedbackCategory(req.TransformToFeedbackCategoryModel())
+	err := v.repository.FeedbackRepository.CreateFeedbackCategory(req.TransformToFeedbackCategoryModel())
 	if err != nil {
 		return res, err
 	}
@@ -56,7 +56,7 @@ func (v *viewService) GetFeedbackCategoryById(feedbackId string) (dto.FeedbackCa
 		return feedbackCategory, err
 	}
 
-	feedbackCategory, err = v.repository.FeedbackService.GetFeedbackCategoryById(uint(cid))
+	feedbackCategory, err = v.repository.FeedbackRepository.GetFeedbackCategoryById(uint(cid))
 	if feedbackCategory.ID == 0 {
 		return feedbackCategory, err
 	}
@@ -69,7 +69,7 @@ func (v *viewService) GetAllFeedbackCategory() (dto.FeedbackCategorySlice, error
 		res dto.FeedbackCategorySlice
 	)
 
-	feedbackCategories := v.repository.FeedbackService.GetAllFeedbackCategory("")
+	feedbackCategories := v.repository.FeedbackRepository.GetAllFeedbackCategory("")
 	for _, feedbackCategory := range feedbackCategories {
 		res = append(res, feedbackCategory)
 	}
@@ -89,7 +89,7 @@ func (v *viewService) CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedb
 		FeedbackCategoryID: req.FeedbackCategoryID,
 	}
 
-	err := v.repository.FeedbackService.CreateFeedback(feedback)
+	err := v.repository.FeedbackRepository.CreateFeedback(feedback)
 	if err != nil {
 		return res, err
 	}
@@ -108,7 +108,7 @@ func (v *viewService) GetAllFeedback() ([]dto.GetAllFeedbackResponse, error) {
 		res dto.FeedbackSlice
 	)
 
-	feedbacks := v.repository.FeedbackService.GetAllFeedback("")
+	feedbacks := v.repository.FeedbackRepository.GetAllFeedback("")
 	for _, feedback := range feedbacks {
 		res = append(res, feedback)
 	}
@@ -116,7 +116,7 @@ func (v *viewService) GetAllFeedback() ([]dto.GetAllFeedbackResponse, error) {
 
 	feedbackLists := make([]dto.GetAllFeedbackResponse, 0)
 	for _, feedback := range feedbacks {
-		feedbackCategory, err := v.repository.FeedbackService.GetFeedbackCategoryById(feedback.FeedbackCategoryID)
+		feedbackCategory, err := v.repository.FeedbackRepository.GetFeedbackCategoryById(feedback.FeedbackCategoryID)
 		if err != nil {
 			return nil, err
 		}
