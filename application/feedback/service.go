@@ -10,9 +10,9 @@ type (
 		CheckFeedbackCategoryExist(name string) (bool, dto.FeedbackCategory)
 		CreateFeedbackCategory(feedbackCategory dto.FeedbackCategory) error
 		GetFeedbackCategoryById(feedbackId uint) (dto.FeedbackCategory, error)
-		ListFeedbackCategory(preload string) dto.FeedbackCategorySlice
+		GetAllFeedbackCategory(preload string) dto.FeedbackCategorySlice
 		CreateFeedback(feedback dto.Feedback) error
-		ListFeedback(preload string) dto.FeedbackSlice
+		GetAllFeedback(preload string) dto.FeedbackSlice
 	}
 
 	service struct {
@@ -39,7 +39,7 @@ func (s *service) GetFeedbackCategoryById(feedbackId uint) (dto.FeedbackCategory
 	return feedbackCategory, err
 }
 
-func (s *service) ListFeedbackCategory(preload string) dto.FeedbackCategorySlice {
+func (s *service) GetAllFeedbackCategory(preload string) dto.FeedbackCategorySlice {
 	var feedbackCategories []dto.FeedbackCategory
 
 	s.shared.DB.Preload(preload).Find(&feedbackCategories)
@@ -52,7 +52,7 @@ func (s *service) CreateFeedback(feedback dto.Feedback) error {
 	return err
 }
 
-func (s *service) ListFeedback(preload string) dto.FeedbackSlice {
+func (s *service) GetAllFeedback(preload string) dto.FeedbackSlice {
 	var feedbacks []dto.Feedback
 
 	s.shared.DB.Preload(preload).Find(&feedbacks)

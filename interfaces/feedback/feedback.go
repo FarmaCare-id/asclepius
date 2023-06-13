@@ -12,9 +12,9 @@ type (
 	ViewService interface {
 		CreateFeedbackCategory(req dto.CreateFeedbackCategoryRequest) (dto.CreateFeedbackCategoryResponse, error)
 		GetFeedbackCategoryById(feedbackId string) (dto.FeedbackCategory, error)
-		ListFeedbackCategory() (dto.FeedbackCategorySlice, error)
+		GetAllFeedbackCategory() (dto.FeedbackCategorySlice, error)
 		CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedbackRequest) (dto.CreateFeedbackResponse, error)
-		ListFeedback() ([]dto.GetAllFeedbackResponse, error)
+		GetAllFeedback() ([]dto.GetAllFeedbackResponse, error)
 	}
 
 	viewService struct {
@@ -64,12 +64,12 @@ func (v *viewService) GetFeedbackCategoryById(feedbackId string) (dto.FeedbackCa
 	return feedbackCategory, nil
 }
 
-func (v *viewService) ListFeedbackCategory() (dto.FeedbackCategorySlice, error) {
+func (v *viewService) GetAllFeedbackCategory() (dto.FeedbackCategorySlice, error) {
 	var (
 		res dto.FeedbackCategorySlice
 	)
 
-	feedbackCategories := v.application.FeedbackService.ListFeedbackCategory("")
+	feedbackCategories := v.application.FeedbackService.GetAllFeedbackCategory("")
 	for _, feedbackCategory := range feedbackCategories {
 		res = append(res, feedbackCategory)
 	}
@@ -103,12 +103,12 @@ func (v *viewService) CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedb
 	return res, nil
 }
 
-func (v *viewService) ListFeedback() ([]dto.GetAllFeedbackResponse, error) {
+func (v *viewService) GetAllFeedback() ([]dto.GetAllFeedbackResponse, error) {
 	var (
 		res dto.FeedbackSlice
 	)
 
-	feedbacks := v.application.FeedbackService.ListFeedback("")
+	feedbacks := v.application.FeedbackService.GetAllFeedback("")
 	for _, feedback := range feedbacks {
 		res = append(res, feedback)
 	}

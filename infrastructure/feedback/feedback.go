@@ -18,9 +18,9 @@ type Controller struct {
 
 func (c *Controller) Routes(app *fiber.App) {
 	feedback := app.Group("/feedback")
-	feedback.Get("/", c.Shared.Middleware.AuthMiddleware, c.listFeedback)
+	feedback.Get("/", c.Shared.Middleware.AuthMiddleware, c.getAllFeedback)
 	feedback.Post("/create",  c.Shared.Middleware.AuthMiddleware, c.createFeedback)
-	feedback.Get("/category", c.Shared.Middleware.AuthMiddleware, c.listFeedbackCategory)
+	feedback.Get("/category", c.Shared.Middleware.AuthMiddleware, c.getAllFeedbackCategory)
 	feedback.Get("/category/:id", c.Shared.Middleware.AuthMiddleware, c.getFeedbackCategoryById)
 	feedback.Post("/category/create",  c.Shared.Middleware.AuthMiddleware, c.createFeedbackCategory)
 }
@@ -34,12 +34,12 @@ func (c *Controller) Routes(app *fiber.App) {
 // @Success 200 {object} dto.FeedbackSlice
 // @Failure 200 {object} dto.FeedbackSlice
 // @Router /feedback [get]
-func (c *Controller) listFeedback(ctx *fiber.Ctx) error {
+func (c *Controller) getAllFeedback(ctx *fiber.Ctx) error {
 	var (
 		res []dto.GetAllFeedbackResponse
 	)
 
-	res, err := c.Interfaces.FeedbackViewService.ListFeedback()
+	res, err := c.Interfaces.FeedbackViewService.GetAllFeedback()
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -101,12 +101,12 @@ func (c *Controller) createFeedbackCategory(ctx *fiber.Ctx) error {
 // @Success 200 {object} dto.FeedbackCategorySlice
 // @Failure 200 {object} dto.FeedbackCategorySlice
 // @Router /feedback/category [get]
-func (c *Controller) listFeedbackCategory(ctx *fiber.Ctx) error {
+func (c *Controller) getAllFeedbackCategory(ctx *fiber.Ctx) error {
 	var (
 		res dto.FeedbackCategorySlice
 	)
 
-	res, err := c.Interfaces.FeedbackViewService.ListFeedbackCategory()
+	res, err := c.Interfaces.FeedbackViewService.GetAllFeedbackCategory()
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
