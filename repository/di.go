@@ -15,7 +15,7 @@ type Holder struct {
 	HealthcheckRepository  healthcheck.Repository
 	AuthRepository         auth.Repository
 	ProfileRepository	   profile.Repository
-	FeedbackRepository     feedback.Feedback
+	FeedbackRepository     feedback.Repository
 }
 
 func Register(container *dig.Container) error {
