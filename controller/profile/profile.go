@@ -52,8 +52,8 @@ func (c *Controller) userProfile(ctx *fiber.Ctx) error {
 // @Router /profile/edit [put]
 func (c *Controller) editProfile(ctx *fiber.Ctx) error {
 	var (
-		req dto.EditUserProfileRequest
-		res dto.EditUserProfileResponse
+		req dto.EditUserRequest
+		res dto.EditUserResponse
 	)
 
 	err := common.DoCommonRequest(ctx, &req)
@@ -65,7 +65,7 @@ func (c *Controller) editProfile(ctx *fiber.Ctx) error {
 
 	context := common.CreateContext(ctx)
 
-	res, err = c.Service.ProfileViewService.EditUserProfile(req, context)
+	res, err = c.Service.AuthViewService.EditUser(req, context)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

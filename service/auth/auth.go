@@ -22,6 +22,7 @@ type (
 		RegisterUser(req dto.CreateUserRequest) (dto.CreateUserResponse, error)
 		RegisterDoctor(req dto.CreateDoctorRequest) (dto.CreateDoctorResponse, error)
 		RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.CreatePharmacistResponse, error)
+		EditUser(req dto.EditUserRequest, ctx dto.SessionContext) (dto.EditUserResponse, error)
 		Login(req dto.LoginRequest) (dto.LoginResponse, error)
 		ForgotPassword(req dto.ForgotPasswordRequest) error
 		ResetPassword(req dto.ResetPasswordRequest) error
@@ -119,6 +120,75 @@ func (v *viewService) RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.C
 		Fullname: req.Fullname,
 		Role:     "pharmacist",
 		NoSipa:    req.NoSipa,
+	}
+
+	return res, nil
+}
+
+func (v *viewService) EditUser(req dto.EditUserRequest, ctx dto.SessionContext) (dto.EditUserResponse, error) {
+	var (
+		res dto.EditUserResponse
+	)
+
+	isUserExist, user := v.repository.AuthRepository.CheckUserExist(ctx.User.Email)
+	if !isUserExist {
+		return res, errors.New("no user found for given email")
+	}
+
+	if req.Fullname != "" {
+		user.Fullname = req.Fullname
+	}
+
+	if req.Password != "" {
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 14)
+		if err != nil {
+			return res, err
+		}
+		user.HashedPassword = string(hashedPassword)
+	}
+
+	if req.Weight != 0 {
+		user.Weight = req.Weight
+	}
+
+	if req.Height != 0 {
+		user.Height = req.Height
+	}
+
+	if req.Age != 0 {
+		user.Age = req.Age
+	}
+
+	if req.NoSip != "" {
+		user.NoSip = req.NoSip
+	}
+
+	if req.NoSipa != "" {
+		user.NoSipa = req.NoSipa
+	}
+
+	if req.Specialist != "" {
+		user.Specialist = req.Specialist
+	}
+
+	if req.Title != "" {
+		user.Title = req.Title
+	}
+
+	err := v.repository.AuthRepository.EditUser(user)
+	if err != nil {
+		return res, err
+	}
+
+	res = dto.EditUserResponse{
+		Fullname: req.Fullname,
+		Weight:   req.Weight,
+		Height:   req.Height,
+		Age:      req.Age,
+		NoSip:    req.NoSip,
+		NoSipa:   req.NoSipa,
+		Specialist: req.Specialist,
+		Title: req.Title,
 	}
 
 	return res, nil
@@ -255,7 +325,7 @@ func (v *viewService) ResetPassword(req dto.ResetPasswordRequest) error {
 
 	pw.User.HashedPassword = string(hashedPassword)
 
-	err = v.repository.ProfileRepository.EditUserProfile(pw.User)
+	err = v.repository.AuthRepository.EditUser(pw.User)
 	if err != nil {
 		return err
 	}

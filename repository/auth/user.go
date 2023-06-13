@@ -12,6 +12,7 @@ type (
 		CreateUser(user models.User) error
 		CreateDoctor(user models.User) error
 		CreatePharmacist(user models.User) error
+		EditUser(user models.User) error
 		CreatePasswordReset(pw dto.PasswordReset) error
 		GetResetToken(token string, pw *dto.PasswordReset) error
 		RemovePreviousPasswordResetToken(id uint)
@@ -45,6 +46,11 @@ func (s *repository) CreateDoctor(user models.User) error {
 func (s *repository) CreatePharmacist(user models.User) error {
 	user.Role = "pharmacist"
 	err := s.shared.DB.Create(&user).Error
+	return err
+}
+
+func (s *repository) EditUser(user models.User) error {
+	err := s.shared.DB.Save(&user).Error
 	return err
 }
 
