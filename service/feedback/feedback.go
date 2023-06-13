@@ -120,7 +120,7 @@ func (v *viewService) GetAllFeedback() ([]dto.GetAllFeedbackResponse, error) {
 		if err != nil {
 			return nil, err
 		}
-		feedbackUser := v.repository.AuthRepository.GetUserContext(feedback.UserID)
+		feedbackUser := v.repository.UserRepository.GetUserContext(feedback.UserID)
 		feedbackList := dto.GetAllFeedbackResponse{
 			ID: feedback.ID,
 			Issue: feedback.Issue,

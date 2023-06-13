@@ -7,8 +7,6 @@ import (
 type (
 	UserSlice []models.User
 
-	
-
 	// CreateUserRequest CreateUserRequest
 	CreateUserRequest struct {
 		Email    string `json:"email" validate:"required,email"`

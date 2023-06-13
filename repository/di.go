@@ -11,9 +11,10 @@ import (
 
 type Holder struct {
 	dig.In
-	HealthcheckRepository  healthcheck.Repository
-	AuthRepository         auth.Repository
-	FeedbackRepository     feedback.Repository
+	HealthcheckRepository   healthcheck.Repository
+	UserRepository          auth.UserRepository
+	PasswordResetRepository auth.PasswordResetRepository
+	FeedbackRepository      feedback.Repository
 }
 
 func Register(container *dig.Container) error {
@@ -21,8 +22,12 @@ func Register(container *dig.Container) error {
 		return errors.Wrap(err, "Failed to provide healthcheck repository")
 	}
 
-	if err := container.Provide(auth.AuthRepository); err != nil {
+	if err := container.Provide(auth.NewUserRepository); err != nil {
 		return errors.Wrap(err, "Failed to provide auth repository")
+	}
+
+	if err := container.Provide(auth.NewPasswordResetRepository); err != nil {
+		return errors.Wrap(err, "Failed to provide password_reset repository")
 	}
 
 	if err := container.Provide(feedback.FeedbackRepository); err != nil {
