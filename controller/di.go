@@ -1,10 +1,10 @@
-package infrastructure
+package controller
 
 import (
-	"farmacare/infrastructure/auth"
-	"farmacare/infrastructure/feedback"
-	"farmacare/infrastructure/healthcheck"
-	"farmacare/infrastructure/profile"
+	"farmacare/controller/auth"
+	"farmacare/controller/feedback"
+	"farmacare/controller/healthcheck"
+	"farmacare/controller/profile"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/pkg/errors"

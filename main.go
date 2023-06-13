@@ -1,9 +1,9 @@
 package main
 
 import (
+	"farmacare/controller"
 	"farmacare/di"
 	"farmacare/docs"
-	"farmacare/infrastructure"
 	"log"
 
 	"farmacare/shared/config"
@@ -19,8 +19,8 @@ import (
 func main() {
 	container := di.Container
 
-	err := container.Invoke(func(http *fiber.App, env *config.EnvConfig, holder infrastructure.Holder) error {
-		infrastructure.Routes(http, holder)
+	err := container.Invoke(func(http *fiber.App, env *config.EnvConfig, holder controller.Holder) error {
+		controller.Routes(http, holder)
 
 		docs.SwaggerInfo.Host = env.HOST
 
