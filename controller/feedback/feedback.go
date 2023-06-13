@@ -32,7 +32,7 @@ func (c *Controller) Routes(app *fiber.App) {
 // @Description Put all mandatory parameter
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} []models.Feedback
+// @Success 200
 // @Failure 400 {object} common.Response
 // @Router /feedback [get]
 func (c *Controller) getAllFeedback(ctx *fiber.Ctx) error {
@@ -84,8 +84,8 @@ func (c *Controller) createFeedback(ctx *fiber.Ctx) error {
 // @Description Put all mandatory parameter
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} []models.FeedbackCategory
-// @Failure 200 {object} []models.FeedbackCategory
+// @Success 200
+// @Failure 200
 // @Router /feedback/category [get]
 func (c *Controller) getAllFeedbackCategory(ctx *fiber.Ctx) error {
 	var (
@@ -106,8 +106,8 @@ func (c *Controller) getAllFeedbackCategory(ctx *fiber.Ctx) error {
 // @Description Put all mandatory parameter
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} models.FeedbackCategory
-// @Failure 200 {object} models.FeedbackCategory
+// @Success 200
+// @Failure 200
 // @Router /feedback/category/{id} [get]
 func (c *Controller) getFeedbackCategoryById(ctx *fiber.Ctx) error {
 	var (

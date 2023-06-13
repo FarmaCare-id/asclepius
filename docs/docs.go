@@ -28,7 +28,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Get user credential",
+                "summary": "Get User Credential",
                 "parameters": [
                     {
                         "type": "string",
@@ -57,7 +57,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Forgot password",
+                "summary": "Forgot Password",
                 "parameters": [
                     {
                         "description": "ForgotPasswordRequest",
@@ -91,7 +91,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Login user google",
+                "summary": "Login User Google",
                 "parameters": [
                     {
                         "description": "LoginRequest",
@@ -125,7 +125,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Login user",
+                "summary": "Login User",
                 "parameters": [
                     {
                         "description": "GoogleLoginRequest",
@@ -159,7 +159,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register new user",
+                "summary": "Register New User",
                 "parameters": [
                     {
                         "description": "CreateUserRequest",
@@ -193,7 +193,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register new doctor",
+                "summary": "Register New Doctor",
                 "parameters": [
                     {
                         "description": "CreateDoctorRequest",
@@ -227,7 +227,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register new pharmacist",
+                "summary": "Register New Pharmacist",
                 "parameters": [
                     {
                         "description": "CreatePharmacistRequest",
@@ -261,7 +261,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Reset password",
+                "summary": "Reset Password",
                 "parameters": [
                     {
                         "description": "ResetPasswordRequest",
@@ -283,6 +283,106 @@ const docTemplate = `{
                 }
             }
         },
+        "/feedback": {
+            "get": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Get All Feedback",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback/category": {
+            "get": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Get All Feedback Category",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/feedback/category/create": {
+            "post": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Create Feedback Category",
+                "parameters": [
+                    {
+                        "description": "CreateFeedbackCategoryRequest",
+                        "name": "CreateFeedbackCategoryRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateFeedbackCategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateFeedbackCategoryResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback/category/{id}": {
+            "get": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Get Feedback Category By Id",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/feedback/create": {
             "post": {
                 "description": "Put all mandatory parameter",
@@ -295,7 +395,7 @@ const docTemplate = `{
                 "tags": [
                     "Feedback"
                 ],
-                "summary": "Create feedback",
+                "summary": "Create Feedback",
                 "parameters": [
                     {
                         "description": "CreateFeedbackRequest",
@@ -329,7 +429,7 @@ const docTemplate = `{
                 "tags": [
                     "Healthcheck"
                 ],
-                "summary": "Check system status",
+                "summary": "Check System Status",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -355,7 +455,7 @@ const docTemplate = `{
                 "tags": [
                     "Profile"
                 ],
-                "summary": "Get user profile",
+                "summary": "Get User Profile",
                 "parameters": [
                     {
                         "type": "string",
@@ -384,7 +484,7 @@ const docTemplate = `{
                 "tags": [
                     "Profile"
                 ],
-                "summary": "Edit user profile",
+                "summary": "Edit User Profile",
                 "parameters": [
                     {
                         "type": "string",
@@ -394,12 +494,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "EditUserProfileRequest",
-                        "name": "EditUserProfileRequest",
+                        "description": "EditUserRequest",
+                        "name": "EditUserRequest",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.EditUserProfileRequest"
+                            "$ref": "#/definitions/dto.EditUserRequest"
                         }
                     }
                 ],
@@ -407,7 +507,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.EditUserProfileResponse"
+                            "$ref": "#/definitions/dto.EditUserResponse"
                         }
                     }
                 }
@@ -415,6 +515,18 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "common.Response": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "error": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.CreateDoctorRequest": {
             "type": "object",
             "required": [
@@ -451,6 +563,32 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateFeedbackCategoryRequest": {
+            "type": "object",
+            "required": [
+                "description",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateFeedbackCategoryResponse": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }
@@ -564,7 +702,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.EditUserProfileRequest": {
+        "dto.EditUserRequest": {
             "type": "object",
             "properties": {
                 "age": {
@@ -596,7 +734,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.EditUserProfileResponse": {
+        "dto.EditUserResponse": {
             "type": "object",
             "properties": {
                 "age": {

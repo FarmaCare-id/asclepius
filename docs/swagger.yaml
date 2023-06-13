@@ -1,5 +1,13 @@
 basePath: /
 definitions:
+  common.Response:
+    properties:
+      data: {}
+      error:
+        type: string
+      status:
+        type: string
+    type: object
   dto.CreateDoctorRequest:
     properties:
       email:
@@ -25,6 +33,23 @@ definitions:
       no_sip:
         type: string
       role:
+        type: string
+    type: object
+  dto.CreateFeedbackCategoryRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - description
+    - name
+    type: object
+  dto.CreateFeedbackCategoryResponse:
+    properties:
+      description:
+        type: string
+      name:
         type: string
     type: object
   dto.CreateFeedbackRequest:
@@ -100,7 +125,7 @@ definitions:
       role:
         type: string
     type: object
-  dto.EditUserProfileRequest:
+  dto.EditUserRequest:
     properties:
       age:
         type: integer
@@ -121,7 +146,7 @@ definitions:
       weight:
         type: number
     type: object
-  dto.EditUserProfileResponse:
+  dto.EditUserResponse:
     properties:
       age:
         type: integer
@@ -210,7 +235,7 @@ paths:
       responses:
         "200":
           description: OK
-      summary: Get user credential
+      summary: Get User Credential
       tags:
       - Auth
   /auth/forgot-password:
@@ -232,7 +257,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.ForgotPasswordRequest'
-      summary: Forgot password
+      summary: Forgot Password
       tags:
       - Auth
   /auth/login:
@@ -254,7 +279,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.LoginResponse'
-      summary: Login user google
+      summary: Login User Google
       tags:
       - Auth
   /auth/login-google:
@@ -276,7 +301,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.LoginResponse'
-      summary: Login user
+      summary: Login User
       tags:
       - Auth
   /auth/register:
@@ -298,7 +323,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.CreateUserResponse'
-      summary: Register new user
+      summary: Register New User
       tags:
       - Auth
   /auth/register/doctor:
@@ -320,7 +345,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.CreateDoctorResponse'
-      summary: Register new doctor
+      summary: Register New Doctor
       tags:
       - Auth
   /auth/register/pharmacist:
@@ -342,7 +367,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.CreatePharmacistResponse'
-      summary: Register new pharmacist
+      summary: Register New Pharmacist
       tags:
       - Auth
   /auth/reset-password:
@@ -364,9 +389,74 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.ResetPasswordRequest'
-      summary: Reset password
+      summary: Reset Password
       tags:
       - Auth
+  /feedback:
+    get:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: Get All Feedback
+      tags:
+      - Feedback
+  /feedback/category:
+    get:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Get All Feedback Category
+      tags:
+      - Feedback
+  /feedback/category/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Get Feedback Category By Id
+      tags:
+      - Feedback
+  /feedback/category/create:
+    post:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      parameters:
+      - description: CreateFeedbackCategoryRequest
+        in: body
+        name: CreateFeedbackCategoryRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateFeedbackCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateFeedbackCategoryResponse'
+      summary: Create Feedback Category
+      tags:
+      - Feedback
   /feedback/create:
     post:
       consumes:
@@ -386,7 +476,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.CreateFeedbackResponse'
-      summary: Create feedback
+      summary: Create Feedback
       tags:
       - Feedback
   /healthcheck:
@@ -403,7 +493,7 @@ paths:
             items:
               $ref: '#/definitions/dto.Status'
             type: array
-      summary: Check system status
+      summary: Check System Status
       tags:
       - Healthcheck
   /profile:
@@ -422,7 +512,7 @@ paths:
       responses:
         "200":
           description: OK
-      summary: Get user profile
+      summary: Get User Profile
       tags:
       - Profile
   /profile/edit:
@@ -436,20 +526,20 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: EditUserProfileRequest
+      - description: EditUserRequest
         in: body
-        name: EditUserProfileRequest
+        name: EditUserRequest
         required: true
         schema:
-          $ref: '#/definitions/dto.EditUserProfileRequest'
+          $ref: '#/definitions/dto.EditUserRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.EditUserProfileResponse'
-      summary: Edit user profile
+            $ref: '#/definitions/dto.EditUserResponse'
+      summary: Edit User Profile
       tags:
       - Profile
 swagger: "2.0"

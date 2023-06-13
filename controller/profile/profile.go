@@ -29,8 +29,8 @@ func (c *Controller) Routes(app *fiber.App) {
 // @Description Put all mandatory parameter
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} models.User
-// @Failure 200 {object} models.User
+// @Success 200
+// @Failure 200
 // @Router /profile [get]
 func (c *Controller) userProfile(ctx *fiber.Ctx) error {
 	context := common.CreateContext(ctx)
@@ -45,11 +45,11 @@ func (c *Controller) userProfile(ctx *fiber.Ctx) error {
 // @Summary Edit User Profile
 // @Description Put all mandatory parameter
 // @Param Authorization header string true "Authorization"
-// @Param EditUserProfileRequest body dto.EditUserProfileRequest true "EditUserProfileRequest"
+// @Param EditUserRequest body dto.EditUserRequest true "EditUserRequest"
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} dto.EditUserProfileResponse
-// @Failure 200 {object} dto.EditUserProfileResponse
+// @Success 200 {object} dto.EditUserResponse
+// @Failure 200 {object} dto.EditUserResponse
 // @Router /profile/edit [put]
 func (c *Controller) editProfile(ctx *fiber.Ctx) error {
 	var (

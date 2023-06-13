@@ -21,7 +21,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Get user credential",
+                "summary": "Get User Credential",
                 "parameters": [
                     {
                         "type": "string",
@@ -50,7 +50,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Forgot password",
+                "summary": "Forgot Password",
                 "parameters": [
                     {
                         "description": "ForgotPasswordRequest",
@@ -84,7 +84,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Login user google",
+                "summary": "Login User Google",
                 "parameters": [
                     {
                         "description": "LoginRequest",
@@ -118,7 +118,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Login user",
+                "summary": "Login User",
                 "parameters": [
                     {
                         "description": "GoogleLoginRequest",
@@ -152,7 +152,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register new user",
+                "summary": "Register New User",
                 "parameters": [
                     {
                         "description": "CreateUserRequest",
@@ -186,7 +186,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register new doctor",
+                "summary": "Register New Doctor",
                 "parameters": [
                     {
                         "description": "CreateDoctorRequest",
@@ -220,7 +220,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register new pharmacist",
+                "summary": "Register New Pharmacist",
                 "parameters": [
                     {
                         "description": "CreatePharmacistRequest",
@@ -254,7 +254,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Reset password",
+                "summary": "Reset Password",
                 "parameters": [
                     {
                         "description": "ResetPasswordRequest",
@@ -276,6 +276,106 @@
                 }
             }
         },
+        "/feedback": {
+            "get": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Get All Feedback",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback/category": {
+            "get": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Get All Feedback Category",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/feedback/category/create": {
+            "post": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Create Feedback Category",
+                "parameters": [
+                    {
+                        "description": "CreateFeedbackCategoryRequest",
+                        "name": "CreateFeedbackCategoryRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateFeedbackCategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateFeedbackCategoryResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/feedback/category/{id}": {
+            "get": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Get Feedback Category By Id",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/feedback/create": {
             "post": {
                 "description": "Put all mandatory parameter",
@@ -288,7 +388,7 @@
                 "tags": [
                     "Feedback"
                 ],
-                "summary": "Create feedback",
+                "summary": "Create Feedback",
                 "parameters": [
                     {
                         "description": "CreateFeedbackRequest",
@@ -322,7 +422,7 @@
                 "tags": [
                     "Healthcheck"
                 ],
-                "summary": "Check system status",
+                "summary": "Check System Status",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -348,7 +448,7 @@
                 "tags": [
                     "Profile"
                 ],
-                "summary": "Get user profile",
+                "summary": "Get User Profile",
                 "parameters": [
                     {
                         "type": "string",
@@ -377,7 +477,7 @@
                 "tags": [
                     "Profile"
                 ],
-                "summary": "Edit user profile",
+                "summary": "Edit User Profile",
                 "parameters": [
                     {
                         "type": "string",
@@ -387,12 +487,12 @@
                         "required": true
                     },
                     {
-                        "description": "EditUserProfileRequest",
-                        "name": "EditUserProfileRequest",
+                        "description": "EditUserRequest",
+                        "name": "EditUserRequest",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.EditUserProfileRequest"
+                            "$ref": "#/definitions/dto.EditUserRequest"
                         }
                     }
                 ],
@@ -400,7 +500,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.EditUserProfileResponse"
+                            "$ref": "#/definitions/dto.EditUserResponse"
                         }
                     }
                 }
@@ -408,6 +508,18 @@
         }
     },
     "definitions": {
+        "common.Response": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "error": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.CreateDoctorRequest": {
             "type": "object",
             "required": [
@@ -444,6 +556,32 @@
                     "type": "string"
                 },
                 "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateFeedbackCategoryRequest": {
+            "type": "object",
+            "required": [
+                "description",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateFeedbackCategoryResponse": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }
@@ -557,7 +695,7 @@
                 }
             }
         },
-        "dto.EditUserProfileRequest": {
+        "dto.EditUserRequest": {
             "type": "object",
             "properties": {
                 "age": {
@@ -589,7 +727,7 @@
                 }
             }
         },
-        "dto.EditUserProfileResponse": {
+        "dto.EditUserResponse": {
             "type": "object",
             "properties": {
                 "age": {
