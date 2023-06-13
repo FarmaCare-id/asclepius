@@ -47,6 +47,67 @@ func (c *Controller) getAllFeedback(ctx *fiber.Ctx) error {
 	return common.DoCommonSuccessResponse(ctx, res)
 }
 
+// All godoc
+// @Tags Feedback
+// @Summary Create feedback
+// @Description Put all mandatory parameter
+// @Param CreateFeedbackRequest body dto.CreateFeedbackRequest true "CreateFeedbackRequest"
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} dto.CreateFeedbackResponse
+// @Failure 200 {object} dto.CreateFeedbackResponse
+// @Router /feedback/create [post]
+func (c *Controller) createFeedback(ctx *fiber.Ctx) error {
+	var req dto.CreateFeedbackRequest
+
+	err := common.DoCommonRequest(ctx, &req)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	context := common.CreateContext(ctx)
+
+	c.Shared.Logger.Infof("creating feedback for user: %s", context.User)
+
+	res, err := c.Interfaces.FeedbackViewService.CreateFeedback(context, req)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
+}
+
+// All godoc
+// @Tags Feedback
+// @Summary List feedback category
+// @Description Put all mandatory parameter
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} dto.FeedbackCategorySlice
+// @Failure 200 {object} dto.FeedbackCategorySlice
+// @Router /feedback/category [get]
+func (c *Controller) getAllFeedbackCategory(ctx *fiber.Ctx) error {
+	var (
+		res dto.FeedbackCategorySlice
+	)
+
+	res, err := c.Interfaces.FeedbackViewService.GetAllFeedbackCategory()
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
+}
+
+// All godoc
+// @Tags Feedback
+// @Summary Get feedback category by id
+// @Description Put all mandatory parameter
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} dto.FeedbackCategory
+// @Failure 200 {object} dto.FeedbackCategory
+// @Router /feedback/category/{id} [get]
 func (c *Controller) getFeedbackCategoryById(ctx *fiber.Ctx) error {
 	var (
 		res dto.FeedbackCategory
@@ -85,58 +146,6 @@ func (c *Controller) createFeedbackCategory(ctx *fiber.Ctx) error {
 	c.Shared.Logger.Infof("create feedback category with payload: %s", req)
 
 	res, err = c.Interfaces.FeedbackViewService.CreateFeedbackCategory(req)
-	if err != nil {
-		return common.DoCommonErrorResponse(ctx, err)
-	}
-
-	return common.DoCommonSuccessResponse(ctx, res)
-}
-
-// All godoc
-// @Tags Feedback
-// @Summary List feedback category
-// @Description Put all mandatory parameter
-// @Accept  json
-// @Produce  json
-// @Success 200 {object} dto.FeedbackCategorySlice
-// @Failure 200 {object} dto.FeedbackCategorySlice
-// @Router /feedback/category [get]
-func (c *Controller) getAllFeedbackCategory(ctx *fiber.Ctx) error {
-	var (
-		res dto.FeedbackCategorySlice
-	)
-
-	res, err := c.Interfaces.FeedbackViewService.GetAllFeedbackCategory()
-	if err != nil {
-		return common.DoCommonErrorResponse(ctx, err)
-	}
-
-	return common.DoCommonSuccessResponse(ctx, res)
-}
-
-// All godoc
-// @Tags Feedback
-// @Summary Create feedback
-// @Description Put all mandatory parameter
-// @Param CreateFeedbackRequest body dto.CreateFeedbackRequest true "CreateFeedbackRequest"
-// @Accept  json
-// @Produce  json
-// @Success 200 {object} dto.CreateFeedbackResponse
-// @Failure 200 {object} dto.CreateFeedbackResponse
-// @Router /feedback/create [post]
-func (c *Controller) createFeedback(ctx *fiber.Ctx) error {
-	var req dto.CreateFeedbackRequest
-
-	err := common.DoCommonRequest(ctx, &req)
-	if err != nil {
-		return common.DoCommonErrorResponse(ctx, err)
-	}
-
-	context := common.CreateContext(ctx)
-
-	c.Shared.Logger.Infof("creating feedback for user: %s", context.User)
-
-	res, err := c.Interfaces.FeedbackViewService.CreateFeedback(context, req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
