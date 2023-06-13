@@ -13,8 +13,8 @@ type (
 		CreateDoctor(user models.User) error
 		CreatePharmacist(user models.User) error
 		EditUser(user models.User) error
-		CreatePasswordReset(pw dto.PasswordReset) error
-		GetResetToken(token string, pw *dto.PasswordReset) error
+		CreatePasswordReset(pw models.PasswordReset) error
+		GetResetToken(token string, pw *models.PasswordReset) error
 		RemovePreviousPasswordResetToken(id uint)
 		GetUserContext(id uint) models.User
 		ListUser(preload string) dto.UserSlice
@@ -54,18 +54,18 @@ func (s *repository) EditUser(user models.User) error {
 	return err
 }
 
-func (s *repository) CreatePasswordReset(pw dto.PasswordReset) error {
+func (s *repository) CreatePasswordReset(pw models.PasswordReset) error {
 	err := s.shared.DB.Create(&pw).Error
 	return err
 }
 
-func (s *repository) GetResetToken(token string, pw *dto.PasswordReset) error {
+func (s *repository) GetResetToken(token string, pw *models.PasswordReset) error {
 	err := s.shared.DB.Preload("User").First(pw, "token = ?", token).Error
 	return err
 }
 
 func (s *repository) RemovePreviousPasswordResetToken(id uint) {
-	var pw dto.PasswordReset
+	var pw models.PasswordReset
 	s.shared.DB.Where("user_id = ?", id).Delete(&pw)
 }
 

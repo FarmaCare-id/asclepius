@@ -49,7 +49,7 @@ func setConnectionConfiguration(db *gorm.DB) {
 func migrateSchema(db *gorm.DB, log *logrus.Logger) {
 	err := db.AutoMigrate(
 		&models.User{},
-		&dto.PasswordReset{},
+		&models.PasswordReset{},
 		&dto.FeedbackCategory{},
 		&dto.Feedback{},
 	)

@@ -2,20 +2,12 @@ package dto
 
 import (
 	"farmacare/shared/models"
-	"time"
 )
 
 type (
 	UserSlice []models.User
 
-	PasswordReset struct {
-		ID        uint `gorm:"primaryKey;autoIncrement"`
-		UserID    uint
-		User      models.User   `gorm:"onDelete:CASCADE"`
-		Token     string `gorm:"column:token"`
-		CreatedAt time.Time
-		Valid     time.Time
-	}	
+	
 
 	// CreateUserRequest CreateUserRequest
 	CreateUserRequest struct {

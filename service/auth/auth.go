@@ -283,7 +283,7 @@ func (v *viewService) ForgotPassword(req dto.ForgotPasswordRequest) error {
 
 	token := gouid.String(6, gouid.LowerCaseAlphaNum)
 
-	fpwEntry := dto.PasswordReset{
+	fpwEntry := models.PasswordReset{
 		UserID: user.ID,
 		Token:  token,
 		Valid:  carbon.Now().AddMinutes(5).ToStdTime(),
@@ -306,7 +306,7 @@ func (v *viewService) ForgotPassword(req dto.ForgotPasswordRequest) error {
 
 func (v *viewService) ResetPassword(req dto.ResetPasswordRequest) error {
 	var (
-		pw dto.PasswordReset
+		pw models.PasswordReset
 	)
 
 	err := v.repository.AuthRepository.GetResetToken(req.Token, &pw)
