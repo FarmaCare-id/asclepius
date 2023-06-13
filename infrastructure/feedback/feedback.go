@@ -21,6 +21,7 @@ func (c *Controller) Routes(app *fiber.App) {
 	feedback.Get("/", c.Shared.Middleware.AuthMiddleware, c.listFeedback)
 	feedback.Post("/create",  c.Shared.Middleware.AuthMiddleware, c.createFeedback)
 	feedback.Get("/category", c.Shared.Middleware.AuthMiddleware, c.listFeedbackCategory)
+	feedback.Get("/category/:id", c.Shared.Middleware.AuthMiddleware, c.getFeedbackCategoryById)
 	feedback.Post("/category/create",  c.Shared.Middleware.AuthMiddleware, c.createFeedbackCategory)
 }
 
@@ -39,6 +40,20 @@ func (c *Controller) listFeedback(ctx *fiber.Ctx) error {
 	)
 
 	res, err := c.Interfaces.FeedbackViewService.ListFeedback()
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
+}
+
+func (c *Controller) getFeedbackCategoryById(ctx *fiber.Ctx) error {
+	var (
+		res dto.FeedbackCategory
+	)
+
+	feedbackId := ctx.Params("id")
+	res, err := c.Interfaces.FeedbackViewService.GetFeedbackCategoryById(feedbackId)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

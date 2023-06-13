@@ -9,6 +9,7 @@ type (
 	Service interface {
 		CheckFeedbackCategoryExist(name string) (bool, dto.FeedbackCategory)
 		CreateFeedbackCategory(feedbackCategory dto.FeedbackCategory) error
+		GetFeedbackCategoryById(feedbackId uint) (dto.FeedbackCategory, error)
 		ListFeedbackCategory(preload string) dto.FeedbackCategorySlice
 		CreateFeedback(feedback dto.Feedback) error
 		ListFeedback(preload string) dto.FeedbackSlice
@@ -30,6 +31,12 @@ func (s *service) CheckFeedbackCategoryExist(name string) (bool, dto.FeedbackCat
 func (s *service) CreateFeedbackCategory(feedbackCategory dto.FeedbackCategory) error {
 	err := s.shared.DB.Create(&feedbackCategory).Error
 	return err
+}
+
+func (s *service) GetFeedbackCategoryById(feedbackId uint) (dto.FeedbackCategory, error) {
+	var feedbackCategory dto.FeedbackCategory
+	err := s.shared.DB.First(&feedbackCategory, feedbackId).Error
+	return feedbackCategory, err
 }
 
 func (s *service) ListFeedbackCategory(preload string) dto.FeedbackCategorySlice {
