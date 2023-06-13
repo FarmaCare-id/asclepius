@@ -12,7 +12,7 @@ type (
 		CreateFeedbackCategory(req dto.CreateFeedbackCategoryRequest) (dto.CreateFeedbackCategoryResponse, error)
 		ListFeedbackCategory() (dto.FeedbackCategorySlice, error)
 		CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedbackRequest) (dto.CreateFeedbackResponse, error)
-		ListFeedback() (dto.FeedbackSlice, error)
+		ListFeedback() ([]dto.GetAllFeedbackResponse, error)
 	}
 
 	viewService struct {
@@ -83,7 +83,7 @@ func (v *viewService) CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedb
 	return res, nil
 }
 
-func (v *viewService) ListFeedback() (dto.FeedbackSlice, error) {
+func (v *viewService) ListFeedback() ([]dto.GetAllFeedbackResponse, error) {
 	var (
 		res dto.FeedbackSlice
 	)
@@ -92,8 +92,23 @@ func (v *viewService) ListFeedback() (dto.FeedbackSlice, error) {
 	for _, feedback := range feedbacks {
 		res = append(res, feedback)
 	}
+	v.shared.Logger.Infof("Found %d feedbacks", len(feedbacks))
 
-	return res, nil
+	feedbackLists := make([]dto.GetAllFeedbackResponse, 0)
+	for _, feedback := range feedbacks {
+		feedbackList := dto.GetAllFeedbackResponse{
+			ID: feedback.ID,
+			Issue: feedback.Issue,
+			Detail: feedback.Detail,
+			Category: feedback.FeedbackCategory.Name,
+			UserFullname: feedback.User.Fullname,
+			UserRole: feedback.User.Role,
+			CreatedAt: feedback.CreatedAt,
+		}
+		feedbackLists = append(feedbackLists, feedbackList)
+	}
+
+	return feedbackLists, nil
 }
 
 func NewViewService(application application.Holder, shared shared.Holder) ViewService {

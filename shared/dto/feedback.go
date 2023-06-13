@@ -58,6 +58,17 @@ type (
 		Detail string `json:"detail"`
 		FeedbackCategoryID uint `json:"feedback_category_id" validate:"required"`
 	}
+
+	// GetAllFeedbackResponse GetAllFeedbackResponseID: 
+	GetAllFeedbackResponse struct {
+		ID uint `json:"id"`
+		Issue string `json:"issue"`
+		Detail string `json:"detail"`
+		Category string `json:"category"`
+		UserFullname string `json:"user_fullname"`
+		UserRole UserRole `json:"user_role"`
+		CreatedAt time.Time `json:"created_at"`
+	}
 )
 
 func (r *CreateFeedbackCategoryRequest) TransformToFeedbackCategoryModel() FeedbackCategory {

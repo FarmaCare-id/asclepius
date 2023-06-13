@@ -35,7 +35,7 @@ func (c *Controller) Routes(app *fiber.App) {
 // @Router /feedback [get]
 func (c *Controller) listFeedback(ctx *fiber.Ctx) error {
 	var (
-		res dto.FeedbackSlice
+		res []dto.GetAllFeedbackResponse
 	)
 
 	res, err := c.Interfaces.FeedbackViewService.ListFeedback()
