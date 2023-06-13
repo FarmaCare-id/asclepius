@@ -6,6 +6,7 @@ import (
 	"farmacare/shared"
 	"farmacare/shared/common"
 	"farmacare/shared/dto"
+	"farmacare/shared/models"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -110,7 +111,7 @@ func (c *Controller) getAllFeedbackCategory(ctx *fiber.Ctx) error {
 // @Router /feedback/category/{id} [get]
 func (c *Controller) getFeedbackCategoryById(ctx *fiber.Ctx) error {
 	var (
-		res dto.FeedbackCategory
+		res models.FeedbackCategory
 	)
 
 	feedbackId := ctx.Params("id")

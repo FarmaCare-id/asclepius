@@ -5,13 +5,14 @@ import (
 	"farmacare/repository"
 	"farmacare/shared"
 	"farmacare/shared/dto"
+	"farmacare/shared/models"
 	"strconv"
 )
 
 type (
 	ViewService interface {
 		CreateFeedbackCategory(req dto.CreateFeedbackCategoryRequest) (dto.CreateFeedbackCategoryResponse, error)
-		GetFeedbackCategoryById(feedbackId string) (dto.FeedbackCategory, error)
+		GetFeedbackCategoryById(feedbackId string) (models.FeedbackCategory, error)
 		GetAllFeedbackCategory() (dto.FeedbackCategorySlice, error)
 		CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedbackRequest) (dto.CreateFeedbackResponse, error)
 		GetAllFeedback() ([]dto.GetAllFeedbackResponse, error)
@@ -46,9 +47,9 @@ func (v *viewService) CreateFeedbackCategory(req dto.CreateFeedbackCategoryReque
 	return res, nil
 }
 
-func (v *viewService) GetFeedbackCategoryById(feedbackId string) (dto.FeedbackCategory, error) {
+func (v *viewService) GetFeedbackCategoryById(feedbackId string) (models.FeedbackCategory, error) {
 	var (
-		feedbackCategory dto.FeedbackCategory
+		feedbackCategory models.FeedbackCategory
 	)
 
 	cid, err := strconv.Atoi(feedbackId)
@@ -82,7 +83,7 @@ func (v *viewService) CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedb
 		res dto.CreateFeedbackResponse
 	)
 
-	feedback := dto.Feedback{
+	feedback := models.Feedback{
 		UserID:    ctx.User.ID,
 		Issue:     req.Issue,
 		Detail:    req.Detail,

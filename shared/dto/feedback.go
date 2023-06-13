@@ -3,20 +3,10 @@ package dto
 import (
 	"farmacare/shared/models"
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type (
-	FeedbackCategory struct {
-		gorm.Model
-		ID uint `gorm:"primaryKey;autoIncrement"`
-		Name string `gorm:"column:name"`
-		Description string `gorm:"column:description"`
-		Feedbacks []Feedback `gorm:"foreignKey:FeedbackCategoryID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	}
-
-	FeedbackCategorySlice []FeedbackCategory
+	FeedbackCategorySlice []models.FeedbackCategory
 
 	// CreateFeedbackCategoryRequest CreateFeedbackCategoryRequest
 	CreateFeedbackCategoryRequest struct {
@@ -30,21 +20,7 @@ type (
 		Description string `json:"description"`
 	}
 
-	Feedback struct {
-		gorm.Model
-		ID uint `gorm:"primaryKey;autoIncrement"`
-		Issue string `gorm:"column:issue"`
-		Detail string `gorm:"column:detail"`
-		FeedbackCategoryID uint
-		FeedbackCategory FeedbackCategory `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-		UserID uint
-		User models.User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-		CreatedAt time.Time
-		UpdatedAt time.Time
-		DeletedAt gorm.DeletedAt
-	}
-
-	FeedbackSlice []Feedback
+	FeedbackSlice []models.Feedback
 
 	// CreateFeedbackRequest CreateFeedbackRequest
 	CreateFeedbackRequest struct {
@@ -72,15 +48,15 @@ type (
 	}
 )
 
-func (r *CreateFeedbackCategoryRequest) TransformToFeedbackCategoryModel() FeedbackCategory {
-	return FeedbackCategory{
+func (r *CreateFeedbackCategoryRequest) TransformToFeedbackCategoryModel() models.FeedbackCategory {
+	return models.FeedbackCategory{
 		Name: r.Name,
 		Description: r.Description,
 	}
 }
 
-func (r *CreateFeedbackRequest) TransformToFeedbackModel(uid uint) Feedback {
-	return Feedback{
+func (r *CreateFeedbackRequest) TransformToFeedbackModel(uid uint) models.Feedback {
+	return models.Feedback{
 		Issue: r.Issue,
 		Detail: r.Detail,
 		FeedbackCategoryID: r.FeedbackCategoryID,

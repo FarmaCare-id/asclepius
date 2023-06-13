@@ -2,7 +2,6 @@ package depedencies
 
 import (
 	"farmacare/shared/config"
-	"farmacare/shared/dto"
 	"farmacare/shared/models"
 	"fmt"
 	"time"
@@ -50,8 +49,8 @@ func migrateSchema(db *gorm.DB, log *logrus.Logger) {
 	err := db.AutoMigrate(
 		&models.User{},
 		&models.PasswordReset{},
-		&dto.FeedbackCategory{},
-		&dto.Feedback{},
+		&models.FeedbackCategory{},
+		&models.Feedback{},
 	)
 
 	if err != nil {
