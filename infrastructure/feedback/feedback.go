@@ -18,9 +18,32 @@ type Controller struct {
 
 func (c *Controller) Routes(app *fiber.App) {
 	feedback := app.Group("/feedback")
+	feedback.Get("/", c.Shared.Middleware.AuthMiddleware, c.listFeedback)
 	feedback.Post("/create",  c.Shared.Middleware.AuthMiddleware, c.createFeedback)
-	feedback.Get("/category", c.Shared.Middleware.AuthMiddleware, c.getFeedbackCategory)
+	feedback.Get("/category", c.Shared.Middleware.AuthMiddleware, c.listFeedbackCategory)
 	feedback.Post("/category/create",  c.Shared.Middleware.AuthMiddleware, c.createFeedbackCategory)
+}
+
+// All godoc
+// @Tags Feedback
+// @Summary List feedback
+// @Description Put all mandatory parameter
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} dto.FeedbackSlice
+// @Failure 200 {object} dto.FeedbackSlice
+// @Router /feedback [get]
+func (c *Controller) listFeedback(ctx *fiber.Ctx) error {
+	var (
+		res dto.FeedbackSlice
+	)
+
+	res, err := c.Interfaces.FeedbackViewService.ListFeedback()
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
 }
 
 // All godoc
@@ -56,14 +79,14 @@ func (c *Controller) createFeedbackCategory(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Feedback
-// @Summary Get feedback category
+// @Summary List feedback category
 // @Description Put all mandatory parameter
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} dto.FeedbackCategorySlice
 // @Failure 200 {object} dto.FeedbackCategorySlice
 // @Router /feedback/category [get]
-func (c *Controller) getFeedbackCategory(ctx *fiber.Ctx) error {
+func (c *Controller) listFeedbackCategory(ctx *fiber.Ctx) error {
 	var (
 		res dto.FeedbackCategorySlice
 	)

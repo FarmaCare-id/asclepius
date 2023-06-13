@@ -12,6 +12,7 @@ type (
 		CreateFeedbackCategory(req dto.CreateFeedbackCategoryRequest) (dto.CreateFeedbackCategoryResponse, error)
 		ListFeedbackCategory() (dto.FeedbackCategorySlice, error)
 		CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedbackRequest) (dto.CreateFeedbackResponse, error)
+		ListFeedback() (dto.FeedbackSlice, error)
 	}
 
 	viewService struct {
@@ -77,6 +78,19 @@ func (v *viewService) CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedb
 		Issue: req.Issue,
 		Detail: req.Detail,
 		FeedbackCategoryID: req.FeedbackCategoryID,
+	}
+
+	return res, nil
+}
+
+func (v *viewService) ListFeedback() (dto.FeedbackSlice, error) {
+	var (
+		res dto.FeedbackSlice
+	)
+
+	feedbacks := v.application.FeedbackService.ListFeedback("")
+	for _, feedback := range feedbacks {
+		res = append(res, feedback)
 	}
 
 	return res, nil

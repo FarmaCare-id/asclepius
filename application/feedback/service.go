@@ -11,7 +11,7 @@ type (
 		CreateFeedbackCategory(feedbackCategory dto.FeedbackCategory) error
 		ListFeedbackCategory(preload string) dto.FeedbackCategorySlice
 		CreateFeedback(feedback dto.Feedback) error
-		// ListFeedback(preload string) dto.UserSlice
+		ListFeedback(preload string) dto.FeedbackSlice
 	}
 
 	service struct {
@@ -45,13 +45,13 @@ func (s *service) CreateFeedback(feedback dto.Feedback) error {
 	return err
 }
 
-// func (s *service) ListFeedback(preload string) dto.UserSlice {
-// 	var users []dto.User
+func (s *service) ListFeedback(preload string) dto.FeedbackSlice {
+	var feedbacks []dto.Feedback
 
-// 	s.shared.DB.Preload(preload).Find(&users)
+	s.shared.DB.Preload(preload).Find(&feedbacks)
 
-// 	return users
-// }
+	return feedbacks
+}
 
 func NewFeedbackService(holder shared.Holder) (Service, error) {
 	return &service{

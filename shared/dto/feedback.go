@@ -43,7 +43,7 @@ type (
 		DeletedAt gorm.DeletedAt
 	}
 
-	FeedbackSlices []Feedback
+	FeedbackSlice []Feedback
 
 	// CreateFeedbackRequest CreateFeedbackRequest
 	CreateFeedbackRequest struct {
