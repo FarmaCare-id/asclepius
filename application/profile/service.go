@@ -7,7 +7,6 @@ import (
 
 type (
 	Service interface {
-		GetUserProfile(id uint) dto.User
 		EditUserProfile(user dto.User) error
 	}
 
@@ -15,12 +14,6 @@ type (
 		shared shared.Holder
 	}
 )
-
-func (s *service) GetUserProfile(id uint) dto.User {
-	var user dto.User
-	s.shared.DB.Where("id = ?", id).First(&user)
-	return user
-}
 
 func (s *service) EditUserProfile(user dto.User) error {
 	err := s.shared.DB.Save(&user).Error

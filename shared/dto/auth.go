@@ -135,6 +135,10 @@ type (
 		Password string `json:"password" validate:"required"`
 		Token    string `json:"token" validate:"required"`
 	}
+
+	SessionContext struct {
+		User               User
+	}
 )
 
 func (g GoogleData) ToUser() User {

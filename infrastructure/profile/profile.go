@@ -32,9 +32,9 @@ func (c *Controller) Routes(app *fiber.App) {
 // @Success 200
 // @Router /profile [get]
 func (c *Controller) userProfile(ctx *fiber.Ctx) error {
-	user := common.CreateUserContext(ctx, c.Application.AuthService)
+	context := common.CreateContext(ctx)
 
-	user = c.Interfaces.ProfileViewService.GetUserProfile(user)
+	user := c.Interfaces.AuthViewService.GetUserCredential(context)
 
 	return common.DoCommonSuccessResponse(ctx, user)
 }
@@ -63,9 +63,9 @@ func (c *Controller) editProfile(ctx *fiber.Ctx) error {
 
 	c.Shared.Logger.Infof("edit user with payload: %s", req)
 
-	user := common.CreateUserContext(ctx, c.Application.AuthService)
+	context := common.CreateContext(ctx)
 
-	res, err = c.Interfaces.ProfileViewService.EditUserProfile(req, user)
+	res, err = c.Interfaces.ProfileViewService.EditUserProfile(req, context)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

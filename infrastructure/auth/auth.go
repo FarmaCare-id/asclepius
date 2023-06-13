@@ -249,9 +249,9 @@ func (c *Controller) resetPassword(ctx *fiber.Ctx) error {
 // @Success 200
 // @Router /auth/credential [get]
 func (c *Controller) userCredential(ctx *fiber.Ctx) error {
-	user := common.CreateUserContext(ctx, c.Application.AuthService)
+	context := common.CreateContext(ctx)
 
-	user = c.Interfaces.AuthViewService.GetUserCredential(user)
+	user := c.Interfaces.AuthViewService.GetUserCredential(context)
 
 	return common.DoCommonSuccessResponse(ctx, user)
 }

@@ -87,20 +87,18 @@ func (c *Controller) getFeedbackCategory(ctx *fiber.Ctx) error {
 // @Failure 200 {object} dto.CreateFeedbackResponse
 // @Router /feedback/create [post]
 func (c *Controller) createFeedback(ctx *fiber.Ctx) error {
-	var (
-		req dto.CreateFeedbackRequest
-		res dto.CreateFeedbackResponse
-		usr dto.User
-	)
+	var req dto.CreateFeedbackRequest
 
 	err := common.DoCommonRequest(ctx, &req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
 
-	c.Shared.Logger.Infof("create feedback with payload: %s", req)
+	context := common.CreateContext(ctx)
 
-	res, err = c.Interfaces.FeedbackViewService.CreateFeedback(req, usr)
+	c.Shared.Logger.Infof("creating feedback for user: %s", context.User)
+
+	res, err := c.Interfaces.FeedbackViewService.CreateFeedback(context, req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

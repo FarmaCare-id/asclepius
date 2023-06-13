@@ -67,11 +67,11 @@ func (r *CreateFeedbackCategoryRequest) TransformToFeedbackCategoryModel() Feedb
 	}
 }
 
-func (r *CreateFeedbackRequest) TransformToFeedbackModel(usr User) Feedback {
+func (r *CreateFeedbackRequest) TransformToFeedbackModel(uid uint) Feedback {
 	return Feedback{
 		Issue: r.Issue,
 		Detail: r.Detail,
 		FeedbackCategoryID: r.FeedbackCategoryID,
-		UserID: usr.ID,
+		UserID: uid,
 	}
 }

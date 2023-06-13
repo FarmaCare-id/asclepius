@@ -24,7 +24,7 @@ type (
 		Login(req dto.LoginRequest) (dto.LoginResponse, error)
 		ForgotPassword(req dto.ForgotPasswordRequest) error
 		ResetPassword(req dto.ResetPasswordRequest) error
-		GetUserCredential(user dto.User) dto.User
+		GetUserCredential(ctx dto.SessionContext) dto.User
 		GoogleLogin(req dto.GoogleLoginRequest) (dto.LoginResponse, error)
 	}
 
@@ -264,9 +264,9 @@ func (v *viewService) ResetPassword(req dto.ResetPasswordRequest) error {
 	return nil
 }
 
-func (v *viewService) GetUserCredential(user dto.User) dto.User {
-	user.HashedPassword = ""
-	return user
+func (v *viewService) GetUserCredential(ctx dto.SessionContext) dto.User {
+	ctx.User.HashedPassword = ""
+	return ctx.User
 }
 
 func NewViewService(application application.Holder, shared shared.Holder) ViewService {

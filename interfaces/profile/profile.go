@@ -11,8 +11,7 @@ import (
 
 type (
 	ViewService interface {
-		GetUserProfile(user dto.User) dto.User
-		EditUserProfile(req dto.EditUserProfileRequest, user dto.User) (dto.EditUserProfileResponse, error)
+		EditUserProfile(req dto.EditUserProfileRequest, ctx dto.SessionContext) (dto.EditUserProfileResponse, error)
 	}
 
 	viewService struct {
@@ -21,17 +20,12 @@ type (
 	}
 )
 
-func (v *viewService) GetUserProfile(user dto.User) dto.User {
-	user.HashedPassword = ""
-	return user
-}
-
-func (v *viewService) EditUserProfile(req dto.EditUserProfileRequest, user dto.User) (dto.EditUserProfileResponse, error) {
+func (v *viewService) EditUserProfile(req dto.EditUserProfileRequest, ctx dto.SessionContext) (dto.EditUserProfileResponse, error) {
 	var (
 		res dto.EditUserProfileResponse
 	)
 
-	isUserExist, user := v.application.AuthService.CheckUserExist(user.Email)
+	isUserExist, user := v.application.AuthService.CheckUserExist(ctx.User.Email)
 	if !isUserExist {
 		return res, errors.New("no user found for given email")
 	}

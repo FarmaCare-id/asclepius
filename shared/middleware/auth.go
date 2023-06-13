@@ -2,29 +2,61 @@ package middleware
 
 import (
 	"farmacare/shared/config"
+	"farmacare/shared/dto"
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
 	"github.com/golang-module/carbon"
 	"github.com/sirupsen/logrus"
+	"gorm.io/gorm"
 )
 
 type Middleware struct {
 	Env *config.EnvConfig
 	log *logrus.Logger
+	DB  *gorm.DB
 }
 
 func (m *Middleware) AuthMiddleware(c *fiber.Ctx) error {
 	claims, err := m.getToken(m.Env.SecretKey, c)
+	if err != nil {
+		c.Locals("context", dto.SessionContext{})
+		return c.Next()
+	}
 
+	userId := uint(claims["id"].(float64))
+
+	context, err := m.getSessionContext(userId)
 	if err != nil {
 		return err
 	}
 
-	c.Locals("id", uint(claims["id"].(float64)))
+	c.Locals("context", context)
 
 	return c.Next()
+}
+
+func (m *Middleware) getSessionContext(userId uint) (dto.SessionContext, error) {
+	var (
+		user    dto.User
+		context dto.SessionContext
+	)
+	err := m.DB.Where("id = ?", userId).Find(&user).Error
+
+	if err != nil {
+		return context, err
+	}
+
+	context = dto.SessionContext{
+		User: user,
+	}
+
+	// if dto.GetSubscriptionStatus(user) {
+	// 	context.IsActiveSubscriber = true
+	// }
+
+	return context, nil
 }
 
 func (m *Middleware) UserMiddleware(c *fiber.Ctx) error {
@@ -115,9 +147,10 @@ func (m *Middleware) getToken(secret string, c *fiber.Ctx) (jwt.MapClaims, error
 	return claims, nil
 }
 
-func NewMiddleware(env *config.EnvConfig, log *logrus.Logger) *Middleware {
+func NewMiddleware(env *config.EnvConfig, log *logrus.Logger, db *gorm.DB) *Middleware {
 	return &Middleware{
 		Env: env,
 		log: log,
+		DB:  db,
 	}
 }

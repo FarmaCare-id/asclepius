@@ -11,7 +11,7 @@ type (
 	ViewService interface {
 		CreateFeedbackCategory(req dto.CreateFeedbackCategoryRequest) (dto.CreateFeedbackCategoryResponse, error)
 		ListFeedbackCategory() (dto.FeedbackCategorySlice, error)
-		CreateFeedback(req dto.CreateFeedbackRequest, user dto.User) (dto.CreateFeedbackResponse, error)
+		CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedbackRequest) (dto.CreateFeedbackResponse, error)
 	}
 
 	viewService struct {
@@ -56,14 +56,19 @@ func (v *viewService) ListFeedbackCategory() (dto.FeedbackCategorySlice, error) 
 	return res, nil
 }
 
-func (v *viewService) CreateFeedback(req dto.CreateFeedbackRequest, user dto.User) (dto.CreateFeedbackResponse, error) {
+func (v *viewService) CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedbackRequest) (dto.CreateFeedbackResponse, error) {
 	var (
 		res dto.CreateFeedbackResponse
 	)
 
-	current_user := v.application.ProfileService.GetUserProfile(user.ID)
+	feedback := dto.Feedback{
+		UserID:    ctx.User.ID,
+		Issue:     req.Issue,
+		Detail:    req.Detail,
+		FeedbackCategoryID: req.FeedbackCategoryID,
+	}
 
-	err := v.application.FeedbackService.CreateFeedback(req.TransformToFeedbackModel(current_user))
+	err := v.application.FeedbackService.CreateFeedback(feedback)
 	if err != nil {
 		return res, err
 	}

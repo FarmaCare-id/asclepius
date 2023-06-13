@@ -1,7 +1,6 @@
 package common
 
 import (
-	"farmacare/application/auth"
 	"farmacare/shared/dto"
 
 	"github.com/go-playground/validator/v10"
@@ -46,6 +45,6 @@ func DoCommonErrorResponse(ctx *fiber.Ctx, err error) error {
 	})
 }
 
-func CreateUserContext(ctx *fiber.Ctx, qr auth.Service) dto.User {
-	return qr.GetUserContext(ctx.Locals("id").(uint))
+func CreateContext(ctx *fiber.Ctx) dto.SessionContext {
+	return ctx.Locals("context").(dto.SessionContext)
 }
