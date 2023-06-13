@@ -30,7 +30,7 @@ func (c *Controller) Routes(app *fiber.App) {
 
 // All godoc
 // @Tags Auth
-// @Summary Register new user
+// @Summary Register New User
 // @Description Put all mandatory parameter
 // @Param CreateUserRequest body dto.CreateUserRequest true "CreateUserRequest"
 // @Accept  json
@@ -61,7 +61,7 @@ func (c *Controller) register(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Auth
-// @Summary Register new doctor
+// @Summary Register New Doctor
 // @Description Put all mandatory parameter
 // @Param CreateDoctorRequest body dto.CreateDoctorRequest true "CreateDoctorRequest"
 // @Accept  json
@@ -92,7 +92,7 @@ func (c *Controller) registerDoctor(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Auth
-// @Summary Register new pharmacist
+// @Summary Register New Pharmacist
 // @Description Put all mandatory parameter
 // @Param CreatePharmacistRequest body dto.CreatePharmacistRequest true "CreatePharmacistRequest"
 // @Accept  json
@@ -123,7 +123,7 @@ func (c *Controller) registerPharmacist(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Auth
-// @Summary Login user
+// @Summary Login User
 // @Description Put all mandatory parameter
 // @Param GoogleLoginRequest body dto.GoogleLoginRequest true "GoogleLoginRequest"
 // @Accept  json
@@ -154,7 +154,7 @@ func (c *Controller) loginGoogle(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Auth
-// @Summary Login user google
+// @Summary Login User Google
 // @Description Put all mandatory parameter
 // @Param LoginRequest body dto.LoginRequest true "LoginRequest"
 // @Accept  json
@@ -185,7 +185,7 @@ func (c *Controller) login(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Auth
-// @Summary Forgot password
+// @Summary Forgot Password
 // @Description Put all mandatory parameter
 // @Param ForgotPasswordRequest body dto.ForgotPasswordRequest true "ForgotPasswordRequest"
 // @Accept  json
@@ -214,7 +214,7 @@ func (c *Controller) forgotPassword(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Auth
-// @Summary Reset password
+// @Summary Reset Password
 // @Description Put all mandatory parameter
 // @Param ResetPasswordRequest body dto.ResetPasswordRequest true "ResetPasswordRequest"
 // @Accept  json
@@ -241,7 +241,7 @@ func (c *Controller) resetPassword(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Auth
-// @Summary Get user credential
+// @Summary Get User Credential
 // @Param Authorization header string true "Authorization"
 // @Description Put all mandatory parameter
 // @Accept  json

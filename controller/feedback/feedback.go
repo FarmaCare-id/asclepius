@@ -28,12 +28,12 @@ func (c *Controller) Routes(app *fiber.App) {
 
 // All godoc
 // @Tags Feedback
-// @Summary List feedback
+// @Summary Get All Feedback
 // @Description Put all mandatory parameter
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} dto.FeedbackSlice
-// @Failure 200 {object} dto.FeedbackSlice
+// @Success 200 {object} []models.Feedback
+// @Failure 400 {object} common.Response
 // @Router /feedback [get]
 func (c *Controller) getAllFeedback(ctx *fiber.Ctx) error {
 	var (
@@ -50,7 +50,7 @@ func (c *Controller) getAllFeedback(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Feedback
-// @Summary Create feedback
+// @Summary Create Feedback
 // @Description Put all mandatory parameter
 // @Param CreateFeedbackRequest body dto.CreateFeedbackRequest true "CreateFeedbackRequest"
 // @Accept  json
@@ -80,7 +80,7 @@ func (c *Controller) createFeedback(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Feedback
-// @Summary List feedback category
+// @Summary Get All Feedback Category
 // @Description Put all mandatory parameter
 // @Accept  json
 // @Produce  json
@@ -102,12 +102,12 @@ func (c *Controller) getAllFeedbackCategory(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Feedback
-// @Summary Get feedback category by id
+// @Summary Get Feedback Category By Id
 // @Description Put all mandatory parameter
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} dto.FeedbackCategory
-// @Failure 200 {object} dto.FeedbackCategory
+// @Success 200 {object} models.FeedbackCategory
+// @Failure 200 {object} models.FeedbackCategory
 // @Router /feedback/category/{id} [get]
 func (c *Controller) getFeedbackCategoryById(ctx *fiber.Ctx) error {
 	var (
@@ -125,7 +125,7 @@ func (c *Controller) getFeedbackCategoryById(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Feedback
-// @Summary Create feedback category
+// @Summary Create Feedback Category
 // @Description Put all mandatory parameter
 // @Param CreateFeedbackCategoryRequest body dto.CreateFeedbackCategoryRequest true "CreateFeedbackCategoryRequest"
 // @Accept  json
