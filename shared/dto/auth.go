@@ -1,51 +1,17 @@
 package dto
 
 import (
+	"farmacare/shared/models"
 	"time"
-
-	"gorm.io/gorm"
-)
-
-const (
-	Google     UserLoginType = "Google"
-	Credential UserLoginType = "Credential"
-)
-
-const (
-	RoleUser       UserRole = "user"
-	RoleDoctor     UserRole = "doctor"
-	RolePharmacist UserRole = "pharmacist"
-	RoleAdmin      UserRole = "admin"
 )
 
 type (
-	UserLoginType string
-	UserRole string
-	User          struct {
-		ID                uint          `gorm:"primaryKey;autoIncrement"`
-		Email             string        `gorm:"column:email;unique;not null"`
-		Fullname          string        `gorm:"column:fullname"`
-		HashedPassword    string        `gorm:"column:hashed_password"`
-		Role           	  UserRole      `gorm:"column:role;default:user"`
-		Type              UserLoginType `gorm:"column:type;default:Credential"`
-		Weight			  float64		`gorm:"column:weight"`
-		Height			  float64		`gorm:"column:height"`
-		Age				  int			`gorm:"column:age"`
-		NoSip			  string		`gorm:"column:no_sip"`
-		NoSipa			  string		`gorm:"column:no_sipa"`
-		Specialist		  string		`gorm:"column:specialist"`
-		Title 			  string		`gorm:"column:title"`
-		CreatedAt         time.Time
-		UpdatedAt         time.Time
-		DeletedAt         gorm.DeletedAt
-	}
-
-	UserSlice []User
+	UserSlice []models.User
 
 	PasswordReset struct {
 		ID        uint `gorm:"primaryKey;autoIncrement"`
 		UserID    uint
-		User      User   `gorm:"onDelete:CASCADE"`
+		User      models.User   `gorm:"onDelete:CASCADE"`
 		Token     string `gorm:"column:token"`
 		CreatedAt time.Time
 		Valid     time.Time
@@ -137,42 +103,42 @@ type (
 	}
 
 	SessionContext struct {
-		User               User
+		User models.User
 	}
 )
 
-func (g GoogleData) ToUser() User {
-	return User{
+func (g GoogleData) ToUser() models.User {
+	return models.User{
 		Fullname:          g.Name,
 		Email:             g.Email,
-		Type:              Google,
+		Type:              models.Google,
 	}
 }
 
-func (r *CreateUserRequest) TransformToUserModel(hp string) User {
-	return User{
+func (r *CreateUserRequest) TransformToUserModel(hp string) models.User {
+	return models.User{
 		Email:             r.Email,
 		Fullname:          r.Fullname,
 		HashedPassword:    hp,
 	}
 }
 
-func (r *CreateDoctorRequest) TransformToUserModel(hp string) User {
-	return User{
+func (r *CreateDoctorRequest) TransformToUserModel(hp string) models.User {
+	return models.User{
 		Email:             r.Email,
 		Fullname:          r.Fullname,
 		HashedPassword:    hp,
-		Role:              RoleDoctor,
+		Role:              models.RoleDoctor,
 		NoSip:             r.NoSip,
 	}
 }
 
-func (r *CreatePharmacistRequest) TransformToUserModel(hp string) User {
-	return User{
+func (r *CreatePharmacistRequest) TransformToUserModel(hp string) models.User {
+	return models.User{
 		Email:             r.Email,
 		Fullname:          r.Fullname,
 		HashedPassword:    hp,
-		Role:              RolePharmacist,
+		Role:              models.RolePharmacist,
 		NoSipa:            r.NoSipa,
 	}
 }

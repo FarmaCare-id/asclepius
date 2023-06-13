@@ -2,12 +2,12 @@ package profile
 
 import (
 	"farmacare/shared"
-	"farmacare/shared/dto"
+	"farmacare/shared/models"
 )
 
 type (
 	Service interface {
-		EditUserProfile(user dto.User) error
+		EditUserProfile(user models.User) error
 	}
 
 	service struct {
@@ -15,7 +15,7 @@ type (
 	}
 )
 
-func (s *service) EditUserProfile(user dto.User) error {
+func (s *service) EditUserProfile(user models.User) error {
 	err := s.shared.DB.Save(&user).Error
 	return err
 }

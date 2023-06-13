@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"farmacare/shared/models"
 	"time"
 
 	"gorm.io/gorm"
@@ -37,7 +38,7 @@ type (
 		FeedbackCategoryID uint
 		FeedbackCategory FeedbackCategory `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 		UserID uint
-		User User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+		User models.User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 		CreatedAt time.Time
 		UpdatedAt time.Time
 		DeletedAt gorm.DeletedAt
@@ -66,7 +67,7 @@ type (
 		Detail string `json:"detail"`
 		Category string `json:"category"`
 		UserFullname string `json:"user_fullname"`
-		UserRole UserRole `json:"user_role"`
+		UserRole models.UserRole `json:"user_role"`
 		CreatedAt time.Time `json:"created_at"`
 	}
 )

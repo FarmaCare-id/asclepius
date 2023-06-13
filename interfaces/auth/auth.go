@@ -6,6 +6,7 @@ import (
 	"farmacare/shared"
 	"farmacare/shared/common"
 	"farmacare/shared/dto"
+	"farmacare/shared/models"
 	"io/ioutil"
 	"net/http"
 
@@ -24,7 +25,7 @@ type (
 		Login(req dto.LoginRequest) (dto.LoginResponse, error)
 		ForgotPassword(req dto.ForgotPasswordRequest) error
 		ResetPassword(req dto.ResetPasswordRequest) error
-		GetUserCredential(ctx dto.SessionContext) dto.User
+		GetUserCredential(ctx dto.SessionContext) models.User
 		GoogleLogin(req dto.GoogleLoginRequest) (dto.LoginResponse, error)
 	}
 
@@ -264,7 +265,7 @@ func (v *viewService) ResetPassword(req dto.ResetPasswordRequest) error {
 	return nil
 }
 
-func (v *viewService) GetUserCredential(ctx dto.SessionContext) dto.User {
+func (v *viewService) GetUserCredential(ctx dto.SessionContext) models.User {
 	ctx.User.HashedPassword = ""
 	return ctx.User
 }

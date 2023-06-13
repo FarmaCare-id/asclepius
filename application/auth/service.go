@@ -3,18 +3,19 @@ package auth
 import (
 	"farmacare/shared"
 	"farmacare/shared/dto"
+	"farmacare/shared/models"
 )
 
 type (
 	Service interface {
-		CheckUserExist(email string) (bool, dto.User)
-		CreateUser(user dto.User) error
-		CreateDoctor(user dto.User) error
-		CreatePharmacist(user dto.User) error
+		CheckUserExist(email string) (bool, models.User)
+		CreateUser(user models.User) error
+		CreateDoctor(user models.User) error
+		CreatePharmacist(user models.User) error
 		CreatePasswordReset(pw dto.PasswordReset) error
 		GetResetToken(token string, pw *dto.PasswordReset) error
 		RemovePreviousPasswordResetToken(id uint)
-		GetUserContext(id uint) dto.User
+		GetUserContext(id uint) models.User
 		ListUser(preload string) dto.UserSlice
 	}
 
@@ -23,25 +24,25 @@ type (
 	}
 )
 
-func (s *service) CheckUserExist(email string) (bool, dto.User) {
-	var user dto.User
+func (s *service) CheckUserExist(email string) (bool, models.User) {
+	var user models.User
 	err := s.shared.DB.First(&user, "email = ?", email).Error
 	return err == nil, user
 }
 
-func (s *service) CreateUser(user dto.User) error {
+func (s *service) CreateUser(user models.User) error {
 	user.Role = "user"
 	err := s.shared.DB.Create(&user).Error
 	return err
 }
 
-func (s *service) CreateDoctor(user dto.User) error {
+func (s *service) CreateDoctor(user models.User) error {
 	user.Role = "doctor"
 	err := s.shared.DB.Create(&user).Error
 	return err
 }
 
-func (s *service) CreatePharmacist(user dto.User) error {
+func (s *service) CreatePharmacist(user models.User) error {
 	user.Role = "pharmacist"
 	err := s.shared.DB.Create(&user).Error
 	return err
@@ -62,14 +63,14 @@ func (s *service) RemovePreviousPasswordResetToken(id uint) {
 	s.shared.DB.Where("user_id = ?", id).Delete(&pw)
 }
 
-func (s *service) GetUserContext(id uint) dto.User {
-	var user dto.User
+func (s *service) GetUserContext(id uint) models.User {
+	var user models.User
 	s.shared.DB.Where("id = ?", id).First(&user)
 	return user
 }
 
 func (s *service) ListUser(preload string) dto.UserSlice {
-	var users []dto.User
+	var users []models.User
 	s.shared.DB.Preload(preload).Find(&users)
 	return users
 }

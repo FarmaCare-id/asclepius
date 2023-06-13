@@ -3,6 +3,7 @@ package middleware
 import (
 	"farmacare/shared/config"
 	"farmacare/shared/dto"
+	"farmacare/shared/models"
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
@@ -39,7 +40,7 @@ func (m *Middleware) AuthMiddleware(c *fiber.Ctx) error {
 
 func (m *Middleware) getSessionContext(userId uint) (dto.SessionContext, error) {
 	var (
-		user    dto.User
+		user    models.User
 		context dto.SessionContext
 	)
 	err := m.DB.Where("id = ?", userId).Find(&user).Error
