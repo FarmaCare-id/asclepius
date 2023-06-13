@@ -90,6 +90,7 @@ func (c *Controller) createFeedback(ctx *fiber.Ctx) error {
 	var (
 		req dto.CreateFeedbackRequest
 		res dto.CreateFeedbackResponse
+		usr dto.User
 	)
 
 	err := common.DoCommonRequest(ctx, &req)
@@ -99,7 +100,7 @@ func (c *Controller) createFeedback(ctx *fiber.Ctx) error {
 
 	c.Shared.Logger.Infof("create feedback with payload: %s", req)
 
-	res, err = c.Interfaces.FeedbackViewService.CreateFeedback(req)
+	res, err = c.Interfaces.FeedbackViewService.CreateFeedback(req, usr)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

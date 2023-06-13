@@ -49,14 +49,14 @@ type (
 	CreateFeedbackRequest struct {
 		Issue string `json:"issue" validate:"required"`
 		Detail string `json:"detail" validate:"required"`
-		FeedbackCategoryID int `json:"feedback_category_id" validate:"required"`
+		FeedbackCategoryID uint `json:"feedback_category_id" validate:"required"`
 	}
 
 	// CreateFeedbackResponse CreateFeedbackResponse
 	CreateFeedbackResponse struct {
 		Issue string `json:"issue"`
 		Detail string `json:"detail"`
-		FeedbackCategoryID int `json:"feedback_category_id" validate:"required"`
+		FeedbackCategoryID uint `json:"feedback_category_id" validate:"required"`
 	}
 )
 
@@ -67,10 +67,11 @@ func (r *CreateFeedbackCategoryRequest) TransformToFeedbackCategoryModel() Feedb
 	}
 }
 
-func (r *CreateFeedbackRequest) TransformToFeedbackModel() Feedback {
+func (r *CreateFeedbackRequest) TransformToFeedbackModel(usr User) Feedback {
 	return Feedback{
 		Issue: r.Issue,
 		Detail: r.Detail,
-		// FeedbackCategoryID: r.FeedbackCategoryID,
+		FeedbackCategoryID: r.FeedbackCategoryID,
+		UserID: usr.ID,
 	}
 }
