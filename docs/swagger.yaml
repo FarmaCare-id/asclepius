@@ -27,6 +27,30 @@ definitions:
       role:
         type: string
     type: object
+  dto.CreateFeedbackRequest:
+    properties:
+      detail:
+        type: string
+      feedback_category_id:
+        type: integer
+      issue:
+        type: string
+    required:
+    - detail
+    - feedback_category_id
+    - issue
+    type: object
+  dto.CreateFeedbackResponse:
+    properties:
+      detail:
+        type: string
+      feedback_category_id:
+        type: integer
+      issue:
+        type: string
+    required:
+    - feedback_category_id
+    type: object
   dto.CreatePharmacistRequest:
     properties:
       email:
@@ -343,6 +367,28 @@ paths:
       summary: Reset password
       tags:
       - Auth
+  /feedback/create:
+    post:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      parameters:
+      - description: CreateFeedbackRequest
+        in: body
+        name: CreateFeedbackRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateFeedbackRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateFeedbackResponse'
+      summary: Create feedback
+      tags:
+      - Feedback
   /healthcheck:
     get:
       consumes:

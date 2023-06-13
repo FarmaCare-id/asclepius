@@ -2,6 +2,7 @@ package infrastructure
 
 import (
 	"farmacare/infrastructure/auth"
+	"farmacare/infrastructure/feedback"
 	"farmacare/infrastructure/healthcheck"
 	"farmacare/infrastructure/profile"
 
@@ -15,6 +16,7 @@ type Holder struct {
 	Healthcheck  healthcheck.Controller
 	Auth         auth.Controller
 	Profile 	 profile.Controller
+	Feedback	 feedback.Controller
 }
 
 func Register(container *dig.Container) error {
@@ -30,6 +32,11 @@ func Register(container *dig.Container) error {
 		return errors.Wrap(err, "failed to provide profile controller")
 	}
 
+	if err := container.Provide(feedback.NewController); err != nil {
+		return errors.Wrap(err, "failed to provide feedback controller")
+	}
+
+
 	return nil
 }
 
@@ -37,4 +44,5 @@ func Routes(app *fiber.App, controller Holder) {
 	controller.Healthcheck.Routes(app)
 	controller.Auth.Routes(app)
 	controller.Profile.Routes(app)
+	controller.Feedback.Routes(app)
 }

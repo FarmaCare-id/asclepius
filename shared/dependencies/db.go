@@ -49,6 +49,8 @@ func migrateSchema(db *gorm.DB, log *logrus.Logger) {
 	err := db.AutoMigrate(
 		&dto.User{},
 		&dto.PasswordReset{},
+		&dto.FeedbackCategory{},
+		&dto.Feedback{},
 	)
 
 	if err != nil {

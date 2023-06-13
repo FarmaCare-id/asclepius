@@ -2,6 +2,7 @@ package application
 
 import (
 	"farmacare/application/auth"
+	"farmacare/application/feedback"
 	"farmacare/application/healthcheck"
 	"farmacare/application/profile"
 
@@ -14,6 +15,7 @@ type Holder struct {
 	HealthcheckService  healthcheck.Service
 	AuthService         auth.Service
 	ProfileService		profile.Service
+	FeedbackService     feedback.Service
 }
 
 func Register(container *dig.Container) error {
@@ -27,6 +29,10 @@ func Register(container *dig.Container) error {
 
 	if err := container.Provide(profile.NewProfileService); err != nil {
 		return errors.Wrap(err, "failed to provide profile service")
+	}
+
+	if err := container.Provide(feedback.NewFeedbackService); err != nil {
+		return errors.Wrap(err, "failed to provide feedback service")
 	}
 	
 	return nil

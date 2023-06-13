@@ -2,6 +2,7 @@ package interfaces
 
 import (
 	"farmacare/interfaces/auth"
+	"farmacare/interfaces/feedback"
 	"farmacare/interfaces/healthcheck"
 	"farmacare/interfaces/profile"
 
@@ -14,6 +15,7 @@ type Holder struct {
 	HealthcheckViewService  healthcheck.ViewService
 	AuthViewService         auth.ViewService
 	ProfileViewService		profile.ViewService
+	FeedbackViewService		feedback.ViewService
 }
 
 func Register(container *dig.Container) error {
@@ -26,6 +28,10 @@ func Register(container *dig.Container) error {
 	}
 
 	if err := container.Provide(profile.NewViewService); err != nil {
+		return errors.Wrap(err, "failed to provide profile view service")
+	}
+
+	if err := container.Provide(feedback.NewViewService); err != nil {
 		return errors.Wrap(err, "failed to provide profile view service")
 	}
 

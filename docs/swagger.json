@@ -276,6 +276,40 @@
                 }
             }
         },
+        "/feedback/create": {
+            "post": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Create feedback",
+                "parameters": [
+                    {
+                        "description": "CreateFeedbackRequest",
+                        "name": "CreateFeedbackRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateFeedbackRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateFeedbackResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/healthcheck": {
             "get": {
                 "description": "Put all mandatory parameter",
@@ -410,6 +444,42 @@
                     "type": "string"
                 },
                 "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateFeedbackRequest": {
+            "type": "object",
+            "required": [
+                "detail",
+                "feedback_category_id",
+                "issue"
+            ],
+            "properties": {
+                "detail": {
+                    "type": "string"
+                },
+                "feedback_category_id": {
+                    "type": "integer"
+                },
+                "issue": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateFeedbackResponse": {
+            "type": "object",
+            "required": [
+                "feedback_category_id"
+            ],
+            "properties": {
+                "detail": {
+                    "type": "string"
+                },
+                "feedback_category_id": {
+                    "type": "integer"
+                },
+                "issue": {
                     "type": "string"
                 }
             }
