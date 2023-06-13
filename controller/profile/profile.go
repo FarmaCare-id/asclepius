@@ -1,8 +1,8 @@
 package profile
 
 import (
-	"farmacare/interfaces"
 	"farmacare/repository"
+	"farmacare/service"
 	"farmacare/shared"
 	"farmacare/shared/common"
 	"farmacare/shared/dto"
@@ -11,7 +11,7 @@ import (
 )
 
 type Controller struct {
-	Interfaces  interfaces.Holder
+	Service  service.Holder
 	Shared      shared.Holder
 	Application repository.Holder
 }
@@ -34,7 +34,7 @@ func (c *Controller) Routes(app *fiber.App) {
 func (c *Controller) userProfile(ctx *fiber.Ctx) error {
 	context := common.CreateContext(ctx)
 
-	user := c.Interfaces.AuthViewService.GetUserCredential(context)
+	user := c.Service.AuthViewService.GetUserCredential(context)
 
 	return common.DoCommonSuccessResponse(ctx, user)
 }
@@ -65,7 +65,7 @@ func (c *Controller) editProfile(ctx *fiber.Ctx) error {
 
 	context := common.CreateContext(ctx)
 
-	res, err = c.Interfaces.ProfileViewService.EditUserProfile(req, context)
+	res, err = c.Service.ProfileViewService.EditUserProfile(req, context)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -73,9 +73,9 @@ func (c *Controller) editProfile(ctx *fiber.Ctx) error {
 	return common.DoCommonSuccessResponse(ctx, res)
 }
 
-func NewController(interfaces interfaces.Holder, shared shared.Holder, repository repository.Holder) Controller {
+func NewController(service service.Holder, shared shared.Holder, repository repository.Holder) Controller {
 	return Controller{
-		Interfaces:  interfaces,
+		Service:  service,
 		Shared:      shared,
 		Application: repository,
 	}

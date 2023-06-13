@@ -1,15 +1,15 @@
 package healthcheck
 
 import (
-	"farmacare/interfaces"
 	"farmacare/repository"
+	"farmacare/service"
 	"farmacare/shared"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 type Controller struct {
-	Interfaces interfaces.Holder
+	Interfaces service.Holder
 	Shared     shared.Holder
 	Application repository.Holder
 }
@@ -34,9 +34,9 @@ func (c *Controller) healthcheck(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusOK).JSON(data)
 }
 
-func NewController(interfaces interfaces.Holder, shared shared.Holder, repository repository.Holder) Controller {
+func NewController(service service.Holder, shared shared.Holder, repository repository.Holder) Controller {
 	return Controller{
-		Interfaces:  interfaces,
+		Interfaces:  service,
 		Shared:      shared,
 		Application: repository,
 	}

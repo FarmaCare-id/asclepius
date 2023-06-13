@@ -1,10 +1,10 @@
-package interfaces
+package service
 
 import (
-	"farmacare/interfaces/auth"
-	"farmacare/interfaces/feedback"
-	"farmacare/interfaces/healthcheck"
-	"farmacare/interfaces/profile"
+	"farmacare/service/auth"
+	"farmacare/service/feedback"
+	"farmacare/service/healthcheck"
+	"farmacare/service/profile"
 
 	"github.com/pkg/errors"
 	"go.uber.org/dig"

@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"farmacare/interfaces"
 	"farmacare/repository"
+	"farmacare/service"
 	"farmacare/shared"
 	"farmacare/shared/common"
 	"farmacare/shared/dto"
@@ -11,7 +11,7 @@ import (
 )
 
 type Controller struct {
-	Interfaces  interfaces.Holder
+	Service  service.Holder
 	Shared      shared.Holder
 	Repository repository.Holder
 }
@@ -51,7 +51,7 @@ func (c *Controller) register(ctx *fiber.Ctx) error {
 
 	c.Shared.Logger.Infof("register user with payload: %s", req)
 
-	res, err = c.Interfaces.AuthViewService.RegisterUser(req)
+	res, err = c.Service.AuthViewService.RegisterUser(req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -82,7 +82,7 @@ func (c *Controller) registerDoctor(ctx *fiber.Ctx) error {
 
 	c.Shared.Logger.Infof("register doctor with payload: %s", req)
 
-	res, err = c.Interfaces.AuthViewService.RegisterDoctor(req)
+	res, err = c.Service.AuthViewService.RegisterDoctor(req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -113,7 +113,7 @@ func (c *Controller) registerPharmacist(ctx *fiber.Ctx) error {
 
 	c.Shared.Logger.Infof("register pharmacist with payload: %s", req)
 
-	res, err = c.Interfaces.AuthViewService.RegisterPharmacist(req)
+	res, err = c.Service.AuthViewService.RegisterPharmacist(req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -144,7 +144,7 @@ func (c *Controller) loginGoogle(ctx *fiber.Ctx) error {
 
 	c.Shared.Logger.Infof("login user google with payload: %s", req)
 
-	res, err = c.Interfaces.AuthViewService.GoogleLogin(req)
+	res, err = c.Service.AuthViewService.GoogleLogin(req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -175,7 +175,7 @@ func (c *Controller) login(ctx *fiber.Ctx) error {
 
 	c.Shared.Logger.Infof("login user with payload: %s", req)
 
-	res, err = c.Interfaces.AuthViewService.Login(req)
+	res, err = c.Service.AuthViewService.Login(req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -204,7 +204,7 @@ func (c *Controller) forgotPassword(ctx *fiber.Ctx) error {
 
 	c.Shared.Logger.Infof("forgot password request for email: %s", req.Email)
 
-	err = c.Interfaces.AuthViewService.ForgotPassword(req)
+	err = c.Service.AuthViewService.ForgotPassword(req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -231,7 +231,7 @@ func (c *Controller) resetPassword(ctx *fiber.Ctx) error {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
 
-	err = c.Interfaces.AuthViewService.ResetPassword(req)
+	err = c.Service.AuthViewService.ResetPassword(req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -251,14 +251,14 @@ func (c *Controller) resetPassword(ctx *fiber.Ctx) error {
 func (c *Controller) userCredential(ctx *fiber.Ctx) error {
 	context := common.CreateContext(ctx)
 
-	user := c.Interfaces.AuthViewService.GetUserCredential(context)
+	user := c.Service.AuthViewService.GetUserCredential(context)
 
 	return common.DoCommonSuccessResponse(ctx, user)
 }
 
-func NewController(interfaces interfaces.Holder, shared shared.Holder, repository repository.Holder) Controller {
+func NewController(service service.Holder, shared shared.Holder, repository repository.Holder) Controller {
 	return Controller{
-		Interfaces:  interfaces,
+		Service:  service,
 		Shared:      shared,
 		Repository: repository,
 	}

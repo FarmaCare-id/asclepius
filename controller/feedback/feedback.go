@@ -1,8 +1,8 @@
 package feedback
 
 import (
-	"farmacare/interfaces"
 	"farmacare/repository"
+	"farmacare/service"
 	"farmacare/shared"
 	"farmacare/shared/common"
 	"farmacare/shared/dto"
@@ -11,7 +11,7 @@ import (
 )
 
 type Controller struct {
-	Interfaces interfaces.Holder
+	Service service.Holder
 	Shared     shared.Holder
 	Controller repository.Holder
 }
@@ -39,7 +39,7 @@ func (c *Controller) getAllFeedback(ctx *fiber.Ctx) error {
 		res []dto.GetAllFeedbackResponse
 	)
 
-	res, err := c.Interfaces.FeedbackViewService.GetAllFeedback()
+	res, err := c.Service.FeedbackViewService.GetAllFeedback()
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -69,7 +69,7 @@ func (c *Controller) createFeedback(ctx *fiber.Ctx) error {
 
 	c.Shared.Logger.Infof("creating feedback for user: %s", context.User)
 
-	res, err := c.Interfaces.FeedbackViewService.CreateFeedback(context, req)
+	res, err := c.Service.FeedbackViewService.CreateFeedback(context, req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -91,7 +91,7 @@ func (c *Controller) getAllFeedbackCategory(ctx *fiber.Ctx) error {
 		res dto.FeedbackCategorySlice
 	)
 
-	res, err := c.Interfaces.FeedbackViewService.GetAllFeedbackCategory()
+	res, err := c.Service.FeedbackViewService.GetAllFeedbackCategory()
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -114,7 +114,7 @@ func (c *Controller) getFeedbackCategoryById(ctx *fiber.Ctx) error {
 	)
 
 	feedbackId := ctx.Params("id")
-	res, err := c.Interfaces.FeedbackViewService.GetFeedbackCategoryById(feedbackId)
+	res, err := c.Service.FeedbackViewService.GetFeedbackCategoryById(feedbackId)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -145,7 +145,7 @@ func (c *Controller) createFeedbackCategory(ctx *fiber.Ctx) error {
 
 	c.Shared.Logger.Infof("create feedback category with payload: %s", req)
 
-	res, err = c.Interfaces.FeedbackViewService.CreateFeedbackCategory(req)
+	res, err = c.Service.FeedbackViewService.CreateFeedbackCategory(req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
@@ -153,9 +153,9 @@ func (c *Controller) createFeedbackCategory(ctx *fiber.Ctx) error {
 	return common.DoCommonSuccessResponse(ctx, res)
 }
 
-func NewController(interfaces interfaces.Holder, shared shared.Holder, repository repository.Holder) Controller {
+func NewController(service service.Holder, shared shared.Holder, repository repository.Holder) Controller {
 	return Controller{
-		Interfaces:  interfaces,
+		Service:  service,
 		Shared:      shared,
 		Controller: repository,
 	}
