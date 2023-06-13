@@ -2,7 +2,7 @@ package profile
 
 import (
 	"errors"
-	"farmacare/application"
+	"farmacare/repository"
 	"farmacare/shared"
 	"farmacare/shared/dto"
 
@@ -15,7 +15,7 @@ type (
 	}
 
 	viewService struct {
-		application application.Holder
+		repository repository.Holder
 		shared      shared.Holder
 	}
 )
@@ -25,7 +25,7 @@ func (v *viewService) EditUserProfile(req dto.EditUserProfileRequest, ctx dto.Se
 		res dto.EditUserProfileResponse
 	)
 
-	isUserExist, user := v.application.AuthService.CheckUserExist(ctx.User.Email)
+	isUserExist, user := v.repository.AuthService.CheckUserExist(ctx.User.Email)
 	if !isUserExist {
 		return res, errors.New("no user found for given email")
 	}
@@ -70,7 +70,7 @@ func (v *viewService) EditUserProfile(req dto.EditUserProfileRequest, ctx dto.Se
 		user.Title = req.Title
 	}
 
-	err := v.application.ProfileService.EditUserProfile(user)
+	err := v.repository.ProfileService.EditUserProfile(user)
 	if err != nil {
 		return res, err
 	}
@@ -89,9 +89,9 @@ func (v *viewService) EditUserProfile(req dto.EditUserProfileRequest, ctx dto.Se
 	return res, nil
 }
 
-func NewViewService(application application.Holder, shared shared.Holder) ViewService {
+func NewViewService(repository repository.Holder, shared shared.Holder) ViewService {
 	return &viewService{
-		application: application,
+		repository: repository,
 		shared:      shared,
 	}
 }

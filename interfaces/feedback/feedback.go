@@ -2,7 +2,7 @@ package feedback
 
 import (
 	"errors"
-	"farmacare/application"
+	"farmacare/repository"
 	"farmacare/shared"
 	"farmacare/shared/dto"
 	"strconv"
@@ -18,7 +18,7 @@ type (
 	}
 
 	viewService struct {
-		application application.Holder
+		repository repository.Holder
 		shared      shared.Holder
 	}
 )
@@ -28,12 +28,12 @@ func (v *viewService) CreateFeedbackCategory(req dto.CreateFeedbackCategoryReque
 		res dto.CreateFeedbackCategoryResponse
 	)
 
-	isFeedbackCategoryExist, _ := v.application.FeedbackService.CheckFeedbackCategoryExist(req.Name)
+	isFeedbackCategoryExist, _ := v.repository.FeedbackService.CheckFeedbackCategoryExist(req.Name)
 	if isFeedbackCategoryExist {
 		return res, errors.New("Feedback category already exist")
 	}
 
-	err := v.application.FeedbackService.CreateFeedbackCategory(req.TransformToFeedbackCategoryModel())
+	err := v.repository.FeedbackService.CreateFeedbackCategory(req.TransformToFeedbackCategoryModel())
 	if err != nil {
 		return res, err
 	}
@@ -56,7 +56,7 @@ func (v *viewService) GetFeedbackCategoryById(feedbackId string) (dto.FeedbackCa
 		return feedbackCategory, err
 	}
 
-	feedbackCategory, err = v.application.FeedbackService.GetFeedbackCategoryById(uint(cid))
+	feedbackCategory, err = v.repository.FeedbackService.GetFeedbackCategoryById(uint(cid))
 	if feedbackCategory.ID == 0 {
 		return feedbackCategory, err
 	}
@@ -69,7 +69,7 @@ func (v *viewService) GetAllFeedbackCategory() (dto.FeedbackCategorySlice, error
 		res dto.FeedbackCategorySlice
 	)
 
-	feedbackCategories := v.application.FeedbackService.GetAllFeedbackCategory("")
+	feedbackCategories := v.repository.FeedbackService.GetAllFeedbackCategory("")
 	for _, feedbackCategory := range feedbackCategories {
 		res = append(res, feedbackCategory)
 	}
@@ -89,7 +89,7 @@ func (v *viewService) CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedb
 		FeedbackCategoryID: req.FeedbackCategoryID,
 	}
 
-	err := v.application.FeedbackService.CreateFeedback(feedback)
+	err := v.repository.FeedbackService.CreateFeedback(feedback)
 	if err != nil {
 		return res, err
 	}
@@ -108,7 +108,7 @@ func (v *viewService) GetAllFeedback() ([]dto.GetAllFeedbackResponse, error) {
 		res dto.FeedbackSlice
 	)
 
-	feedbacks := v.application.FeedbackService.GetAllFeedback("")
+	feedbacks := v.repository.FeedbackService.GetAllFeedback("")
 	for _, feedback := range feedbacks {
 		res = append(res, feedback)
 	}
@@ -116,11 +116,11 @@ func (v *viewService) GetAllFeedback() ([]dto.GetAllFeedbackResponse, error) {
 
 	feedbackLists := make([]dto.GetAllFeedbackResponse, 0)
 	for _, feedback := range feedbacks {
-		feedbackCategory, err := v.application.FeedbackService.GetFeedbackCategoryById(feedback.FeedbackCategoryID)
+		feedbackCategory, err := v.repository.FeedbackService.GetFeedbackCategoryById(feedback.FeedbackCategoryID)
 		if err != nil {
 			return nil, err
 		}
-		feedbackUser := v.application.AuthService.GetUserContext(feedback.UserID)
+		feedbackUser := v.repository.AuthService.GetUserContext(feedback.UserID)
 		feedbackList := dto.GetAllFeedbackResponse{
 			ID: feedback.ID,
 			Issue: feedback.Issue,
@@ -136,9 +136,9 @@ func (v *viewService) GetAllFeedback() ([]dto.GetAllFeedbackResponse, error) {
 	return feedbackLists, nil
 }
 
-func NewViewService(application application.Holder, shared shared.Holder) ViewService {
+func NewViewService(repository repository.Holder, shared shared.Holder) ViewService {
 	return &viewService{
-		application: application,
+		repository: repository,
 		shared:      shared,
 	}
 }

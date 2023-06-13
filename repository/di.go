@@ -1,10 +1,10 @@
-package application
+package repository
 
 import (
-	"farmacare/application/auth"
-	"farmacare/application/feedback"
-	"farmacare/application/healthcheck"
-	"farmacare/application/profile"
+	"farmacare/repository/auth"
+	"farmacare/repository/feedback"
+	"farmacare/repository/healthcheck"
+	"farmacare/repository/profile"
 
 	"github.com/pkg/errors"
 	"go.uber.org/dig"

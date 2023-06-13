@@ -1,9 +1,9 @@
 package di
 
 import (
-	"farmacare/application"
 	"farmacare/infrastructure"
 	"farmacare/interfaces"
+	"farmacare/repository"
 	"farmacare/shared"
 	"log"
 
@@ -17,7 +17,7 @@ func init() {
 		log.Fatal(err.Error())
 	}
 
-	if err := application.Register(Container); err != nil {
+	if err := repository.Register(Container); err != nil {
 		log.Fatal(err.Error())
 	}
 

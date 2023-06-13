@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"farmacare/application"
 	"farmacare/interfaces"
+	"farmacare/repository"
 	"farmacare/shared"
 	"farmacare/shared/common"
 	"farmacare/shared/dto"
@@ -13,7 +13,7 @@ import (
 type Controller struct {
 	Interfaces  interfaces.Holder
 	Shared      shared.Holder
-	Application application.Holder
+	Repository repository.Holder
 }
 
 func (c *Controller) Routes(app *fiber.App) {
@@ -256,10 +256,10 @@ func (c *Controller) userCredential(ctx *fiber.Ctx) error {
 	return common.DoCommonSuccessResponse(ctx, user)
 }
 
-func NewController(interfaces interfaces.Holder, shared shared.Holder, application application.Holder) Controller {
+func NewController(interfaces interfaces.Holder, shared shared.Holder, repository repository.Holder) Controller {
 	return Controller{
 		Interfaces:  interfaces,
 		Shared:      shared,
-		Application: application,
+		Repository: repository,
 	}
 }

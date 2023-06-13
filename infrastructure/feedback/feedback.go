@@ -1,8 +1,8 @@
 package feedback
 
 import (
-	"farmacare/application"
 	"farmacare/interfaces"
+	"farmacare/repository"
 	"farmacare/shared"
 	"farmacare/shared/common"
 	"farmacare/shared/dto"
@@ -13,7 +13,7 @@ import (
 type Controller struct {
 	Interfaces interfaces.Holder
 	Shared     shared.Holder
-	Application application.Holder
+	Controller repository.Holder
 }
 
 func (c *Controller) Routes(app *fiber.App) {
@@ -153,10 +153,10 @@ func (c *Controller) createFeedbackCategory(ctx *fiber.Ctx) error {
 	return common.DoCommonSuccessResponse(ctx, res)
 }
 
-func NewController(interfaces interfaces.Holder, shared shared.Holder, application application.Holder) Controller {
+func NewController(interfaces interfaces.Holder, shared shared.Holder, repository repository.Holder) Controller {
 	return Controller{
 		Interfaces:  interfaces,
 		Shared:      shared,
-		Application: application,
+		Controller: repository,
 	}
 }

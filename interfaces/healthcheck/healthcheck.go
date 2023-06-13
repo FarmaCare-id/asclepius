@@ -1,7 +1,7 @@
 package healthcheck
 
 import (
-	"farmacare/application"
+	"farmacare/repository"
 	"farmacare/shared"
 	"farmacare/shared/dto"
 )
@@ -12,7 +12,7 @@ type (
 	}
 
 	viewService struct {
-		application application.Holder
+		repository repository.Holder
 		shared      shared.Holder
 	}
 )
@@ -20,10 +20,10 @@ type (
 func (v *viewService) SystemHealthcheck() (dto.HCStatus, error) {
 	status := make([]dto.Status, 0)
 
-	httpStatus := v.application.HealthcheckService.HttpHealthcheck(v.shared.Http)
+	httpStatus := v.repository.HealthcheckService.HttpHealthcheck(v.shared.Http)
 	status = append(status, httpStatus)
 
-	dbStatus := v.application.HealthcheckService.DatabaseHealthcheck(v.shared.DB)
+	dbStatus := v.repository.HealthcheckService.DatabaseHealthcheck(v.shared.DB)
 	status = append(status, dbStatus)
 
 	return dto.HCStatus{
@@ -31,9 +31,9 @@ func (v *viewService) SystemHealthcheck() (dto.HCStatus, error) {
 	}, nil
 }
 
-func NewViewService(application application.Holder, shared shared.Holder) ViewService {
+func NewViewService(repository repository.Holder, shared shared.Holder) ViewService {
 	return &viewService{
-		application: application,
+		repository: repository,
 		shared:      shared,
 	}
 }
