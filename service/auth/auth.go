@@ -46,6 +46,10 @@ func (v *viewService) RegisterUser(req dto.CreateUserRequest) (dto.CreateUserRes
 		return res, exception.UserAlreadyExist()
 	}
 
+	if len(req.Password) < 8 {
+		return res, exception.MinimumPasswordLength()
+	}
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 14)
 	if err != nil {
 		return res, err
@@ -73,6 +77,10 @@ func (v *viewService) RegisterDoctor(req dto.CreateDoctorRequest) (dto.CreateDoc
 	isUserExist, _ := v.repository.UserRepository.CheckUserExist(req.Email)
 	if isUserExist {
 		return res, exception.UserAlreadyExist()
+	}
+
+	if len(req.Password) < 8 {
+		return res, exception.MinimumPasswordLength()
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 14)
@@ -103,6 +111,10 @@ func (v *viewService) RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.C
 	isUserExist, _ := v.repository.UserRepository.CheckUserExist(req.Email)
 	if isUserExist {
 		return res, exception.UserAlreadyExist()
+	}
+
+	if len(req.Password) < 8 {
+		return res, exception.MinimumPasswordLength()
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 14)
@@ -137,6 +149,10 @@ func (v *viewService) EditUser(req dto.EditUserRequest, ctx dto.SessionContext) 
 
 	if req.Fullname != "" {
 		user.Fullname = req.Fullname
+	}
+
+	if len(req.Password) < 8 {
+		return res, exception.MinimumPasswordLength()
 	}
 
 	if req.Password != "" {
