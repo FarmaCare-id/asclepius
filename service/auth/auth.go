@@ -1,11 +1,11 @@
 package auth
 
 import (
-	"errors"
 	"farmacare/repository"
 	"farmacare/shared"
 	"farmacare/shared/common"
 	"farmacare/shared/dto"
+	"farmacare/shared/exception"
 	"farmacare/shared/models"
 	"io/ioutil"
 	"net/http"
@@ -43,7 +43,7 @@ func (v *viewService) RegisterUser(req dto.CreateUserRequest) (dto.CreateUserRes
 
 	isUserExist, _ := v.repository.UserRepository.CheckUserExist(req.Email)
 	if isUserExist {
-		return res, errors.New("user already exist")
+		return res, exception.UserAlreadyExist()
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 14)
@@ -72,7 +72,7 @@ func (v *viewService) RegisterDoctor(req dto.CreateDoctorRequest) (dto.CreateDoc
 
 	isUserExist, _ := v.repository.UserRepository.CheckUserExist(req.Email)
 	if isUserExist {
-		return res, errors.New("doctor already exist")
+		return res, exception.UserAlreadyExist()
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 14)
@@ -102,7 +102,7 @@ func (v *viewService) RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.C
 
 	isUserExist, _ := v.repository.UserRepository.CheckUserExist(req.Email)
 	if isUserExist {
-		return res, errors.New("pharmacist already exist")
+		return res, exception.UserAlreadyExist()
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 14)
@@ -132,7 +132,7 @@ func (v *viewService) EditUser(req dto.EditUserRequest, ctx dto.SessionContext) 
 
 	isUserExist, user := v.repository.UserRepository.CheckUserExist(ctx.User.Email)
 	if !isUserExist {
-		return res, errors.New("no user found for given email")
+		return res, exception.UserNotFound()
 	}
 
 	if req.Fullname != "" {
@@ -201,7 +201,7 @@ func (v *viewService) Login(req dto.LoginRequest) (dto.LoginResponse, error) {
 
 	isUserExist, user := v.repository.UserRepository.CheckUserExist(req.Email)
 	if !isUserExist {
-		return res, errors.New("no user found for given email")
+		return res, exception.UserNotFound()
 	}
 
 	err := bcrypt.CompareHashAndPassword(
@@ -209,7 +209,7 @@ func (v *viewService) Login(req dto.LoginRequest) (dto.LoginResponse, error) {
 		[]byte(req.Password),
 	)
 	if err != nil {
-		return res, errors.New("incorrect password")
+		return res, exception.IncorrectPassword()
 	}
 
 	token, err := common.GenerateToken(v.shared.Env.SecretKey, jwt.MapClaims{
@@ -276,7 +276,7 @@ func (v *viewService) GoogleLogin(req dto.GoogleLoginRequest) (dto.LoginResponse
 func (v *viewService) ForgotPassword(req dto.ForgotPasswordRequest) error {
 	isUserExist, user := v.repository.UserRepository.CheckUserExist(req.Email)
 	if !isUserExist {
-		return errors.New("no user found for given email")
+		return exception.UserNotFound()
 	}
 
 	v.repository.PasswordResetRepository.RemovePreviousPasswordResetToken(user.ID)
@@ -311,11 +311,11 @@ func (v *viewService) ResetPassword(req dto.ResetPasswordRequest) error {
 
 	err := v.repository.PasswordResetRepository.GetResetToken(req.Token, &pw)
 	if err != nil {
-		return errors.New("token is invalid")
+		return exception.InvalidToken()
 	}
 
 	if carbon.Now().ToStdTime().After(pw.Valid) {
-		return errors.New("token is expired")
+		return exception.ExpiredToken()
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 14)
