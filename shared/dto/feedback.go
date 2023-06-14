@@ -18,6 +18,13 @@ type (
 		Description string `json:"description"`
 	}
 
+	// GetAllFeedbackCategoryResponse GetAllFeedbackCategoryResponse
+	GetAllFeedbackCategoryResponse struct {
+		ID uint `json:"id"`
+		Name string `json:"name"`
+		Description string `json:"description"`
+	}
+
 	// CreateFeedbackRequest CreateFeedbackRequest
 	CreateFeedbackRequest struct {
 		Issue string `json:"issue" validate:"required"`

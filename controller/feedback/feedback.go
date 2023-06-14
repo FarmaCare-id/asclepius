@@ -89,7 +89,7 @@ func (c *Controller) createFeedback(ctx *fiber.Ctx) error {
 // @Router /feedback/category [get]
 func (c *Controller) getAllFeedbackCategory(ctx *fiber.Ctx) error {
 	var (
-		res []models.FeedbackCategory
+		res []dto.GetAllFeedbackCategoryResponse
 	)
 
 	res, err := c.Service.FeedbackViewService.GetAllFeedbackCategory()
