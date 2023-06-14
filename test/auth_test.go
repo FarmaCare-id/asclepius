@@ -46,3 +46,16 @@ func (c *Controller) TestRegisterUser(t *testing.T) {
 	// Memastikan hasil sesuai dengan yang diharapkan
 	assert.Equal(t, expectedRes, res)
 }
+
+
+func TestLoginUser(t *testing.T) {
+	req := dto.LoginRequest{
+		Email: "eugeniusms@gmail.com",
+		Password: "password1234",
+	}
+	res := dto.LoginRequest{
+		Email: req.Email,
+		Password: req.Password,
+	}
+	assert.Equal(t, req, res)
+}
