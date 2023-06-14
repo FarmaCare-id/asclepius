@@ -22,7 +22,8 @@ func (s *authTokenRepository) CreateToken(token models.AuthToken) models.AuthTok
 }
 
 func (s *authTokenRepository) InvalidateToken(token models.AuthToken) models.AuthToken {
-	s.shared.DB.Where("token = ?", &token.Token).First(&token).Update("is_expired", true)
+	s.shared.DB.Where("token = ?", &token.Token).Delete(&token)
+	// s.shared.DB.Where("token = ?", &token.Token).First(&token).Update("is_expired", true)
 	return token
 }
 
