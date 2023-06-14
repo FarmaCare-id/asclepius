@@ -13,7 +13,16 @@ import (
 	"gorm.io/gorm"
 )
 
+type (
+	Response struct {
+		Status string      `json:"status"`
+		Error  string      `json:"error"`
+		Data   interface{} `json:"data"`
+	}
+)
+
 type Middleware struct {
+	
 	Env *config.EnvConfig
 	log *logrus.Logger
 	DB  *gorm.DB
@@ -40,7 +49,10 @@ func (m *Middleware) AuthMiddleware(c *fiber.Ctx) error {
 	err = m.DB.Select("is_expired").Where("token = ?", header).First(&models.AuthToken{}).Error
 
 	if err != nil {
-		return err
+		return c.Status(fiber.StatusUnauthorized).JSON(Response{
+			Status: "FAILED",
+			Error:  "Token is not valid",
+		})
 	}
 
 	if authToken.IsExpired == true {
@@ -173,3 +185,4 @@ func NewMiddleware(env *config.EnvConfig, log *logrus.Logger, db *gorm.DB) *Midd
 		DB:  db,
 	}
 }
+

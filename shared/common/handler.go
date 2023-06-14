@@ -33,14 +33,14 @@ func DoCommonRequest(ctx *fiber.Ctx, body interface{}) error {
 
 func DoCommonSuccessResponse(ctx *fiber.Ctx, data interface{}) error {
 	return ctx.Status(fiber.StatusOK).JSON(Response{
-		Status: "Success",
+		Status: "SUCCESS",
 		Data:   data,
 	})
 }
 
 func DoCommonErrorResponse(ctx *fiber.Ctx, err error) error {
 	return ctx.Status(fiber.StatusInternalServerError).JSON(Response{
-		Status: "Failed",
+		Status: "FAILED",
 		Error:  err.Error(),
 	})
 }
