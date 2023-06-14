@@ -35,7 +35,10 @@ func (c *Controller) Routes(app *fiber.App) {
 func (c *Controller) userProfile(ctx *fiber.Ctx) error {
 	context := common.CreateContext(ctx)
 
-	user := c.Service.AuthViewService.GetUserCredential(context)
+	user, err := c.Service.ProfileViewService.GetUserProfileRoleUser(context)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
 
 	return common.DoCommonSuccessResponse(ctx, user)
 }

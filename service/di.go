@@ -4,6 +4,7 @@ import (
 	"farmacare/service/auth"
 	"farmacare/service/feedback"
 	"farmacare/service/healthcheck"
+	"farmacare/service/profile"
 
 	"github.com/pkg/errors"
 	"go.uber.org/dig"
@@ -14,6 +15,7 @@ type Holder struct {
 	HealthcheckViewService  healthcheck.ViewService
 	AuthViewService         auth.ViewService
 	FeedbackViewService		feedback.ViewService
+	ProfileViewService		profile.ViewService
 }
 
 func Register(container *dig.Container) error {
@@ -26,6 +28,10 @@ func Register(container *dig.Container) error {
 	}
 
 	if err := container.Provide(feedback.NewViewService); err != nil {
+		return errors.Wrap(err, "Failed to provide profile view repository")
+	}
+
+	if err := container.Provide(profile.NewViewService); err != nil {
 		return errors.Wrap(err, "Failed to provide profile view repository")
 	}
 
