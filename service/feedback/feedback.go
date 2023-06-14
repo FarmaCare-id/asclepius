@@ -1,10 +1,10 @@
 package feedback
 
 import (
-	"errors"
 	"farmacare/repository"
 	"farmacare/shared"
 	"farmacare/shared/dto"
+	"farmacare/shared/exception"
 	"farmacare/shared/models"
 	"strconv"
 )
@@ -31,7 +31,7 @@ func (v *viewService) CreateFeedbackCategory(req dto.CreateFeedbackCategoryReque
 
 	isFeedbackCategoryExist, _ := v.repository.FeedbackRepository.CheckFeedbackCategoryExist(req.Name)
 	if isFeedbackCategoryExist {
-		return res, errors.New("Feedback category already exist")
+		return res, exception.FeedbackCategoryAlreadyExist()
 	}
 
 	err := v.repository.FeedbackRepository.CreateFeedbackCategory(req.TransformToFeedbackCategoryModel())
