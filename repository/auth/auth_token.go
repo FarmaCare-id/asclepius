@@ -22,9 +22,7 @@ func (s *authTokenRepository) CreateToken(token models.AuthToken) models.AuthTok
 }
 
 func (s *authTokenRepository) InvalidateToken(token models.AuthToken) models.AuthToken {
-	s.shared.Logger.Info(token)
-	s.shared.Logger.Info(token.Token)
-	s.shared.DB.Where("token = ?", token.Token).Delete(&token)
+	s.shared.DB.Where("token = ?", &token.Token).Delete(&token)
 	return token
 }
 
