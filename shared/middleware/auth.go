@@ -28,7 +28,7 @@ func (m *Middleware) AuthMiddleware(c *fiber.Ctx) error {
 
 	userId := uint(claims["id"].(float64))
 
-	context, err := m.getSessionContext(userId)
+	context, err := m.getSessionContext(userId, c)
 	if err != nil {
 		return err
 	}
@@ -38,24 +38,28 @@ func (m *Middleware) AuthMiddleware(c *fiber.Ctx) error {
 	return c.Next()
 }
 
-func (m *Middleware) getSessionContext(userId uint) (dto.SessionContext, error) {
+func (m *Middleware) getSessionContext(userId uint, c *fiber.Ctx) (dto.SessionContext, error) {
 	var (
-		user    models.User
-		context dto.SessionContext
+		user      models.User
+		authToken models.AuthToken
+		context   dto.SessionContext
 	)
-	err := m.DB.Where("id = ?", userId).Find(&user).Error
 
-	if err != nil {
-		return context, err
-	}
+	header := c.Get("Authorization", "")
 
+	u := m.DB.Where("id = ?", userId).Find(&user).Error
+	a := m.DB.Where("token = ?", header).Find(&authToken).Error
 	context = dto.SessionContext{
-		User: user,
+		User:      user,
+		AuthToken: authToken,
 	}
 
-	// if dto.GetSubscriptionStatus(user) {
-	// 	context.IsActiveSubscriber = true
-	// }
+	if u != nil {
+		return context, fmt.Errorf("failed to get session context")
+	}
+	if a != nil {
+		return context, fmt.Errorf("failed to get session context")
+	}
 
 	return context, nil
 }

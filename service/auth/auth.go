@@ -238,7 +238,6 @@ func (v *viewService) Login(req dto.LoginRequest) (dto.LoginResponse, error) {
 		return res, err
 	}
 
-
 	newToken := models.AuthToken{
 		UserID: user.ID,
 		Token:  token,
@@ -299,8 +298,8 @@ func (v *viewService) GoogleLogin(req dto.GoogleLoginRequest) (dto.LoginResponse
 }
 
 func (v *viewService) Logout(ctx dto.SessionContext) models.AuthToken {
-	token := v.repository.AuthTokenRepository.InvalidateToken(ctx.User.ID)
-	return token
+	v.repository.AuthTokenRepository.InvalidateToken(ctx.AuthToken)
+	return ctx.AuthToken
 }
 
 func (v *viewService) ForgotPassword(req dto.ForgotPasswordRequest) error {

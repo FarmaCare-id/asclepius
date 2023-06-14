@@ -116,6 +116,7 @@ type (
 
 	SessionContext struct {
 		User models.User
+		AuthToken models.AuthToken
 	}
 )
 

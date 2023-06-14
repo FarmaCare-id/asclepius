@@ -8,7 +8,7 @@ import (
 type (
 	AuthTokenRepository interface {
 		CreateToken(token models.AuthToken) models.AuthToken
-		InvalidateToken(userId uint) models.AuthToken
+		InvalidateToken(token models.AuthToken) models.AuthToken
 	}
 
 	authTokenRepository struct {
@@ -21,9 +21,10 @@ func (s *authTokenRepository) CreateToken(token models.AuthToken) models.AuthTok
 	return token
 }
 
-func (s *authTokenRepository) InvalidateToken(userId uint) models.AuthToken {
-	var token models.AuthToken
-	s.shared.DB.Where("id = ?", userId).Update("expired_at", "now()")
+func (s *authTokenRepository) InvalidateToken(token models.AuthToken) models.AuthToken {
+	s.shared.Logger.Info(token)
+	s.shared.Logger.Info(token.Token)
+	s.shared.DB.Where("token = ?", token.Token).Delete(&token)
 	return token
 }
 
