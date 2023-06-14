@@ -12,28 +12,28 @@ type (
 		RemovePreviousPasswordResetToken(id uint)
 	}
 
-	passwordResetrepository struct {
+	passwordResetRepository struct {
 		shared shared.Holder
 	}
 )
 
-func (s *passwordResetrepository) CreatePasswordReset(pw models.PasswordReset) error {
+func (s *passwordResetRepository) CreatePasswordReset(pw models.PasswordReset) error {
 	err := s.shared.DB.Create(&pw).Error
 	return err
 }
 
-func (s *passwordResetrepository) GetResetToken(token string, pw *models.PasswordReset) error {
+func (s *passwordResetRepository) GetResetToken(token string, pw *models.PasswordReset) error {
 	err := s.shared.DB.Preload("User").First(pw, "token = ?", token).Error
 	return err
 }
 
-func (s *passwordResetrepository) RemovePreviousPasswordResetToken(id uint) {
+func (s *passwordResetRepository) RemovePreviousPasswordResetToken(id uint) {
 	var pw models.PasswordReset
 	s.shared.DB.Where("user_id = ?", id).Delete(&pw)
 }
 
 func NewPasswordResetRepository(holder shared.Holder) (PasswordResetRepository, error) {
-	return &passwordResetrepository{
+	return &passwordResetRepository{
 		shared: holder,
 	}, nil
 }

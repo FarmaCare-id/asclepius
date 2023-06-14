@@ -48,6 +48,7 @@ func setConnectionConfiguration(db *gorm.DB) {
 func migrateSchema(db *gorm.DB, log *logrus.Logger) {
 	err := db.AutoMigrate(
 		&models.User{},
+		&models.AuthToken{},
 		&models.PasswordReset{},
 		&models.FeedbackCategory{},
 		&models.Feedback{},

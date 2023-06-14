@@ -24,6 +24,7 @@ type (
 		RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.CreatePharmacistResponse, error)
 		EditUser(req dto.EditUserRequest, ctx dto.SessionContext) (dto.EditUserResponse, error)
 		Login(req dto.LoginRequest) (dto.LoginResponse, error)
+		Logout(ctx dto.SessionContext) models.AuthToken
 		ForgotPassword(req dto.ForgotPasswordRequest) error
 		ResetPassword(req dto.ResetPasswordRequest) error
 		GetUserCredential(ctx dto.SessionContext) models.User
@@ -237,6 +238,14 @@ func (v *viewService) Login(req dto.LoginRequest) (dto.LoginResponse, error) {
 		return res, err
 	}
 
+
+	newToken := models.AuthToken{
+		UserID: user.ID,
+		Token:  token,
+	}
+
+	v.repository.AuthTokenRepository.CreateToken(newToken)
+
 	res = dto.LoginResponse{
 		Token: token,
 	}
@@ -287,6 +296,11 @@ func (v *viewService) GoogleLogin(req dto.GoogleLoginRequest) (dto.LoginResponse
 	}
 
 	return res, nil
+}
+
+func (v *viewService) Logout(ctx dto.SessionContext) models.AuthToken {
+	token := v.repository.AuthTokenRepository.InvalidateToken(ctx.User.ID)
+	return token
 }
 
 func (v *viewService) ForgotPassword(req dto.ForgotPasswordRequest) error {

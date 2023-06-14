@@ -23,6 +23,7 @@ func (c *Controller) Routes(app *fiber.App) {
 	auth.Post("/register/pharmacist", c.registerPharmacist)
 	auth.Post("/login", c.login)
 	auth.Post("/login-google", c.loginGoogle)
+	auth.Post("/logout", c.logout)
 	auth.Post("/forgot-password", c.forgotPassword)
 	auth.Post("/reset-password", c.resetPassword)
 	auth.Get("/credential", c.Shared.Middleware.AuthMiddleware, c.userCredential)
@@ -181,6 +182,24 @@ func (c *Controller) login(ctx *fiber.Ctx) error {
 	}
 
 	return common.DoCommonSuccessResponse(ctx, res)
+}
+
+// All godoc
+// @Tags Auth
+// @Summary Logout User
+// @Description Put all mandatory parameter
+// @Param Authorization header string true "Authorization"
+// @Description Put all mandatory parameter
+// @Accept  json
+// @Produce  json
+// @Success 200
+// @Router /auth/logout [post]
+func (c *Controller) logout(ctx *fiber.Ctx) error {
+	context := common.CreateContext(ctx)
+
+	user := c.Service.AuthViewService.Logout(context)
+
+	return common.DoCommonSuccessResponse(ctx, user)
 }
 
 // All godoc
