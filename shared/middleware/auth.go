@@ -34,9 +34,16 @@ func (m *Middleware) AuthMiddleware(c *fiber.Ctx) error {
 	}
 
 	header := c.Get("Authorization", "")
-	is_expired := m.DB.Select("is_expired").Where("token = ?", header).First(&models.AuthToken{}).Error
-	// logger is_expired
-	if is_expired != nil {
+
+	var authToken models.AuthToken
+
+	err = m.DB.Select("is_expired").Where("token = ?", header).First(&models.AuthToken{}).Error
+
+	if err != nil {
+		return err
+	}
+
+	if authToken.IsExpired == true {
 		return fmt.Errorf("token is expired")
 	}
 
