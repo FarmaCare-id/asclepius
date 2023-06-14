@@ -103,6 +103,11 @@ type (
 		Locale        string `json:"locale"`
 	}
 
+	// LogoutResponse LogoutResponse
+	LogoutResponse struct {
+		Token     string `json:"token"`
+	}
+
 	// ForgotPasswordRequest ForgotPasswordRequest
 	ForgotPasswordRequest struct {
 		Email string `json:"email" validate:"required,email"`

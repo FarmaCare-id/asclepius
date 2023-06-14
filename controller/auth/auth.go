@@ -195,7 +195,10 @@ func (c *Controller) login(ctx *fiber.Ctx) error {
 func (c *Controller) logout(ctx *fiber.Ctx) error {
 	context := common.CreateContext(ctx)
 
-	token := c.Service.AuthViewService.Logout(context)
+	token, err := c.Service.AuthViewService.Logout(context)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
 
 	return common.DoCommonSuccessResponse(ctx, token)
 }
