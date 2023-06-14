@@ -1,6 +1,7 @@
 package profile
 
 import (
+	"errors"
 	"farmacare/repository"
 	"farmacare/service"
 	"farmacare/shared"
@@ -35,12 +36,37 @@ func (c *Controller) Routes(app *fiber.App) {
 func (c *Controller) userProfile(ctx *fiber.Ctx) error {
 	context := common.CreateContext(ctx)
 
-	user, err := c.Service.ProfileViewService.GetUserProfileRoleUser(context)
-	if err != nil {
-		return common.DoCommonErrorResponse(ctx, err)
-	}
+	userRole := context.User.Role
 
-	return common.DoCommonSuccessResponse(ctx, user)
+	switch userRole {
+		case "user":
+			user, err := c.Service.ProfileViewService.GetUserProfileRoleUser(context)
+			if err != nil {
+				return common.DoCommonErrorResponse(ctx, err)
+			}
+			return common.DoCommonSuccessResponse(ctx, user)
+
+		case "doctor":
+			user, err := c.Service.ProfileViewService.GetUserProfileRoleDoctor(context)
+			if err != nil {
+				return common.DoCommonErrorResponse(ctx, err)
+			}
+			return common.DoCommonSuccessResponse(ctx, user)
+
+		case "pharmacist":
+			user, err := c.Service.ProfileViewService.GetUserProfileRolePharmacist(context)
+			if err != nil {
+				return common.DoCommonErrorResponse(ctx, err)
+			}
+			return common.DoCommonSuccessResponse(ctx, user)
+
+		case "admin":
+			user := c.Service.ProfileViewService.GetUserProfileRoleAdmin(context)
+			return common.DoCommonSuccessResponse(ctx, user)
+			
+		default:
+			return common.DoCommonErrorResponse(ctx, common.DoCommonErrorResponse(ctx, errors.New("User role not found")))
+	}
 }
 
 // All godoc

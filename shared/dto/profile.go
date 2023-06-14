@@ -35,19 +35,4 @@ type (
 		Specialist string `json:"specialist"`
 		Title    string `json:"title"`
 	}
-
-	// GetUserProfileRoleAdminResponse GetUserProfileRoleAdminResponse
-	GetUserProfileRoleAdminResponse struct {
-		ID       uint `json:"id"`
-		Email    string `json:"email"`
-		Fullname string `json:"fullname"`
-		Role     models.UserRole `json:"role"`
-		Weight   float64 `json:"weight"`
-		Height   float64 `json:"height"`
-		Age      int `json:"age"`
-		NoSip    string `json:"no_sip"`
-		NoSipa   string `json:"no_sipa"`
-		Specialist string `json:"specialist"`
-		Title    string `json:"title"`
-	}
 )
