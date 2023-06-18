@@ -17,17 +17,21 @@ jobs:
       GCE_INSTANCE_ZONE: asia-southeast2-b
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
         go-version: 1.16
 
-    - name: install dependencies
-      run: go mod download
+    - name: Install dependencies
+      run: |
+        go get -u github.com/jackc/pgx/v5
+        go mod tidy
+        go mod download
 
-    - name: build
+    - name: Build
       run: go build
 
     - name: Authenticate with Google Cloud
@@ -43,8 +47,15 @@ jobs:
       run: gcloud compute scp ./myapp ${{ env.GCE_INSTANCE }}:~/myapp --zone ${{ env.GCE_INSTANCE_ZONE }}
 
     - name: SSH into GCE instance
-      run: gcloud compute ssh ${{ env.GCE_INSTANCE }} --zone ${{ env.GCE_INSTANCE_ZONE }} --command "cd ~/myapp && ./myapp"
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ env.GCE_INSTANCE }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd ~/myapp
+          ./myapp
 
     - name: Deploy Complete
-      uses: appleboy/ssh-action@master
-      
+      run: echo "Deployment Complete"
