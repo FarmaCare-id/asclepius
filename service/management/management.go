@@ -4,6 +4,7 @@ import (
 	"farmacare/repository"
 	"farmacare/shared"
 	"farmacare/shared/dto"
+	"farmacare/shared/exception"
 	"farmacare/shared/models"
 )
 
@@ -40,6 +41,11 @@ func (v *viewService) CreateDrug(ctx dto.SessionContext, req dto.CreateDrugReque
 	var (
 		res dto.CreateDrugResponse
 	)
+
+	isDrugExist, _ := v.repository.ManagementRepository.CheckDrugExist(req.Code)
+	if isDrugExist {
+		return res, exception.DrugAlreadyExist()
+	}
 
 	drug := models.Drug {
 		Code: req.Code,
