@@ -4,6 +4,7 @@ import (
 	"farmacare/repository/auth"
 	"farmacare/repository/feedback"
 	"farmacare/repository/healthcheck"
+	"farmacare/repository/management"
 
 	"github.com/pkg/errors"
 	"go.uber.org/dig"
@@ -16,6 +17,7 @@ type Holder struct {
 	AuthTokenRepository 	auth.AuthTokenRepository
 	PasswordResetRepository auth.PasswordResetRepository
 	FeedbackRepository      feedback.Repository
+	ManagementRepository    management.Repository
 }
 
 func Register(container *dig.Container) error {
@@ -37,6 +39,10 @@ func Register(container *dig.Container) error {
 
 	if err := container.Provide(feedback.FeedbackRepository); err != nil {
 		return errors.Wrap(err, "Failed to provide feedback repository")
+	}
+
+	if err := container.Provide(management.ManagementRepository); err != nil {
+		return errors.Wrap(err, "Failed to provide management repository")
 	}
 	
 	return nil

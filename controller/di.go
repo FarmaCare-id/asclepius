@@ -4,6 +4,7 @@ import (
 	"farmacare/controller/auth"
 	"farmacare/controller/feedback"
 	"farmacare/controller/healthcheck"
+	"farmacare/controller/management"
 	"farmacare/controller/profile"
 
 	"github.com/gofiber/fiber/v2"
@@ -17,6 +18,7 @@ type Holder struct {
 	Auth         auth.Controller
 	Profile 	 profile.Controller
 	Feedback	 feedback.Controller
+	Management   management.Controller
 }
 
 func Register(container *dig.Container) error {
@@ -35,7 +37,10 @@ func Register(container *dig.Container) error {
 	if err := container.Provide(feedback.NewController); err != nil {
 		return errors.Wrap(err, "failed to provide feedback controller")
 	}
-
+	
+	if err := container.Provide(management.NewController); err != nil {
+		return errors.Wrap(err, "failed to provide management controller")
+	}
 
 	return nil
 }
@@ -45,4 +50,5 @@ func Routes(app *fiber.App, controller Holder) {
 	controller.Auth.Routes(app)
 	controller.Profile.Routes(app)
 	controller.Feedback.Routes(app)
+	controller.Management.Routes(app)
 }
