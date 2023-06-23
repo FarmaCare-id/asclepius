@@ -18,7 +18,7 @@ type Controller struct {
 
 func (c *Controller) Routes(app *fiber.App) {
 	management := app.Group("/management")
-	management.Post("/drug/create",  c.Shared.Middleware.AdminMiddleware, c.createDrug)
+	management.Post("/drug/create",  c.Shared.Middleware.AuthMiddleware, c.createDrug)
 }
 
 // All godoc
