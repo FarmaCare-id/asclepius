@@ -9,6 +9,7 @@ import (
 
 type (
 	ViewService interface {
+		GetAllDrug() ([]dto.GetAllDrugResponse, error)
 		CreateDrug(ctx dto.SessionContext, req dto.CreateDrugRequest) (dto.CreateDrugResponse, error)
 	}
 
@@ -17,6 +18,23 @@ type (
 		shared      shared.Holder
 	}
 )
+
+func (v *viewService) GetAllDrug() ([]dto.GetAllDrugResponse, error) {
+	var (
+		res []dto.GetAllDrugResponse
+	)
+
+	drugs := v.repository.ManagementRepository.GetAllDrug("")
+	for _, drug:= range drugs {
+		res = append(res, dto.GetAllDrugResponse{
+			ID: drug.ID,
+			Code: drug.Code,
+			Name: drug.Name,
+		})
+	}
+
+	return res, nil
+}
 
 func (v *viewService) CreateDrug(ctx dto.SessionContext, req dto.CreateDrugRequest) (dto.CreateDrugResponse, error) {
 	var (
