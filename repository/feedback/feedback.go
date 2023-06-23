@@ -13,6 +13,7 @@ type (
 		GetAllFeedbackCategory(preload string) []models.FeedbackCategory
 		CreateFeedback(feedback models.Feedback) error
 		GetAllFeedback(preload string) []models.Feedback
+		GetAllFeedbackByUserId(userId uint) ([]models.Feedback, error)
 	}
 
 	repository struct {
@@ -52,6 +53,12 @@ func (s *repository) GetAllFeedback(preload string) []models.Feedback {
 	var feedbacks []models.Feedback
 	s.shared.DB.Preload(preload).Find(&feedbacks)
 	return feedbacks
+}
+
+func (s *repository) GetAllFeedbackByUserId(userId uint) ([]models.Feedback, error) {
+	var feedbacks []models.Feedback
+	err := s.shared.DB.Where("user_id = ?", userId).Find(&feedbacks).Error
+	return feedbacks, err
 }
 
 func FeedbackRepository(holder shared.Holder) (Repository, error) {

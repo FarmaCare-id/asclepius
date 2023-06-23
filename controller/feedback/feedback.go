@@ -20,6 +20,7 @@ type Controller struct {
 func (c *Controller) Routes(app *fiber.App) {
 	feedback := app.Group("/feedback")
 	feedback.Get("/", c.Shared.Middleware.AuthMiddleware, c.getAllFeedback)
+	feedback.Get("/user/:id", c.Shared.Middleware.AuthMiddleware, c.getAllFeedbackByUserId)
 	feedback.Post("/create",  c.Shared.Middleware.AuthMiddleware, c.createFeedback)
 	feedback.Get("/category", c.Shared.Middleware.AuthMiddleware, c.getAllFeedbackCategory)
 	feedback.Get("/category/:id", c.Shared.Middleware.AuthMiddleware, c.getFeedbackCategoryById)
@@ -41,6 +42,32 @@ func (c *Controller) getAllFeedback(ctx *fiber.Ctx) error {
 	)
 
 	res, err := c.Service.FeedbackViewService.GetAllFeedback()
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
+}
+
+// All godoc
+// @Tags Feedback
+// @Summary Get Feedback By User Id
+// @Description Put all mandatory parameter
+// @Accept  json
+// @Produce  json
+// @Success 200
+// @Failure 400 {object} common.Response
+// @Router /feedback/user/:id [get]
+func (c *Controller) getAllFeedbackByUserId(ctx *fiber.Ctx) error {
+	var (
+		res []dto.GetAllFeedbackByUserIdResponse
+	)
+
+	userId := ctx.Params("id")
+
+	c.Shared.Logger.Infof("getting feedback for user: %s", userId)
+	
+	res, err := c.Service.FeedbackViewService.GetAllFeedbackByUserId(userId)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

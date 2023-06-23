@@ -16,6 +16,7 @@ type (
 		GetAllFeedbackCategory() ([]dto.GetAllFeedbackCategoryResponse, error)
 		CreateFeedback(ctx dto.SessionContext, req dto.CreateFeedbackRequest) (dto.CreateFeedbackResponse, error)
 		GetAllFeedback() ([]dto.GetAllFeedbackResponse, error)
+		GetAllFeedbackByUserId(userId string) ([]dto.GetAllFeedbackByUserIdResponse, error)
 	}
 
 	viewService struct {
@@ -139,6 +140,34 @@ func (v *viewService) GetAllFeedback() ([]dto.GetAllFeedbackResponse, error) {
 	}
 
 	return feedbackLists, nil
+}
+
+func (v *viewService) GetAllFeedbackByUserId(userId string) ([]dto.GetAllFeedbackByUserIdResponse, error) {
+	var (
+		res []dto.GetAllFeedbackByUserIdResponse
+	)
+
+	cid, err := strconv.Atoi(userId)
+	if err != nil {
+		return res, err
+	}
+
+	feedbacks, err := v.repository.FeedbackRepository.GetAllFeedbackByUserId(uint(cid))
+	if err != nil {
+		return res, err
+	}
+
+	for _, feedback := range feedbacks {
+		res = append(res, dto.GetAllFeedbackByUserIdResponse{
+			ID: feedback.ID,
+			Issue: feedback.Issue,
+			Detail: feedback.Detail,
+			Category: feedback.FeedbackCategory.Name,
+			CreatedAt: feedback.CreatedAt,
+		})
+	}
+
+	return res, nil
 }
 
 func NewViewService(repository repository.Holder, shared shared.Holder) ViewService {

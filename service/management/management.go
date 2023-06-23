@@ -37,6 +37,8 @@ func (v *viewService) GetAllDrug() ([]dto.GetAllDrugResponse, error) {
 	return res, nil
 }
 
+
+
 func (v *viewService) CreateDrug(ctx dto.SessionContext, req dto.CreateDrugRequest) (dto.CreateDrugResponse, error) {
 	var (
 		res dto.CreateDrugResponse

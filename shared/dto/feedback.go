@@ -49,6 +49,15 @@ type (
 		UserRole models.UserRole `json:"user_role"`
 		CreatedAt time.Time `json:"created_at"`
 	}
+
+	// GetAllFeedbackByUserIdResponse GetAllFeedbackByUserIdResponse
+	GetAllFeedbackByUserIdResponse struct {
+		ID uint `json:"id"`
+		Issue string `json:"issue"`
+		Detail string `json:"detail"`
+		Category string `json:"category"`
+		CreatedAt time.Time `json:"created_at"`
+	}
 )
 
 func (r *CreateFeedbackCategoryRequest) TransformToFeedbackCategoryModel() models.FeedbackCategory {
