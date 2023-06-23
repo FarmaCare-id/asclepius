@@ -20,6 +20,7 @@ func (c *Controller) Routes(app *fiber.App) {
 	auth.Post("/register", c.register)
 	auth.Post("/register/doctor", c.registerDoctor)
 	auth.Post("/register/pharmacist", c.registerPharmacist)
+	auth.Post("/register/admin", c.registerAdmin)
 	auth.Post("/login", c.login)
 	auth.Post("/login-google", c.loginGoogle)
 	auth.Post("/logout", c.Shared.Middleware.AuthMiddleware, c.logout)
@@ -114,6 +115,37 @@ func (c *Controller) registerPharmacist(ctx *fiber.Ctx) error {
 	c.Shared.Logger.Infof("register pharmacist with payload: %s", req)
 
 	res, err = c.Service.AuthViewService.RegisterPharmacist(req)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
+}
+
+// All godoc
+// @Tags Auth
+// @Summary Register New Admin
+// @Description Put all mandatory parameter
+// @Param CreateAdminRequest body dto.CreateAdminRequest true "CreateAdminRequest"
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} dto.CreateAdminResponse
+// @Failure 200 {object} dto.CreateAdminResponse
+// @Router /auth/register/admin [post]
+func (c *Controller) registerAdmin(ctx *fiber.Ctx) error {
+	var (
+		req dto.CreateAdminRequest
+		res dto.CreateAdminResponse
+	)
+
+	err := common.DoCommonRequest(ctx, &req)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	c.Shared.Logger.Infof("register admin with payload: %s", req)
+
+	res, err = c.Service.AuthViewService.RegisterAdmin(req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

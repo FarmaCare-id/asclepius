@@ -50,6 +50,20 @@ type (
 		Role     string `json:"role"`
 		NoSipa   string `json:"no_sipa"`
 	}
+
+	// CreateAdminRequest CreateAdminRequest
+	CreateAdminRequest struct {
+		Email    string `json:"email" validate:"required,email"`
+		Password string `json:"password" validate:"required"`
+		Fullname string `json:"fullname" validate:"required"`
+	}
+
+	// CreateAdminResponse CreateAdminResponse
+	CreateAdminResponse struct {
+		Email    string `json:"email"`
+		Fullname string `json:"fullname"`
+		Role     string `json:"role"`
+	}
 		
 	// EditUserRequest EditUserRequest
 	EditUserRequest struct {
@@ -158,5 +172,14 @@ func (r *CreatePharmacistRequest) TransformToUserModel(hp string) models.User {
 		HashedPassword:    hp,
 		Role:              models.RolePharmacist,
 		NoSipa:            r.NoSipa,
+	}
+}
+
+func (r *CreateAdminRequest) TransformToUserModel(hp string) models.User {
+	return models.User{
+		Email:             r.Email,
+		Fullname:          r.Fullname,
+		HashedPassword:    hp,
+		Role:              models.RolePharmacist,
 	}
 }

@@ -11,6 +11,7 @@ type (
 		CreateUser(user models.User) error
 		CreateDoctor(user models.User) error
 		CreatePharmacist(user models.User) error
+		CreateAdmin(user models.User) error
 		EditUser(user models.User) error
 		GetUserContext(id uint) models.User
 		GetAllUser(preload string) []models.User
@@ -41,6 +42,12 @@ func (s *userRepository) CreateDoctor(user models.User) error {
 
 func (s *userRepository) CreatePharmacist(user models.User) error {
 	user.Role = "pharmacist"
+	err := s.shared.DB.Create(&user).Error
+	return err
+}
+
+func (s *userRepository) CreateAdmin(user models.User) error {
+	user.Role = "admin"
 	err := s.shared.DB.Create(&user).Error
 	return err
 }

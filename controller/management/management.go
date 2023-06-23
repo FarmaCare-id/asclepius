@@ -41,7 +41,7 @@ func (c *Controller) createDrug(ctx *fiber.Ctx) error {
 
 	context := common.CreateContext(ctx)
 
-	c.Shared.Logger.Infof("creating feedback for user: %s", context.User)
+	c.Shared.Logger.Infof("creating drug for user: %s", context.User)
 
 	res, err := c.Service.ManagementViewService.CreateDrug(context, req)
 	if err != nil {

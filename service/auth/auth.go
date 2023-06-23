@@ -22,6 +22,7 @@ type (
 		RegisterUser(req dto.CreateUserRequest) (dto.CreateUserResponse, error)
 		RegisterDoctor(req dto.CreateDoctorRequest) (dto.CreateDoctorResponse, error)
 		RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.CreatePharmacistResponse, error)
+		RegisterAdmin(req dto.CreateAdminRequest) (dto.CreateAdminResponse, error)
 		EditUser(req dto.EditUserRequest, ctx dto.SessionContext) (dto.EditUserResponse, error)
 		Login(req dto.LoginRequest) (dto.LoginResponse, error)
 		Logout(ctx dto.SessionContext) (dto.LogoutResponse, error)
@@ -133,6 +134,39 @@ func (v *viewService) RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.C
 		Fullname: req.Fullname,
 		Role:     "pharmacist",
 		NoSipa:    req.NoSipa,
+	}
+
+	return res, nil
+}
+
+func (v *viewService) RegisterAdmin(req dto.CreateAdminRequest) (dto.CreateAdminResponse, error) {
+	var (
+		res dto.CreateAdminResponse
+	)
+
+	isUserExist, _ := v.repository.UserRepository.CheckUserExist(req.Email)
+	if isUserExist {
+		return res, exception.UserAlreadyExist()
+	}
+
+	if len(req.Password) < 8 {
+		return res, exception.MinimumPasswordLength()
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 14)
+	if err != nil {
+		return res, err
+	}
+
+	err = v.repository.UserRepository.CreateAdmin(req.TransformToUserModel(string(hashedPassword)))
+	if err != nil {
+		return res, err
+	}
+
+	res = dto.CreateAdminResponse{
+		Email:    req.Email,
+		Fullname: req.Fullname,
+		Role:     "admin",
 	}
 
 	return res, nil
