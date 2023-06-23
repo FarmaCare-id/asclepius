@@ -45,6 +45,10 @@ func DoCommonErrorResponse(ctx *fiber.Ctx, err error) error {
 	})
 }
 
-func CreateContext(ctx *fiber.Ctx) dto.SessionContext {
-	return ctx.Locals("context").(dto.SessionContext)
+func CreateContext(ctx *fiber.Ctx) (dto.SessionContext, error) {
+	value := ctx.Locals("context")
+	if value == nil {
+		return dto.SessionContext{}, errors.New("context value is nil")
+	}
+	return value.(dto.SessionContext), nil
 }

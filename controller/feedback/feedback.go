@@ -66,7 +66,10 @@ func (c *Controller) createFeedback(ctx *fiber.Ctx) error {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
 
-	context := common.CreateContext(ctx)
+	context, err := common.CreateContext(ctx)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
 
 	c.Shared.Logger.Infof("creating feedback for user: %s", context.User)
 

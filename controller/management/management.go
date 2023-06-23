@@ -39,7 +39,10 @@ func (c *Controller) createDrug(ctx *fiber.Ctx) error {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
 
-	context := common.CreateContext(ctx)
+	context, err := common.CreateContext(ctx)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
 
 	c.Shared.Logger.Infof("creating drug for user: %s", context.User)
 

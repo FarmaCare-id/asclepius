@@ -225,7 +225,10 @@ func (c *Controller) login(ctx *fiber.Ctx) error {
 // @Success 200
 // @Router /auth/logout [post]
 func (c *Controller) logout(ctx *fiber.Ctx) error {
-	context := common.CreateContext(ctx)
+	context, err := common.CreateContext(ctx)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
 
 	token, err := c.Service.AuthViewService.Logout(context)
 	if err != nil {
@@ -301,7 +304,10 @@ func (c *Controller) resetPassword(ctx *fiber.Ctx) error {
 // @Success 200
 // @Router /auth/credential [get]
 func (c *Controller) userCredential(ctx *fiber.Ctx) error {
-	context := common.CreateContext(ctx)
+	context, err := common.CreateContext(ctx)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
 
 	user := c.Service.AuthViewService.GetUserCredential(context)
 
