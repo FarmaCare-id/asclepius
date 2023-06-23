@@ -562,6 +562,23 @@ paths:
       summary: Create Feedback
       tags:
       - Feedback
+  /feedback/user/:id:
+    get:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: Get Feedback By User Id
+      tags:
+      - Feedback
   /healthcheck:
     get:
       consumes:
