@@ -21,6 +21,7 @@ func (c *Controller) Routes(app *fiber.App) {
 	management.Get("/drug",  c.Shared.Middleware.AuthMiddleware, c.getAllDrug)
 	management.Post("/drug/create",  c.Shared.Middleware.AuthMiddleware, c.createDrug)
 	management.Post("/user/drug/create",  c.Shared.Middleware.AuthMiddleware, c.createUserDrug)
+	management.Get("/user/drug/:id",  c.Shared.Middleware.AuthMiddleware, c.getAllUserDrugByUserID)
 }
 
 // All godoc
@@ -111,6 +112,31 @@ func (c *Controller) createUserDrug(ctx *fiber.Ctx) error {
 	return common.DoCommonSuccessResponse(ctx, res)
 }
 
+// All godoc
+// @Tags Management
+// @Summary Get All User Drug
+// @Description Put all mandatory parameter
+// @Accept  json
+// @Produce  json
+// @Success 200
+// @Failure 400 {object} common.Response
+// @Router /management/user/drug [get]
+func (c *Controller) getAllUserDrugByUserID(ctx *fiber.Ctx) error {
+	var (
+		res []dto.GetUserDrugResponse
+	)
+
+	userId := ctx.Params("id")
+
+	c.Shared.Logger.Infof("getting drug for user: %s", userId)
+
+	res, err := c.Service.ManagementViewService.GetAllUserDrugByUserID(userId)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
+}
 
 func NewController(service service.Holder, shared shared.Holder, repository repository.Holder) Controller {
 	return Controller{

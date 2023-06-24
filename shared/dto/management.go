@@ -44,6 +44,16 @@ type (
 		Note string `json:"note"`
 		FrequencyPerDay uint `json:"frequency_per_day"`
 	}
+
+	// GetUserDrugResponse GetUserDrugResponse
+	GetUserDrugResponse struct {
+		ID uint `json:"id"`
+		UserID uint `json:"user_id"`
+		DrugID uint `json:"drug_id"`
+		Status string `json:"status"`
+		Note string `json:"note"`
+		FrequencyPerDay uint `json:"frequency_per_day"`
+	}
 )
 
 func (r *CreateDrugRequest) TransformToDrugModel() models.Drug {
