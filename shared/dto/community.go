@@ -17,4 +17,15 @@ type (
 		CreatedAt string `json:"created_at"`
 		UpdatedAt string `json:"updated_at"`
 	}
+
+	// GetForumResponse GetForumResponse
+	GetForumResponse struct {
+		ID uint `json:"id"`
+		Title string `json:"title"`
+		Description string `json:"description"`
+		Vote uint `json:"vote"`
+		UserID uint `json:"user_id"`
+		CreatedAt string `json:"created_at"`
+		UpdatedAt string `json:"updated_at"`
+	}
 )

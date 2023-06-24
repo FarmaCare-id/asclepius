@@ -18,7 +18,30 @@ type Controller struct {
 
 func (c *Controller) Routes(app *fiber.App) {
 	community := app.Group("/community")
+	community.Get("/forum", c.Shared.Middleware.AuthMiddleware, c.getAllForum)
 	community.Post("/forum/create",  c.Shared.Middleware.AuthMiddleware, c.createForum)
+}
+
+// All godoc
+// @Tags Community
+// @Summary Get All Forum
+// @Description Put all mandatory parameter
+// @Accept  json
+// @Produce  json
+// @Success 200
+// @Failure 400 {object} common.Response
+// @Router /community/forum [get]
+func (c *Controller) getAllForum(ctx *fiber.Ctx) error {
+	var (
+		res []dto.GetForumResponse
+	)
+
+	res, err := c.Service.CommunityViewService.GetAllForum()
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
 }
 
 // All godoc
@@ -30,7 +53,7 @@ func (c *Controller) Routes(app *fiber.App) {
 // @Produce  json
 // @Success 200 {array} CreateForumResponse
 // @Failure 200 {array} CreateForumResponse
-// @Router /community/create [post]
+// @Router /community/forum/create [post]
 func (c *Controller) createForum(ctx *fiber.Ctx) error {
 	var (
 		req dto.CreateForumRequest

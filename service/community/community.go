@@ -10,6 +10,7 @@ import (
 type (
 	ViewService interface {
 		CreateForum(ctx dto.SessionContext, req dto.CreateForumRequest) (dto.CreateForumResponse, error)
+		GetAllForum() ([]dto.GetForumResponse, error)
 	}
 
 	viewService struct {
@@ -41,6 +42,26 @@ func (v *viewService) CreateForum(ctx dto.SessionContext, req dto.CreateForumReq
 		Description: forum.Description,
 		Vote: forum.Vote,
 		UserID: forum.UserID,
+	}
+
+	return res, nil
+}
+
+func (v *viewService) GetAllForum() ([]dto.GetForumResponse, error) {
+	var (
+		res []dto.GetForumResponse
+	)
+
+	forums := v.repository.ForumRepository.GetAllForum("")
+
+	for _, forum := range forums {
+		res = append(res, dto.GetForumResponse{
+			ID: forum.ID,
+			Title: forum.Title,
+			Description: forum.Description,
+			Vote: forum.Vote,
+			UserID: forum.UserID,
+		})
 	}
 
 	return res, nil
