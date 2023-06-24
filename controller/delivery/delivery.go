@@ -56,11 +56,11 @@ func (c *Controller) GetAllDeliveryForCurrentUser(ctx *fiber.Ctx) error {
 // @Tags Delivery
 // @Summary Create Delivery
 // @Description Put all mandatory parameter
-// @Param CreateDeliveryRequest body CreateDeliveryRequest true "CreateDeliveryRequest"
+// @Param CreateDeliveryRequest body dto.CreateDeliveryRequest true "CreateDeliveryRequest"
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} CreateDeliveryResponse
-// @Failure 200 {array} CreateDeliveryResponse
+// @Success 200 {array} dto.CreateDeliveryResponse
+// @Failure 200 {array} dto.CreateDeliveryResponse
 // @Router /delivery/create [post]
 func (c *Controller) createDelivery(ctx *fiber.Ctx) error {
 	var req dto.CreateDeliveryRequest

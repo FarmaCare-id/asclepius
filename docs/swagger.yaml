@@ -30,6 +30,32 @@ definitions:
       role:
         type: string
     type: object
+  dto.CreateDeliveryRequest:
+    properties:
+      drug_id:
+        type: integer
+      note:
+        type: string
+      status:
+        type: string
+      tracking_url:
+        type: string
+    type: object
+  dto.CreateDeliveryResponse:
+    properties:
+      drug_id:
+        type: integer
+      id:
+        type: integer
+      note:
+        type: string
+      status:
+        type: string
+      tracking_url:
+        type: string
+      user_id:
+        type: integer
+    type: object
   dto.CreateDoctorRequest:
     properties:
       email:
@@ -117,6 +143,30 @@ definitions:
         type: string
     required:
     - feedback_category_id
+    type: object
+  dto.CreateForumRequest:
+    properties:
+      description:
+        type: string
+      title:
+        type: string
+    type: object
+  dto.CreateForumResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+      vote:
+        type: integer
     type: object
   dto.CreatePharmacistRequest:
     properties:
@@ -503,6 +553,88 @@ paths:
       summary: Reset Password
       tags:
       - Auth
+  /community/forum:
+    get:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: Get All Forum
+      tags:
+      - Community
+  /community/forum/create:
+    post:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      parameters:
+      - description: CreateForumRequest
+        in: body
+        name: CreateForumRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateForumRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.CreateForumResponse'
+            type: array
+      summary: Create Forum
+      tags:
+      - Community
+  /delivery:
+    get:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: Get All Delivery
+      tags:
+      - Delivery
+  /delivery/create:
+    post:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      parameters:
+      - description: CreateDeliveryRequest
+        in: body
+        name: CreateDeliveryRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateDeliveryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.CreateDeliveryResponse'
+            type: array
+      summary: Create Delivery
+      tags:
+      - Delivery
   /feedback:
     get:
       consumes:

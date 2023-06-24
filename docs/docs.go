@@ -346,6 +346,132 @@ const docTemplate = `{
                 }
             }
         },
+        "/community/forum": {
+            "get": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Community"
+                ],
+                "summary": "Get All Forum",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/community/forum/create": {
+            "post": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Community"
+                ],
+                "summary": "Create Forum",
+                "parameters": [
+                    {
+                        "description": "CreateForumRequest",
+                        "name": "CreateForumRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateForumRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.CreateForumResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/delivery": {
+            "get": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Delivery"
+                ],
+                "summary": "Get All Delivery",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/delivery/create": {
+            "post": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Delivery"
+                ],
+                "summary": "Create Delivery",
+                "parameters": [
+                    {
+                        "description": "CreateDeliveryRequest",
+                        "name": "CreateDeliveryRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateDeliveryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.CreateDeliveryResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/feedback": {
             "get": {
                 "description": "Put all mandatory parameter",
@@ -801,6 +927,46 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.CreateDeliveryRequest": {
+            "type": "object",
+            "properties": {
+                "drug_id": {
+                    "type": "integer"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tracking_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateDeliveryResponse": {
+            "type": "object",
+            "properties": {
+                "drug_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tracking_url": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "dto.CreateDoctorRequest": {
             "type": "object",
             "required": [
@@ -931,6 +1097,43 @@ const docTemplate = `{
                 },
                 "issue": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.CreateForumRequest": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateForumResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "vote": {
+                    "type": "integer"
                 }
             }
         },

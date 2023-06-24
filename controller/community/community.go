@@ -48,11 +48,11 @@ func (c *Controller) getAllForum(ctx *fiber.Ctx) error {
 // @Tags Community
 // @Summary Create Forum
 // @Description Put all mandatory parameter
-// @Param CreateForumRequest body CreateForumRequest true "CreateForumRequest"
+// @Param CreateForumRequest body dto.CreateForumRequest true "CreateForumRequest"
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} CreateForumResponse
-// @Failure 200 {array} CreateForumResponse
+// @Success 200 {array} dto.CreateForumResponse
+// @Failure 200 {array} dto.CreateForumResponse
 // @Router /community/forum/create [post]
 func (c *Controller) createForum(ctx *fiber.Ctx) error {
 	var (
