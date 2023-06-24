@@ -10,6 +10,7 @@ import (
 type (
 	ViewService interface {
 		CreateDelivery(ctx dto.SessionContext, req dto.CreateDeliveryRequest) (dto.CreateDeliveryResponse, error)
+		GetAllDeliveryForCurrentUser(ctx dto.SessionContext) ([]dto.GetDeliveryResponse, error)
 	}
 
 	viewService struct {
@@ -43,6 +44,30 @@ func (v *viewService) CreateDelivery(ctx dto.SessionContext, req dto.CreateDeliv
 		Status: delivery.Status,
 		TrackingUrl: delivery.TrackingUrl,
 		Note: delivery.Note,
+	}
+
+	return res, nil
+}
+
+func (v *viewService) GetAllDeliveryForCurrentUser(ctx dto.SessionContext) ([]dto.GetDeliveryResponse, error) {
+	var (
+		res []dto.GetDeliveryResponse
+	)
+
+	deliveries, err := v.repository.DeliveryRepository.GetAllDeliveryByUserID(ctx.User.ID)
+	if err != nil {
+		return res, err
+	}
+
+	for _, delivery:= range deliveries {
+		res = append(res, dto.GetDeliveryResponse{
+			ID: delivery.ID,
+			DrugID: delivery.DrugID,
+			UserID: delivery.UserID,
+			Status: delivery.Status,
+			TrackingUrl: delivery.TrackingUrl,
+			Note: delivery.Note,
+		})
 	}
 
 	return res, nil

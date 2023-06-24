@@ -18,8 +18,39 @@ type Controller struct {
 
 func (c *Controller) Routes(app *fiber.App) {
 	delivery := app.Group("/delivery")
+	delivery.Get("/", c.Shared.Middleware.AuthMiddleware, c.GetAllDeliveryForCurrentUser)
 	delivery.Post("/create",  c.Shared.Middleware.AuthMiddleware, c.createDelivery)
 }
+
+// All godoc
+// @Tags Delivery
+// @Summary Get All Delivery
+// @Description Put all mandatory parameter
+// @Accept  json
+// @Produce  json
+// @Success 200
+// @Failure 400 {object} common.Response
+// @Router /delivery [get]
+func (c *Controller) GetAllDeliveryForCurrentUser(ctx *fiber.Ctx) error {
+	var (
+		res []dto.GetDeliveryResponse
+	)	
+
+	context, err := common.CreateContext(ctx)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	c.Shared.Logger.Infof("getting delivery for user: %s", context.User)
+
+	res, err = c.Service.DeliveryViewService.GetAllDeliveryForCurrentUser(context)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
+}
+
 
 // All godoc
 // @Tags Delivery
