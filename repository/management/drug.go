@@ -6,36 +6,43 @@ import (
 )
 
 type (
-	Repository interface {
+	DrugRepository interface {
 		CheckDrugExist(code string) (bool, models.Drug)
 		GetAllDrug(preload string) []models.Drug
 		CreateDrug(drug models.Drug) error 
+		GetDrugByID(id uint) (models.Drug, error)
 	}
 
-	repository struct {
+	drugRepository struct {
 		shared shared.Holder
 	}
 )
 
-func (s *repository) CheckDrugExist(code string) (bool, models.Drug) {
+func (s *drugRepository) CheckDrugExist(code string) (bool, models.Drug) {
 	var drug models.Drug
 	err := s.shared.DB.First(&drug, "code = ?", code).Error
 	return err == nil, drug
 }
 
-func (s *repository) GetAllDrug(preload string) []models.Drug {
+func (s *drugRepository) GetAllDrug(preload string) []models.Drug {
 	var drugs []models.Drug
 	s.shared.DB.Preload(preload).Find(&drugs)
 	return drugs
 }
 
-func (s *repository) CreateDrug(drug models.Drug) error {
+func (s *drugRepository) CreateDrug(drug models.Drug) error {
 	err := s.shared.DB.Create(&drug).Error
 	return err
 }
 
-func ManagementRepository(holder shared.Holder) (Repository, error) {
-	return &repository{
+func (s *drugRepository) GetDrugByID(id uint) (models.Drug, error) {
+	var drug models.Drug
+	err := s.shared.DB.First(&drug, id).Error
+	return drug, err
+}
+
+func NewDrugRepository(holder shared.Holder) (DrugRepository, error) {
+	return &drugRepository{
 		shared: holder,
 	}, nil
 }

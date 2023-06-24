@@ -53,6 +53,7 @@ func migrateSchema(db *gorm.DB, log *logrus.Logger) {
 		&models.FeedbackCategory{},
 		&models.Feedback{},
 		&models.Drug{},
+		&models.UserDrug{},
 	)
 
 	if err != nil {

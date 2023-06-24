@@ -20,6 +20,7 @@ func (c *Controller) Routes(app *fiber.App) {
 	management := app.Group("/management")
 	management.Get("/drug",  c.Shared.Middleware.AuthMiddleware, c.getAllDrug)
 	management.Post("/drug/create",  c.Shared.Middleware.AuthMiddleware, c.createDrug)
+	management.Post("/user/drug/create",  c.Shared.Middleware.AuthMiddleware, c.createUserDrug)
 }
 
 // All godoc
@@ -70,6 +71,39 @@ func (c *Controller) createDrug(ctx *fiber.Ctx) error {
 	c.Shared.Logger.Infof("creating drug for user: %s", context.User)
 
 	res, err := c.Service.ManagementViewService.CreateDrug(context, req)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
+}
+
+// All godoc
+// @Tags Management
+// @Summary Create User Drug
+// @Description Put all mandatory parameter
+// @Param CreateUserDrugRequest body dto.CreateUserDrugRequest true "CreateUserDrugRequest"
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} dto.CreateUserDrugResponse
+// @Failure 200 {array} dto.CreateUserDrugResponse
+// @Router /management/user/drug/create [post]
+func (c *Controller) createUserDrug(ctx *fiber.Ctx) error {
+	var req dto.CreateUserDrugRequest
+
+	err := common.DoCommonRequest(ctx, &req)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	context, err := common.CreateContext(ctx)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	c.Shared.Logger.Infof("creating user drug for user: %s", context.User)
+
+	res, err := c.Service.ManagementViewService.CreateUserDrug(context, req)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

@@ -17,7 +17,8 @@ type Holder struct {
 	AuthTokenRepository 	auth.AuthTokenRepository
 	PasswordResetRepository auth.PasswordResetRepository
 	FeedbackRepository      feedback.Repository
-	ManagementRepository    management.Repository
+	DrugRepository    	    management.DrugRepository
+	UserDrugRepository      management.UserDrugRepository
 }
 
 func Register(container *dig.Container) error {
@@ -41,8 +42,12 @@ func Register(container *dig.Container) error {
 		return errors.Wrap(err, "Failed to provide feedback repository")
 	}
 
-	if err := container.Provide(management.ManagementRepository); err != nil {
-		return errors.Wrap(err, "Failed to provide management repository")
+	if err := container.Provide(management.NewDrugRepository); err != nil {
+		return errors.Wrap(err, "Failed to provide drug repository")
+	}
+
+	if err := container.Provide(management.NewUserDrugRepository); err != nil {
+		return errors.Wrap(err, "Failed to provide user_drug repository")
 	}
 	
 	return nil
