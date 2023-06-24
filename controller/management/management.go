@@ -22,6 +22,7 @@ func (c *Controller) Routes(app *fiber.App) {
 	management.Post("/drug/create",  c.Shared.Middleware.AuthMiddleware, c.createDrug)
 	management.Post("/user/drug/create",  c.Shared.Middleware.AuthMiddleware, c.createUserDrug)
 	management.Get("/user/drug/:id",  c.Shared.Middleware.AuthMiddleware, c.getAllUserDrugByUserID)
+	management.Get("/user/drug",  c.Shared.Middleware.AuthMiddleware, c.getAllUserDrugForCurrentUser)
 }
 
 // All godoc
@@ -114,13 +115,13 @@ func (c *Controller) createUserDrug(ctx *fiber.Ctx) error {
 
 // All godoc
 // @Tags Management
-// @Summary Get All User Drug
+// @Summary Get All User Drug By User ID
 // @Description Put all mandatory parameter
 // @Accept  json
 // @Produce  json
 // @Success 200
 // @Failure 400 {object} common.Response
-// @Router /management/user/drug [get]
+// @Router /management/user/drug/:id [get]
 func (c *Controller) getAllUserDrugByUserID(ctx *fiber.Ctx) error {
 	var (
 		res []dto.GetUserDrugResponse
@@ -131,6 +132,35 @@ func (c *Controller) getAllUserDrugByUserID(ctx *fiber.Ctx) error {
 	c.Shared.Logger.Infof("getting drug for user: %s", userId)
 
 	res, err := c.Service.ManagementViewService.GetAllUserDrugByUserID(userId)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
+}
+
+// All godoc
+// @Tags Management
+// @Summary Get All User Drug For Current User
+// @Description Put all mandatory parameter
+// @Accept  json
+// @Produce  json
+// @Success 200
+// @Failure 400 {object} common.Response
+// @Router /management/user/drug [get]
+func (c *Controller) getAllUserDrugForCurrentUser(ctx *fiber.Ctx) error {
+	var (
+		res []dto.GetUserDrugResponse
+	)
+
+	context, err := common.CreateContext(ctx)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	c.Shared.Logger.Infof("getting drug for user: %s", context.User)
+
+	res, err = c.Service.ManagementViewService.GetAllUserDrugForCurrentUser(context)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

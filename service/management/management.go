@@ -15,6 +15,7 @@ type (
 		CreateDrug(ctx dto.SessionContext, req dto.CreateDrugRequest) (dto.CreateDrugResponse, error)
 		CreateUserDrug(ctx dto.SessionContext, req dto.CreateUserDrugRequest) (dto.CreateUserDrugResponse, error)
 		GetAllUserDrugByUserID(userId string) ([]dto.GetUserDrugResponse, error)
+		GetAllUserDrugForCurrentUser(ctx dto.SessionContext) ([]dto.GetUserDrugResponse, error)
 	}
 
 	viewService struct {
@@ -117,6 +118,31 @@ func (v *viewService) GetAllUserDrugByUserID(userId string) ([]dto.GetUserDrugRe
 	}
 
 	userDrugs, err := v.repository.UserDrugRepository.GetAllUserDrugByUserID(uint(cid))
+	if err != nil {
+		return res, err
+	}
+
+	for _, userDrug:= range userDrugs {
+		// drug, _ := v.repository.DrugRepository.GetDrugByID(userDrug.DrugID)
+		res = append(res, dto.GetUserDrugResponse{
+			ID: userDrug.ID,
+			UserID: userDrug.UserID,
+			DrugID: userDrug.DrugID,
+			Status: userDrug.Status,
+			Note: userDrug.Note,
+			FrequencyPerDay: userDrug.FrequencyPerDay,
+		})
+	}
+
+	return res, nil
+}
+
+func (v *viewService) GetAllUserDrugForCurrentUser(ctx dto.SessionContext) ([]dto.GetUserDrugResponse, error) {
+	var (
+		res []dto.GetUserDrugResponse
+	)
+
+	userDrugs, err := v.repository.UserDrugRepository.GetAllUserDrugByUserID(ctx.User.ID)
 	if err != nil {
 		return res, err
 	}
