@@ -2,6 +2,7 @@ package controller
 
 import (
 	"farmacare/controller/auth"
+	"farmacare/controller/delivery"
 	"farmacare/controller/feedback"
 	"farmacare/controller/healthcheck"
 	"farmacare/controller/management"
@@ -19,6 +20,7 @@ type Holder struct {
 	Profile 	 profile.Controller
 	Feedback	 feedback.Controller
 	Management   management.Controller
+	Delivery     delivery.Controller
 }
 
 func Register(container *dig.Container) error {
@@ -42,6 +44,10 @@ func Register(container *dig.Container) error {
 		return errors.Wrap(err, "failed to provide management controller")
 	}
 
+	if err := container.Provide(delivery.NewController); err != nil {
+		return errors.Wrap(err, "failed to provide delivery controller")
+	}
+
 	return nil
 }
 
@@ -51,4 +57,5 @@ func Routes(app *fiber.App, controller Holder) {
 	controller.Profile.Routes(app)
 	controller.Feedback.Routes(app)
 	controller.Management.Routes(app)
+	controller.Delivery.Routes(app)
 }
