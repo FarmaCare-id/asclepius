@@ -144,6 +144,26 @@ definitions:
     required:
     - feedback_category_id
     type: object
+  dto.CreateForumCommentRequest:
+    properties:
+      comment:
+        type: string
+    type: object
+  dto.CreateForumCommentResponse:
+    properties:
+      comment:
+        type: string
+      created_at:
+        type: string
+      forum_id:
+        type: integer
+      id:
+        type: integer
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
   dto.CreateForumRequest:
     properties:
       description:
@@ -568,6 +588,47 @@ paths:
           schema:
             $ref: '#/definitions/common.Response'
       summary: Get All Forum
+      tags:
+      - Community
+  /community/forum/:id/comment/:
+    get:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: Get All Forum Comment By Forum ID
+      tags:
+      - Community
+  /community/forum/comment/create:
+    post:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      parameters:
+      - description: CreateForumCommentRequest
+        in: body
+        name: CreateForumCommentRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateForumCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.CreateForumCommentResponse'
+            type: array
+      summary: Create Forum Comment
       tags:
       - Community
   /community/forum/create:
