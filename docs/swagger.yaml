@@ -145,6 +145,34 @@ definitions:
       role:
         type: string
     type: object
+  dto.CreateUserDrugRequest:
+    properties:
+      drug_id:
+        type: integer
+      frequency_per_day:
+        type: integer
+      note:
+        type: string
+      status:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dto.CreateUserDrugResponse:
+    properties:
+      drug_id:
+        type: integer
+      frequency_per_day:
+        type: integer
+      id:
+        type: integer
+      note:
+        type: string
+      status:
+        type: string
+      user_id:
+        type: integer
+    type: object
   dto.CreateUserRequest:
     properties:
       email:
@@ -635,6 +663,64 @@ paths:
               $ref: '#/definitions/dto.CreateDrugResponse'
             type: array
       summary: Create Drug
+      tags:
+      - Management
+  /management/user/drug:
+    get:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: Get All User Drug For Current User
+      tags:
+      - Management
+  /management/user/drug/:id:
+    get:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: Get All User Drug By User ID
+      tags:
+      - Management
+  /management/user/drug/create:
+    post:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      parameters:
+      - description: CreateUserDrugRequest
+        in: body
+        name: CreateUserDrugRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateUserDrugRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.CreateUserDrugResponse'
+            type: array
+      summary: Create User Drug
       tags:
       - Management
   /profile:
