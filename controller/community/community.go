@@ -21,6 +21,7 @@ func (c *Controller) Routes(app *fiber.App) {
 	community.Get("/forum", c.Shared.Middleware.AuthMiddleware, c.getAllForum)
 	community.Post("/forum/create",  c.Shared.Middleware.AuthMiddleware, c.createForum)
 	community.Post("/forum/comment/create",  c.Shared.Middleware.AuthMiddleware, c.createForumComment)
+	community.Get("/forum/:id/comment/", c.Shared.Middleware.AuthMiddleware, c.getAllForumCommentByForumID)
 }
 
 // All godoc
@@ -106,6 +107,32 @@ func (c *Controller) createForumComment(ctx *fiber.Ctx) error {
 	}
 
 	res, err := c.Service.CommunityViewService.CreateForumComment(context, req)
+	if err != nil {
+		return common.DoCommonErrorResponse(ctx, err)
+	}
+
+	return common.DoCommonSuccessResponse(ctx, res)
+}
+
+// All godoc
+// @Tags Community
+// @Summary Get All Forum Comment By Forum ID
+// @Description Put all mandatory parameter
+// @Accept  json
+// @Produce  json
+// @Success 200
+// @Failure 400 {object} common.Response
+// @Router /community/forum/:id/comment/ [get]
+func (c *Controller) getAllForumCommentByForumID(ctx *fiber.Ctx) error {
+	var (
+		res []dto.GetForumCommentResponse
+	)
+
+	forumId := ctx.Params("id")
+
+	c.Shared.Logger.Infof("getting forum comment for forum: %s", forumId)
+
+	res, err := c.Service.CommunityViewService.GetAllForumCommentByForumID(forumId)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

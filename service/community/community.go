@@ -5,6 +5,7 @@ import (
 	"farmacare/shared"
 	"farmacare/shared/dto"
 	"farmacare/shared/models"
+	"strconv"
 )
 
 type (
@@ -12,6 +13,7 @@ type (
 		CreateForum(ctx dto.SessionContext, req dto.CreateForumRequest) (dto.CreateForumResponse, error)
 		GetAllForum() ([]dto.GetForumResponse, error)
 		CreateForumComment(ctx dto.SessionContext, req dto.CreateForumCommentRequest) (dto.CreateForumCommentResponse, error)
+		GetAllForumCommentByForumID(forumID string) ([]dto.GetForumCommentResponse, error)
 	}
 
 	viewService struct {
@@ -94,6 +96,30 @@ func (v *viewService) CreateForumComment(ctx dto.SessionContext, req dto.CreateF
 	return res, nil
 }
 
+func (v *viewService) GetAllForumCommentByForumID(forumID string) ([]dto.GetForumCommentResponse, error) {
+	var (
+		res []dto.GetForumCommentResponse
+	)
+
+	// convert with atoi to uint
+	cid, err := strconv.Atoi(forumID)
+	if err != nil {
+		return res, err
+	}
+
+	forumComments := v.repository.ForumCommentRepository.GetAllForumCommentByForumID(uint(cid))
+
+	for _, forumComment := range forumComments {
+		res = append(res, dto.GetForumCommentResponse{
+			ID: forumComment.ID,
+			ForumID: forumComment.ForumID,
+			Comment: forumComment.Comment,
+			UserID: forumComment.UserID,
+		})
+	}
+
+	return res, nil
+}
 
 func NewViewService(repository repository.Holder, shared shared.Holder) ViewService {
 	return &viewService{

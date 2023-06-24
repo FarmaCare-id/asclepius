@@ -44,4 +44,14 @@ type (
 		CreatedAt string `json:"created_at"`
 		UpdatedAt string `json:"updated_at"`
 	}
+
+	// GetForumCommentResponse GetForumCommentResponse
+	GetForumCommentResponse struct {
+		ID uint `json:"id"`
+		ForumID uint `json:"forum_id"`
+		Comment string `json:"comment"`
+		UserID uint `json:"user_id"`
+		CreatedAt string `json:"created_at"`
+		UpdatedAt string `json:"updated_at"`
+	}
 )
