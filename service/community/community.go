@@ -11,6 +11,7 @@ type (
 	ViewService interface {
 		CreateForum(ctx dto.SessionContext, req dto.CreateForumRequest) (dto.CreateForumResponse, error)
 		GetAllForum() ([]dto.GetForumResponse, error)
+		CreateForumComment(ctx dto.SessionContext, req dto.CreateForumCommentRequest) (dto.CreateForumCommentResponse, error)
 	}
 
 	viewService struct {
@@ -62,6 +63,32 @@ func (v *viewService) GetAllForum() ([]dto.GetForumResponse, error) {
 			Vote: forum.Vote,
 			UserID: forum.UserID,
 		})
+	}
+
+	return res, nil
+}
+
+func (v *viewService) CreateForumComment(ctx dto.SessionContext, req dto.CreateForumCommentRequest) (dto.CreateForumCommentResponse, error) {
+	var (
+		res dto.CreateForumCommentResponse
+	)
+
+	forumComment := models.ForumComment {
+		ForumID: req.ForumID,
+		Comment: req.Comment,
+		UserID: ctx.User.ID,
+	}
+
+	err := v.repository.ForumCommentRepository.CreateForumComment(forumComment)
+	if err != nil {
+		return res, err
+	}
+
+	res = dto.CreateForumCommentResponse{
+		ID: forumComment.ID,
+		ForumID: forumComment.ForumID,
+		Comment: forumComment.Comment,
+		UserID: forumComment.UserID,
 	}
 
 	return res, nil

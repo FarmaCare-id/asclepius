@@ -23,6 +23,7 @@ type Holder struct {
 	UserDrugRepository      management.UserDrugRepository
 	DeliveryRepository 		delivery.DeliveryRepository
 	ForumRepository			community.ForumRepository
+	ForumCommentRepository	community.ForumCommentRepository
 }
 
 func Register(container *dig.Container) error {
@@ -60,6 +61,10 @@ func Register(container *dig.Container) error {
 
 	if err := container.Provide(community.NewForumRepository); err != nil {
 		return errors.Wrap(err, "Failed to provide forum repository")
+	}
+
+	if err := container.Provide(community.NewForumCommentRepository); err != nil {
+		return errors.Wrap(err, "Failed to provide forum_comment repository")
 	}
 	
 	return nil
