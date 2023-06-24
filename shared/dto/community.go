@@ -31,7 +31,6 @@ type (
 
 	// CreateForumCommentRequest CreateForumCommentRequest
 	CreateForumCommentRequest struct {
-		ForumID uint `json:"forum_id"`
 		Comment string `json:"comment"`
 	}
 

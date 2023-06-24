@@ -20,7 +20,7 @@ func (c *Controller) Routes(app *fiber.App) {
 	community := app.Group("/community")
 	community.Get("/forum", c.Shared.Middleware.AuthMiddleware, c.getAllForum)
 	community.Post("/forum/create",  c.Shared.Middleware.AuthMiddleware, c.createForum)
-	community.Post("/forum/comment/create",  c.Shared.Middleware.AuthMiddleware, c.createForumComment)
+	community.Post("/forum/:id/comment/create",  c.Shared.Middleware.AuthMiddleware, c.createForumComment)
 	community.Get("/forum/:id/comment/", c.Shared.Middleware.AuthMiddleware, c.getAllForumCommentByForumID)
 }
 
@@ -95,18 +95,21 @@ func (c *Controller) createForumComment(ctx *fiber.Ctx) error {
 		req dto.CreateForumCommentRequest
 	)
 
+	forumId := ctx.Params("id")
+
 	context, err := common.CreateContext(ctx)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
 
 	c.Shared.Logger.Infof("creating forum comment for user: %s", context.User)
+	c.Shared.Logger.Infof("creating forum comment for forum: %s", forumId)
 
 	if err := ctx.BodyParser(&req); err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}
 
-	res, err := c.Service.CommunityViewService.CreateForumComment(context, req)
+	res, err := c.Service.CommunityViewService.CreateForumComment(context, req, forumId)
 	if err != nil {
 		return common.DoCommonErrorResponse(ctx, err)
 	}

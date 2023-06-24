@@ -12,7 +12,7 @@ type (
 	ViewService interface {
 		CreateForum(ctx dto.SessionContext, req dto.CreateForumRequest) (dto.CreateForumResponse, error)
 		GetAllForum() ([]dto.GetForumResponse, error)
-		CreateForumComment(ctx dto.SessionContext, req dto.CreateForumCommentRequest) (dto.CreateForumCommentResponse, error)
+		CreateForumComment(ctx dto.SessionContext, req dto.CreateForumCommentRequest, forumID string) (dto.CreateForumCommentResponse, error)
 		GetAllForumCommentByForumID(forumID string) ([]dto.GetForumCommentResponse, error)
 	}
 
@@ -70,18 +70,24 @@ func (v *viewService) GetAllForum() ([]dto.GetForumResponse, error) {
 	return res, nil
 }
 
-func (v *viewService) CreateForumComment(ctx dto.SessionContext, req dto.CreateForumCommentRequest) (dto.CreateForumCommentResponse, error) {
+func (v *viewService) CreateForumComment(ctx dto.SessionContext, req dto.CreateForumCommentRequest, forumID string) (dto.CreateForumCommentResponse, error) {
 	var (
 		res dto.CreateForumCommentResponse
 	)
 
+	// convert with atoi to uint
+	fid, err := strconv.Atoi(forumID)
+	if err != nil {
+		return res, err
+	}
+
 	forumComment := models.ForumComment {
-		ForumID: req.ForumID,
+		ForumID: uint(fid),
 		Comment: req.Comment,
 		UserID: ctx.User.ID,
 	}
 
-	err := v.repository.ForumCommentRepository.CreateForumComment(forumComment)
+	err = v.repository.ForumCommentRepository.CreateForumComment(forumComment)
 	if err != nil {
 		return res, err
 	}
