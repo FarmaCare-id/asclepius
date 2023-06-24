@@ -2,6 +2,7 @@ package repository
 
 import (
 	"farmacare/repository/auth"
+	"farmacare/repository/community"
 	"farmacare/repository/delivery"
 	"farmacare/repository/feedback"
 	"farmacare/repository/healthcheck"
@@ -21,6 +22,7 @@ type Holder struct {
 	DrugRepository    	    management.DrugRepository
 	UserDrugRepository      management.UserDrugRepository
 	DeliveryRepository 		delivery.DeliveryRepository
+	ForumRepository			community.ForumRepository
 }
 
 func Register(container *dig.Container) error {
@@ -54,6 +56,10 @@ func Register(container *dig.Container) error {
 
 	if err := container.Provide(delivery.NewDeliveryRepository); err != nil {
 		return errors.Wrap(err, "Failed to provide delivery repository")
+	}
+
+	if err := container.Provide(community.NewForumRepository); err != nil {
+		return errors.Wrap(err, "Failed to provide forum repository")
 	}
 	
 	return nil

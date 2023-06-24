@@ -2,6 +2,7 @@ package service
 
 import (
 	"farmacare/service/auth"
+	"farmacare/service/community"
 	"farmacare/service/delivery"
 	"farmacare/service/feedback"
 	"farmacare/service/healthcheck"
@@ -20,6 +21,7 @@ type Holder struct {
 	ProfileViewService		profile.ViewService
 	ManagementViewService	management.ViewService
 	DeliveryViewService		delivery.ViewService
+	CommunityViewService	community.ViewService
 }
 
 func Register(container *dig.Container) error {
@@ -45,6 +47,10 @@ func Register(container *dig.Container) error {
 
 	if err := container.Provide(delivery.NewViewService); err != nil {
 		return errors.Wrap(err, "Failed to provide delivery view repository")
+	}
+
+	if err := container.Provide(community.NewViewService); err != nil {
+		return errors.Wrap(err, "Failed to provide community view repository")
 	}
 
 	return nil

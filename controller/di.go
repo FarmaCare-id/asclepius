@@ -2,6 +2,7 @@ package controller
 
 import (
 	"farmacare/controller/auth"
+	"farmacare/controller/community"
 	"farmacare/controller/delivery"
 	"farmacare/controller/feedback"
 	"farmacare/controller/healthcheck"
@@ -21,6 +22,7 @@ type Holder struct {
 	Feedback	 feedback.Controller
 	Management   management.Controller
 	Delivery     delivery.Controller
+	Community	 community.Controller
 }
 
 func Register(container *dig.Container) error {
@@ -48,6 +50,10 @@ func Register(container *dig.Container) error {
 		return errors.Wrap(err, "failed to provide delivery controller")
 	}
 
+	if err := container.Provide(community.NewController); err != nil {
+		return errors.Wrap(err, "failed to provide community controller")
+	}
+
 	return nil
 }
 
@@ -58,4 +64,5 @@ func Routes(app *fiber.App, controller Holder) {
 	controller.Feedback.Routes(app)
 	controller.Management.Routes(app)
 	controller.Delivery.Routes(app)
+	controller.Community.Routes(app)
 }
