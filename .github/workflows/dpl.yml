@@ -56,7 +56,7 @@ jobs:
       - name: Pull Docker image on GCP instance
         run: |
           gcloud auth configure-docker
-          docker pull ${{ secrets.DOCKER_IMAGE_NAME }}:latest
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
 
       - name: SSH into GCP instance and deploy
         uses: appleboy/ssh-action@master
