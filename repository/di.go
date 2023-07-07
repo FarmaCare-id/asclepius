@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"farmacare/repository/appointment"
 	"farmacare/repository/auth"
 	"farmacare/repository/community"
 	"farmacare/repository/delivery"
@@ -24,6 +25,7 @@ type Holder struct {
 	DeliveryRepository 		delivery.DeliveryRepository
 	ForumRepository			community.ForumRepository
 	ForumCommentRepository	community.ForumCommentRepository
+	AppointmentRepository	appointment.Repository
 }
 
 func Register(container *dig.Container) error {
@@ -65,6 +67,10 @@ func Register(container *dig.Container) error {
 
 	if err := container.Provide(community.NewForumCommentRepository); err != nil {
 		return errors.Wrap(err, "Failed to provide forum_comment repository")
+	}
+
+	if err := container.Provide(appointment.AppointmentRepository); err != nil {
+		return errors.Wrap(err, "Failed to provide appointment repository")
 	}
 	
 	return nil
