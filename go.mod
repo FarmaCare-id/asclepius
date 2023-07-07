@@ -5,8 +5,8 @@ go 1.19
 require (
 	github.com/go-playground/validator/v10 v10.14.1
 	github.com/goccy/go-json v0.10.2
-	github.com/gofiber/fiber/v2 v2.47.0
-	github.com/gofiber/swagger v0.1.12
+	github.com/gofiber/fiber/v2 v2.44.0
+	github.com/gofiber/swagger v0.1.11
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang-module/carbon v1.7.3
 	github.com/kelseyhightower/envconfig v1.4.0
@@ -67,8 +67,8 @@ require (
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/net v0.9.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20220608161450-d0670ef3b1eb // indirect
-	golang.org/x/sys v0.9.0 // indirect
-	golang.org/x/term v0.9.0 // indirect
+	golang.org/x/sys v0.7.0 // indirect
+	golang.org/x/term v0.7.0 // indirect
 	golang.org/x/text v0.10.0 // indirect
 	golang.org/x/tools v0.8.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
