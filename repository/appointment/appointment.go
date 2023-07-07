@@ -23,7 +23,7 @@ func (s *repository) CreateAppointment(appointment models.Appointment) error {
 
 func (s *repository) GetAllAppointmentByUserID(userId uint) ([]models.Appointment, error) {
 	var appointments []models.Appointment
-	err := s.shared.DB.Where("patient_id = ?", userId).Find(&appointments).Error
+	err := s.shared.DB.Where("patient_id = ? OR healthcare_worker_id = ?", userId, userId).Find(&appointments).Error
 	return appointments, err
 }
 
