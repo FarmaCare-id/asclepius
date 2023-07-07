@@ -16,6 +16,92 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/appointment/create": {
+            "post": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Appointment"
+                ],
+                "summary": "Create Appointment",
+                "parameters": [
+                    {
+                        "description": "CreateAppointmentRequest",
+                        "name": "CreateAppointmentRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateAppointmentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateAppointmentResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/appointment/user": {
+            "get": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Appointment"
+                ],
+                "summary": "Get All Appointment For Current User",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/appointment/user/:id": {
+            "get": {
+                "description": "Put all mandatory parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Appointment"
+                ],
+                "summary": "Get Appointment By User Id",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/common.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/credential": {
             "get": {
                 "description": "Put all mandatory parameter",
@@ -961,14 +1047,18 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
-                "fullname",
+                "firstname",
+                "lastname",
                 "password"
             ],
             "properties": {
                 "email": {
                     "type": "string"
                 },
-                "fullname": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
                     "type": "string"
                 },
                 "password": {
@@ -982,10 +1072,79 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
-                "fullname": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
                     "type": "string"
                 },
                 "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateAppointmentRequest": {
+            "type": "object",
+            "required": [
+                "complaint",
+                "healthcare_worker_id",
+                "location",
+                "schedule_date",
+                "schedule_time",
+                "status"
+            ],
+            "properties": {
+                "complaint": {
+                    "type": "string"
+                },
+                "healthcare_worker_id": {
+                    "type": "integer"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "schedule_date": {
+                    "type": "string"
+                },
+                "schedule_time": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateAppointmentResponse": {
+            "type": "object",
+            "properties": {
+                "complaint": {
+                    "type": "string"
+                },
+                "healthcare_worker_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "patient_id": {
+                    "type": "integer"
+                },
+                "schedule_date": {
+                    "type": "string"
+                },
+                "schedule_time": {
+                    "type": "string"
+                },
+                "status": {
                     "type": "string"
                 }
             }
@@ -1034,7 +1193,8 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
-                "fullname",
+                "firstname",
+                "lastname",
                 "no_sip",
                 "password"
             ],
@@ -1042,7 +1202,10 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
-                "fullname": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
                     "type": "string"
                 },
                 "no_sip": {
@@ -1059,7 +1222,10 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
-                "fullname": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
                     "type": "string"
                 },
                 "no_sip": {
@@ -1073,13 +1239,28 @@ const docTemplate = `{
         "dto.CreateDrugRequest": {
             "type": "object",
             "properties": {
+                "class": {
+                    "type": "string"
+                },
                 "code": {
                     "type": "string"
                 },
                 "description": {
                     "type": "string"
                 },
+                "dose": {
+                    "type": "string"
+                },
+                "ingredient": {
+                    "type": "string"
+                },
+                "instruction": {
+                    "type": "string"
+                },
                 "name": {
+                    "type": "string"
+                },
+                "warning": {
                     "type": "string"
                 }
             }
@@ -1087,16 +1268,31 @@ const docTemplate = `{
         "dto.CreateDrugResponse": {
             "type": "object",
             "properties": {
+                "class": {
+                    "type": "string"
+                },
                 "code": {
                     "type": "string"
                 },
                 "description": {
                     "type": "string"
                 },
+                "dose": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
+                "ingredient": {
+                    "type": "string"
+                },
+                "instruction": {
+                    "type": "string"
+                },
                 "name": {
+                    "type": "string"
+                },
+                "warning": {
                     "type": "string"
                 }
             }
@@ -1235,7 +1431,8 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
-                "fullname",
+                "firstname",
+                "lastname",
                 "no_sipa",
                 "password"
             ],
@@ -1243,7 +1440,10 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
-                "fullname": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
                     "type": "string"
                 },
                 "no_sipa": {
@@ -1260,7 +1460,10 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
-                "fullname": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
                     "type": "string"
                 },
                 "no_sipa": {
@@ -1318,14 +1521,18 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
-                "fullname",
+                "firstname",
+                "lastname",
                 "password"
             ],
             "properties": {
                 "email": {
                     "type": "string"
                 },
-                "fullname": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
                     "type": "string"
                 },
                 "password": {
@@ -1339,7 +1546,10 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
-                "fullname": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
                     "type": "string"
                 },
                 "role": {
@@ -1353,11 +1563,14 @@ const docTemplate = `{
                 "age": {
                     "type": "integer"
                 },
-                "fullname": {
+                "firstname": {
                     "type": "string"
                 },
                 "height": {
                     "type": "number"
+                },
+                "lastname": {
+                    "type": "string"
                 },
                 "no_sip": {
                     "type": "string"
@@ -1385,11 +1598,14 @@ const docTemplate = `{
                 "age": {
                     "type": "integer"
                 },
-                "fullname": {
+                "firstname": {
                     "type": "string"
                 },
                 "height": {
                     "type": "number"
+                },
+                "lastname": {
+                    "type": "string"
                 },
                 "no_sip": {
                     "type": "string"

@@ -12,22 +12,72 @@ definitions:
     properties:
       email:
         type: string
-      fullname:
+      firstname:
+        type: string
+      lastname:
         type: string
       password:
         type: string
     required:
     - email
-    - fullname
+    - firstname
+    - lastname
     - password
     type: object
   dto.CreateAdminResponse:
     properties:
       email:
         type: string
-      fullname:
+      firstname:
+        type: string
+      lastname:
         type: string
       role:
+        type: string
+    type: object
+  dto.CreateAppointmentRequest:
+    properties:
+      complaint:
+        type: string
+      healthcare_worker_id:
+        type: integer
+      location:
+        type: string
+      note:
+        type: string
+      schedule_date:
+        type: string
+      schedule_time:
+        type: string
+      status:
+        type: string
+    required:
+    - complaint
+    - healthcare_worker_id
+    - location
+    - schedule_date
+    - schedule_time
+    - status
+    type: object
+  dto.CreateAppointmentResponse:
+    properties:
+      complaint:
+        type: string
+      healthcare_worker_id:
+        type: integer
+      id:
+        type: integer
+      location:
+        type: string
+      note:
+        type: string
+      patient_id:
+        type: integer
+      schedule_date:
+        type: string
+      schedule_time:
+        type: string
+      status:
         type: string
     type: object
   dto.CreateDeliveryRequest:
@@ -60,7 +110,9 @@ definitions:
     properties:
       email:
         type: string
-      fullname:
+      firstname:
+        type: string
+      lastname:
         type: string
       no_sip:
         type: string
@@ -68,7 +120,8 @@ definitions:
         type: string
     required:
     - email
-    - fullname
+    - firstname
+    - lastname
     - no_sip
     - password
     type: object
@@ -76,7 +129,9 @@ definitions:
     properties:
       email:
         type: string
-      fullname:
+      firstname:
+        type: string
+      lastname:
         type: string
       no_sip:
         type: string
@@ -85,22 +140,42 @@ definitions:
     type: object
   dto.CreateDrugRequest:
     properties:
+      class:
+        type: string
       code:
         type: string
       description:
         type: string
+      dose:
+        type: string
+      ingredient:
+        type: string
+      instruction:
+        type: string
       name:
+        type: string
+      warning:
         type: string
     type: object
   dto.CreateDrugResponse:
     properties:
+      class:
+        type: string
       code:
         type: string
       description:
         type: string
+      dose:
+        type: string
       id:
         type: integer
+      ingredient:
+        type: string
+      instruction:
+        type: string
       name:
+        type: string
+      warning:
         type: string
     type: object
   dto.CreateFeedbackCategoryRequest:
@@ -192,7 +267,9 @@ definitions:
     properties:
       email:
         type: string
-      fullname:
+      firstname:
+        type: string
+      lastname:
         type: string
       no_sipa:
         type: string
@@ -200,7 +277,8 @@ definitions:
         type: string
     required:
     - email
-    - fullname
+    - firstname
+    - lastname
     - no_sipa
     - password
     type: object
@@ -208,7 +286,9 @@ definitions:
     properties:
       email:
         type: string
-      fullname:
+      firstname:
+        type: string
+      lastname:
         type: string
       no_sipa:
         type: string
@@ -247,20 +327,25 @@ definitions:
     properties:
       email:
         type: string
-      fullname:
+      firstname:
+        type: string
+      lastname:
         type: string
       password:
         type: string
     required:
     - email
-    - fullname
+    - firstname
+    - lastname
     - password
     type: object
   dto.CreateUserResponse:
     properties:
       email:
         type: string
-      fullname:
+      firstname:
+        type: string
+      lastname:
         type: string
       role:
         type: string
@@ -269,10 +354,12 @@ definitions:
     properties:
       age:
         type: integer
-      fullname:
+      firstname:
         type: string
       height:
         type: number
+      lastname:
+        type: string
       no_sip:
         type: string
       no_sipa:
@@ -290,10 +377,12 @@ definitions:
     properties:
       age:
         type: integer
-      fullname:
+      firstname:
         type: string
       height:
         type: number
+      lastname:
+        type: string
       no_sip:
         type: string
       no_sipa:
@@ -359,6 +448,62 @@ info:
   title: FarmaCare Server
   version: "1.0"
 paths:
+  /appointment/create:
+    post:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      parameters:
+      - description: CreateAppointmentRequest
+        in: body
+        name: CreateAppointmentRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateAppointmentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateAppointmentResponse'
+      summary: Create Appointment
+      tags:
+      - Appointment
+  /appointment/user:
+    get:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: Get All Appointment For Current User
+      tags:
+      - Appointment
+  /appointment/user/:id:
+    get:
+      consumes:
+      - application/json
+      description: Put all mandatory parameter
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: Get Appointment By User Id
+      tags:
+      - Appointment
   /auth/credential:
     get:
       consumes:
