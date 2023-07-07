@@ -15,7 +15,12 @@ type (
 	CreateDrugRequest struct {
 		Code string `json:"code"`
 		Name string `json:"name"`
+		Class string `json:"class"`
 		Description string `json:"description"`
+		Instruction string `json:"instruction"`
+		Ingredient string `json:"ingredient"`
+		Dose string `json:"dose"`
+		Warning string `json:"warning"`
 	}
 
 	// CreateDrugResponse CreateDrugResponse
@@ -23,7 +28,12 @@ type (
 		ID uint `json:"id"`
 		Code string `json:"code"`
 		Name string `json:"name"`
+		Class string `json:"class"`
 		Description string `json:"description"`
+		Instruction string `json:"instruction"`
+		Ingredient string `json:"ingredient"`
+		Dose string `json:"dose"`
+		Warning string `json:"warning"`
 	}
 
 	// CreateUserDrugRequest CreateUserDrugRequest
@@ -60,6 +70,11 @@ func (r *CreateDrugRequest) TransformToDrugModel() models.Drug {
 	return models.Drug{
 		Code: r.Code,
 		Name: r.Name,
+		Class: r.Class,
 		Description: r.Description,
+		Instruction: r.Instruction,
+		Ingredient: r.Ingredient,
+		Dose: r.Dose,
+		Warning: r.Warning,
 	}
 }

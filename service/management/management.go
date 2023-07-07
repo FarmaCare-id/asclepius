@@ -56,7 +56,12 @@ func (v *viewService) CreateDrug(ctx dto.SessionContext, req dto.CreateDrugReque
 	drug := models.Drug {
 		Code: req.Code,
 		Name: req.Name,
+		Class: req.Class,
 		Description: req.Description,
+		Instruction: req.Instruction,
+		Ingredient: req.Ingredient,
+		Dose: req.Dose,
+		Warning: req.Warning,
 	}
 
 	err := v.repository.DrugRepository.CreateDrug(drug)
@@ -67,7 +72,12 @@ func (v *viewService) CreateDrug(ctx dto.SessionContext, req dto.CreateDrugReque
 	res = dto.CreateDrugResponse{
 		Code: req.Code,
 		Name: req.Name,
+		Class: req.Class,
 		Description: req.Description,
+		Instruction: req.Instruction,
+		Ingredient: req.Ingredient,
+		Dose: req.Dose,
+		Warning: req.Warning,
 	}
 
 	return res, nil
