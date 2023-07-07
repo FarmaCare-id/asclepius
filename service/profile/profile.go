@@ -31,7 +31,8 @@ func (v *viewService) GetUserProfileRoleUser(ctx dto.SessionContext) (dto.GetUse
 	res = dto.GetUserProfileRoleUserResponse{
 		ID: user.ID,
 		Email: user.Email,
-		Fullname: user.Fullname,
+		Firstname: user.Firstname,
+		Lastname: user.Lastname,
 		Role: user.Role,
 		Weight: user.Weight,
 		Height: user.Height,
@@ -51,7 +52,8 @@ func (v *viewService) GetUserProfileRoleDoctor(ctx dto.SessionContext) (dto.GetU
 	res = dto.GetUserProfileRoleDoctorResponse{
 		ID: user.ID,
 		Email: user.Email,
-		Fullname: user.Fullname,
+		Firstname: user.Firstname,
+		Lastname: user.Lastname,
 		Role: user.Role,
 		NoSip: user.NoSip,
 		Specialist: user.Specialist,
@@ -71,7 +73,8 @@ func (v *viewService) GetUserProfileRolePharmacist(ctx dto.SessionContext) (dto.
 	res = dto.GetUserProfileRolePharmacistResponse{
 		ID: user.ID,
 		Email: user.Email,
-		Fullname: user.Fullname,
+		Firstname: user.Firstname,
+		Lastname: user.Lastname,
 		Role: user.Role,
 		NoSipa: user.NoSipa,
 		Specialist: user.Specialist,

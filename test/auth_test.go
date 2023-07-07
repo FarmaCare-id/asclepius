@@ -20,14 +20,16 @@ func (c *Controller) TestRegisterUser(t *testing.T) {
 	// Membuat data dummy untuk request
 	req := dto.CreateUserRequest{
 		Email:    "test@example.com",
-		Fullname: "John Doe",
+		Firstname: "Test",
+		Lastname: "User",
 		Password: "password123",
 	}
 
 	// Membuat hasil yang diharapkan
 	expectedRes := dto.CreateUserResponse{
 		Email:    req.Email,
-		Fullname: req.Fullname,
+		Firstname: req.Firstname,
+		Lastname: req.Lastname,
 		Role:     "user",
 	}
 

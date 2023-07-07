@@ -64,7 +64,8 @@ func (v *viewService) RegisterUser(req dto.CreateUserRequest) (dto.CreateUserRes
 
 	res = dto.CreateUserResponse{
 		Email:    req.Email,
-		Fullname: req.Fullname,
+		Firstname: req.Firstname,
+		Lastname: req.Lastname,
 		Role:     "user",
 	}
 
@@ -97,7 +98,8 @@ func (v *viewService) RegisterDoctor(req dto.CreateDoctorRequest) (dto.CreateDoc
 
 	res = dto.CreateDoctorResponse{
 		Email:    req.Email,
-		Fullname: req.Fullname,
+		Firstname: req.Firstname,
+		Lastname: req.Lastname,
 		Role:     "doctor",
 		NoSip:    req.NoSip,
 	}
@@ -131,7 +133,8 @@ func (v *viewService) RegisterPharmacist(req dto.CreatePharmacistRequest) (dto.C
 
 	res = dto.CreatePharmacistResponse{
 		Email:    req.Email,
-		Fullname: req.Fullname,
+		Firstname: req.Firstname,
+		Lastname: req.Lastname,
 		Role:     "pharmacist",
 		NoSipa:    req.NoSipa,
 	}
@@ -165,7 +168,8 @@ func (v *viewService) RegisterAdmin(req dto.CreateAdminRequest) (dto.CreateAdmin
 
 	res = dto.CreateAdminResponse{
 		Email:    req.Email,
-		Fullname: req.Fullname,
+		Firstname: req.Firstname,
+		Lastname: req.Lastname,
 		Role:     "admin",
 	}
 
@@ -182,8 +186,12 @@ func (v *viewService) EditUser(req dto.EditUserRequest, ctx dto.SessionContext) 
 		return res, exception.UserNotFound()
 	}
 
-	if req.Fullname != "" {
-		user.Fullname = req.Fullname
+	if req.Firstname != "" {
+		user.Firstname = req.Firstname
+	}
+
+	if req.Lastname != "" {
+		user.Lastname = req.Lastname
 	}
 
 	if len(req.Password) < 8 {
@@ -232,7 +240,8 @@ func (v *viewService) EditUser(req dto.EditUserRequest, ctx dto.SessionContext) 
 	}
 
 	res = dto.EditUserResponse{
-		Fullname: req.Fullname,
+		Firstname: req.Firstname,
+		Lastname:  req.Lastname,
 		Weight:   req.Weight,
 		Height:   req.Height,
 		Age:      req.Age,
@@ -364,7 +373,7 @@ func (v *viewService) ForgotPassword(req dto.ForgotPasswordRequest) error {
 
 	mail := common.MailerRequest{
 		Email: req.Email,
-		Name:  user.Fullname,
+		Name:  user.Firstname,
 	}
 
 	go mail.Mailer(v.shared.Env, v.shared.Logger, token)

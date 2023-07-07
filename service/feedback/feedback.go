@@ -132,7 +132,7 @@ func (v *viewService) GetAllFeedback() ([]dto.GetAllFeedbackResponse, error) {
 			Issue: feedback.Issue,
 			Detail: feedback.Detail,
 			Category: feedbackCategory.Name,
-			UserFullname: feedbackUser.Fullname,
+			UserFullname: feedbackUser.Firstname + " " + feedbackUser.Lastname,
 			UserRole: feedbackUser.Role,
 			CreatedAt: feedback.CreatedAt,
 		}

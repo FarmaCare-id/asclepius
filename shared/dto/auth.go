@@ -9,13 +9,15 @@ type (
 	CreateUserRequest struct {
 		Email    string `json:"email" validate:"required,email"`
 		Password string `json:"password" validate:"required"`
-		Fullname string `json:"fullname" validate:"required"`
+		Firstname string `json:"firstname" validate:"required"`
+		Lastname string `json:"lastname" validate:"required"`
 	}
 
 	// CreateUserResponse CreateUserResponse
 	CreateUserResponse struct {
 		Email    string `json:"email"`
-		Fullname string `json:"fullname"`
+		Firstname string `json:"firstname"`
+		Lastname string `json:"lastname"`
 		Role     string `json:"role"`
 	}
 
@@ -23,14 +25,16 @@ type (
 	CreateDoctorRequest struct {
 		Email    string `json:"email" validate:"required,email"`
 		Password string `json:"password" validate:"required"`
-		Fullname string `json:"fullname" validate:"required"`
+		Firstname string `json:"firstname" validate:"required"`
+		Lastname string `json:"lastname" validate:"required"`
 		NoSip    string `json:"no_sip" validate:"required"`
 	}
 
 	// CreateDoctorResponse CreateDoctorResponse
 	CreateDoctorResponse struct {
 		Email    string `json:"email"`
-		Fullname string `json:"fullname"`
+		Firstname string `json:"firstname"`
+		Lastname string `json:"lastname"`
 		Role     string `json:"role"`
 		NoSip    string `json:"no_sip"`
 	}
@@ -39,14 +43,16 @@ type (
 	CreatePharmacistRequest struct {
 		Email    string `json:"email" validate:"required,email"`
 		Password string `json:"password" validate:"required"`
-		Fullname string `json:"fullname" validate:"required"`
+		Firstname string `json:"firstname" validate:"required"`
+		Lastname string `json:"lastname" validate:"required"`
 		NoSipa   string `json:"no_sipa" validate:"required"`
 	}
 
 	// CreatePharmacistResponse CreatePharmacistResponse
 	CreatePharmacistResponse struct {
 		Email    string `json:"email"`
-		Fullname string `json:"fullname"`
+		Firstname string `json:"firstname"`
+		Lastname string `json:"lastname"`
 		Role     string `json:"role"`
 		NoSipa   string `json:"no_sipa"`
 	}
@@ -55,19 +61,22 @@ type (
 	CreateAdminRequest struct {
 		Email    string `json:"email" validate:"required,email"`
 		Password string `json:"password" validate:"required"`
-		Fullname string `json:"fullname" validate:"required"`
+		Firstname string `json:"firstname" validate:"required"`
+		Lastname string `json:"lastname" validate:"required"`
 	}
 
 	// CreateAdminResponse CreateAdminResponse
 	CreateAdminResponse struct {
 		Email    string `json:"email"`
-		Fullname string `json:"fullname"`
+		Firstname string `json:"firstname"`
+		Lastname string `json:"lastname"`
 		Role     string `json:"role"`
 	}
 		
 	// EditUserRequest EditUserRequest
 	EditUserRequest struct {
-		Fullname string `json:"fullname" validate:"omitempty"`
+		Firstname string `json:"firstname" validate:"omitempty"`
+		Lastname string `json:"lastname" validate:"omitempty"`
 		Password string `json:"password" validate:"omitempty"`
 		Weight   float64 `json:"weight" validate:"omitempty"`
 		Height   float64 `json:"height" validate:"omitempty"`
@@ -80,7 +89,8 @@ type (
 
 	// EditUserResponse EditUserResponse
 	EditUserResponse struct {
-		Fullname string `json:"fullname"`
+		Firstname string `json:"firstname"`
+		Lastname string `json:"lastname"`
 		Weight   float64 `json:"weight"`
 		Height   float64 `json:"height"`
 		Age      int `json:"age"`
@@ -141,7 +151,8 @@ type (
 
 func (g GoogleData) ToUser() models.User {
 	return models.User{
-		Fullname:          g.Name,
+		Firstname:         g.GivenName,
+		Lastname:          g.FamilyName,
 		Email:             g.Email,
 		Type:              models.Google,
 	}
@@ -150,7 +161,8 @@ func (g GoogleData) ToUser() models.User {
 func (r *CreateUserRequest) TransformToUserModel(hp string) models.User {
 	return models.User{
 		Email:             r.Email,
-		Fullname:          r.Fullname,
+		Firstname:         r.Firstname,
+		Lastname:          r.Lastname,
 		HashedPassword:    hp,
 	}
 }
@@ -158,7 +170,8 @@ func (r *CreateUserRequest) TransformToUserModel(hp string) models.User {
 func (r *CreateDoctorRequest) TransformToUserModel(hp string) models.User {
 	return models.User{
 		Email:             r.Email,
-		Fullname:          r.Fullname,
+		Firstname:         r.Firstname,
+		Lastname:          r.Lastname,
 		HashedPassword:    hp,
 		Role:              models.RoleDoctor,
 		NoSip:             r.NoSip,
@@ -168,7 +181,8 @@ func (r *CreateDoctorRequest) TransformToUserModel(hp string) models.User {
 func (r *CreatePharmacistRequest) TransformToUserModel(hp string) models.User {
 	return models.User{
 		Email:             r.Email,
-		Fullname:          r.Fullname,
+		Firstname:         r.Firstname,
+		Lastname:          r.Lastname,
 		HashedPassword:    hp,
 		Role:              models.RolePharmacist,
 		NoSipa:            r.NoSipa,
@@ -178,7 +192,8 @@ func (r *CreatePharmacistRequest) TransformToUserModel(hp string) models.User {
 func (r *CreateAdminRequest) TransformToUserModel(hp string) models.User {
 	return models.User{
 		Email:             r.Email,
-		Fullname:          r.Fullname,
+		Firstname:         r.Firstname,
+		Lastname:          r.Lastname,
 		HashedPassword:    hp,
 		Role:              models.RolePharmacist,
 	}

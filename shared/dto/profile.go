@@ -8,7 +8,8 @@ type (
 		ID       uint `json:"id"`
 		Email    string `json:"email"`
 		Role     models.UserRole `json:"role"`
-		Fullname string `json:"fullname"`
+		Firstname string `json:"firstname"`
+		Lastname string `json:"lastname"`
 		Weight   float64 `json:"weight"`
 		Height   float64 `json:"height"`
 		Age      int `json:"age"`
@@ -18,7 +19,8 @@ type (
 	GetUserProfileRoleDoctorResponse struct {
 		ID       uint `json:"id"`
 		Email    string `json:"email"`
-		Fullname string `json:"fullname"`
+		Firstname string `json:"firstname"`
+		Lastname string `json:"lastname"`
 		Role     models.UserRole `json:"role"`
 		NoSip    string `json:"no_sip"`
 		Specialist string `json:"specialist"`
@@ -29,7 +31,8 @@ type (
 	GetUserProfileRolePharmacistResponse struct {
 		ID       uint `json:"id"`
 		Email    string `json:"email"`
-		Fullname string `json:"fullname"`
+		Firstname string `json:"firstname"`
+		Lastname string `json:"lastname"`
 		Role     models.UserRole `json:"role"`
 		NoSipa   string `json:"no_sipa"`
 		Specialist string `json:"specialist"`

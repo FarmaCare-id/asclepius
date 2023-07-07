@@ -24,7 +24,8 @@ type (
 	User          struct {
 		ID                uint          `gorm:"primaryKey;autoIncrement"`
 		Email             string        `gorm:"column:email;unique;not null"`
-		Fullname          string        `gorm:"column:fullname"`
+		Firstname         string        `gorm:"column:firstname"`
+		Lastname          string        `gorm:"column:lastname"`
 		HashedPassword    string        `gorm:"column:hashed_password"`
 		Role           	  UserRole      `gorm:"column:role;default:user"`
 		Type              UserLoginType `gorm:"column:type;default:Credential"`
