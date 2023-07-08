@@ -5,9 +5,9 @@ services:
   app:
     build:
       context: .
-      target: Production
+      dockerfile: Dockerfile
     ports:
-      - 8000:8000
+      - "8000:8000"
     restart: always
     env_file:
       - .env
@@ -15,15 +15,20 @@ services:
       - db
     networks:
       - farmacare
+    environment:
+      PORT: ${PORT}
+      ENV: ${ENV}
   db:
     image: postgres:13.3-alpine
     volumes:
       - db-data:/var/lib/postgresql/data
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     ports:
       - "5433:5432"
     networks:

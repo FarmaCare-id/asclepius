@@ -1,25 +1,9 @@
 FROM golang:1.19 AS Production
 
-ARG PORT
-ARG DB_PORT
-ARG DB_HOST
-ARG DB_USER
-ARG DB_PASSWORD
-ARG DB_NAME
-ARG ENV
-
-ENV PORT ${PORT}
-ENV DB_PORT ${DB_PORT}
-ENV DB_HOST ${DB_HOST}
-ENV DB_USER ${DB_USER}
-ENV DB_PASSWORD ${DB_PASSWORD}
-ENV DB_NAME ${DB_NAME}
-ENV ENV ${ENV}
-
 WORKDIR /app
-COPY go.mod ./
-RUN go mod tidy
+COPY go.mod go.sum ./
+RUN go mod download
 COPY . .
 RUN go build -o farmacare
-EXPOSE 8080
-CMD /app/farmacare
+EXPOSE 8000
+CMD ["/app/farmacare"]
